@@ -68,8 +68,9 @@ def split_chunks(text, limit=LIMIT):
     return chunks
 
 
-def send_text(text, parse_mode="HTML"):
-    token, chat = _cfg()
+def send_text(text, parse_mode="HTML", chat=None):
+    token, default_chat = _cfg()
+    chat = chat or default_chat
     if not chat:
         raise SystemExit("Не задан TELEGRAM_CHAT_ID.")
     r = requests.post(
@@ -82,6 +83,48 @@ def send_text(text, parse_mode="HTML"):
     if not data.get("ok"):
         raise SystemExit(f"Ошибка Telegram: {data}")
     return data
+
+
+def owner_chat():
+    """Личный чат владельца - для согласований (топ-3 персоны и т. п.)."""
+    return os.environ.get("TELEGRAM_OWNER_CHAT_ID")
+
+
+def send_to_owner(text):
+    """Написать владельцу в личку. Возвращает True/False (есть ли адрес)."""
+    chat = owner_chat()
+    if not chat:
+        print("Не задан TELEGRAM_OWNER_CHAT_ID - личное сообщение не отправлено.")
+        return False
+    send_text(text, chat=chat)
+    return True
+
+
+def latest_reply_from_owner(allowed=("1", "2", "3")):
+    """Найти последний короткий ответ владельца боту (например '1', '2', '3').
+
+    Читает свежие апдейты бота (Telegram хранит их около суток).
+    Возвращает строку-ответ или None.
+    """
+    token, _ = _cfg()
+    owner = owner_chat()
+    if not owner:
+        return None
+    try:
+        r = requests.get(API.format(token=token, method="getUpdates"), timeout=30)
+        updates = r.json().get("result", [])
+    except Exception:
+        return None
+    found = None
+    for upd in updates:
+        msg = upd.get("message") or {}
+        chat = msg.get("chat") or {}
+        if str(chat.get("id")) != str(owner):
+            continue
+        text = (msg.get("text") or "").strip()
+        if text in allowed:
+            found = text  # берем последний подходящий
+    return found
 
 
 def send_markdown(md):

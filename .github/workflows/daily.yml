@@ -1,14 +1,19 @@
-name: Дайджест (ежедневно)
+name: Тематический дайджест (ежедневно)
 
-# Запуск каждый день в 05:00 UTC = 08:00 по Москве.
-# Плюс кнопка ручного запуска во вкладке Actions.
+# Каждый день в 05:00 UTC = 08:00 по Москве.
+# Публикатор сам смотрит, какой сегодня день недели, и собирает пост по теме
+# этого дня (см. data/themes.yaml). Плюс кнопка ручного запуска.
 on:
   schedule:
     - cron: "0 5 * * *"
   workflow_dispatch:
 
+# Нужно право записи: агенты сохраняют память (показанные муралы, счётчик персон).
+permissions:
+  contents: write
+
 jobs:
-  digest:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,7 +25,7 @@ jobs:
       - name: Установить зависимости
         run: pip install -r requirements.txt
 
-      - name: Собрать и отправить дайджест
+      - name: Собрать и отправить пост дня
         env:
           LLM_PROVIDER: yandex
           YANDEX_API_KEY: ${{ secrets.YANDEX_API_KEY }}
@@ -28,5 +33,19 @@ jobs:
           YANDEX_MODEL: yandexgpt
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        # Если ключа модели нет - агент сам перейдет в режим ссылок.
-        run: python agents/agent2_digest.py --mode daily --send
+          TELEGRAM_OWNER_CHAT_ID: ${{ secrets.TELEGRAM_OWNER_CHAT_ID }}
+        run: python agents/publisher.py --send
+
+      - name: Сохранить память (муралы, персоны)
+        run: |
+          git config user.name "nkg-bot"
+          git config user.email "nkg-bot@users.noreply.github.com"
+          for f in data/streetart_seen.json data/person_tally.json data/person_choice.json; do
+            [ -f "$f" ] && git add "$f"
+          done
+          if git diff --cached --quiet; then
+            echo "Память не менялась - коммит не нужен."
+          else
+            git commit -m "Авто: обновлена память (муралы и персоны недели)"
+            git push
+          fi

@@ -76,8 +76,10 @@ participants:
     name: Никольские ряды
     category: креативное пространство
     address: "Садовая ул., 62"
-    tags: [маркеты, фестивали, выставки]
+    tags: [маркеты, фестивали, выставки, гастрономия]
+    events_url: "https://sadovaya62.ru/events/"
     sources:
+      - {type: website, url: "https://sadovaya62.ru/"}
       - {type: vk, url: "https://vk.com/sadovaya62"}
     status: active
 
@@ -348,4 +350,99 @@ participants:
       - {type: website, url: "https://spb.hse.ru/design/", verify: true}
       - {type: vk, url: "https://vk.com/hsedesignspb"}
       - {type: telegram, url: "https://t.me/hsedesignspb"}
+    status: needs_verification
+
+  # ---------- театр ----------
+
+  - id: alexandrinsky-new-stage
+    name: Новая сцена Александринского театра
+    category: театр
+    address: "наб. реки Фонтанки, 49А"
+    tags: [театр, современный танец, перформанс, музыка]
+    events_url: "https://alexandrinsky.ru/afisha-i-bilety/programma/"
+    sources:
+      - {type: website, url: "https://alexandrinsky.ru/"}
+    status: active
+
+  - id: skorohod
+    name: Площадка «Скороход»
+    category: театр
+    address: "Московский просп., 107, корп. 5"
+    tags: [театр, независимое, танец, перформанс]
+    events_url: "https://skorohod.me/"
+    sources:
+      - {type: website, url: "https://skorohod.me/", verify: true}
+    status: needs_verification
+
+  - id: priut-komedianta
+    name: Театр на Садовой (Приют комедианта)
+    category: театр
+    address: "Садовая ул., 27/9"
+    tags: [театр, драма, современная драматургия]
+    events_url: "https://pkteatr.ru/schedule"
+    sources:
+      - {type: website, url: "https://pkteatr.ru/"}
+    status: active
+
+  - id: karlsson-haus
+    name: Театр Karlsson Haus
+    category: театр
+    address: "Фурштатская ул., 30"
+    tags: [театр, куклы, эксперимент]
+    events_url: "https://www.karlssonhaus.ru/"
+    sources:
+      - {type: website, url: "https://www.karlssonhaus.ru/", verify: true}
+    status: needs_verification
+
+  # ---------- кино ----------
+
+  - id: dom-kino-spb
+    name: Киноцентр «Дом кино»
+    category: кино
+    address: "Караванная ул., 12"
+    tags: [кино, артхаус, ретроспективы]
+    events_url: "https://www.domkino.spb.ru/schedule/"
+    sources:
+      - {type: website, url: "https://www.domkino.spb.ru/"}
+    status: active
+
+  - id: avrora-cinema
+    name: Кинотеатр «Аврора»
+    category: кино
+    address: "Невский просп., 60"
+    tags: [кино, авторское, спецпрограммы]
+    events_url: "https://avrora.spb.ru/cinema"
+    sources:
+      - {type: website, url: "https://avrora.spb.ru/"}
+    status: active
+
+  - id: rodina-cinema
+    name: Киноцентр «Родина»
+    category: кино
+    address: "Караванная ул., 12"
+    tags: [кино, артхаус, авторское]
+    sources:
+      - {type: website, url: "https://rodinakino.ru/", verify: true}
+    status: needs_verification
+
+  # ---------- гастрономия ----------
+
+  - id: vasileostrovsky-market
+    name: Василеостровский рынок
+    category: гастрономия
+    address: "Большой просп. В. О., 16"
+    tags: [гастрономия, рынок, фуд-пространство, события]
+    events_url: "https://vomarket.timepad.ru/events/"
+    sources:
+      - {type: website, url: "https://www.vo-market.ru/"}
+      - {type: timepad, url: "https://vomarket.timepad.ru/events/"}
+    status: active
+
+  - id: vokzal-1853
+    name: Фуд-молл Vokzal 1853
+    category: гастрономия
+    address: "наб. Обводного канала, 118"
+    tags: [гастрономия, фуд-молл, концерты, события]
+    sources:
+      - {type: website, url: "https://foodmallspb.ru/", verify: true}
     status: needs_verification

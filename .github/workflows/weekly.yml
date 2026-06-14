@@ -1,16 +1,17 @@
-name: Обзор недели и обновление базы
+name: Обновление базы участников (еженедельно)
 
-# Каждое воскресенье в 06:00 UTC = 09:00 по Москве.
+# Каждое воскресенье в 04:00 UTC = 07:00 по Москве - за час до дайджеста,
+# чтобы воскресный анонс собирался уже по свежей базе.
 on:
   schedule:
-    - cron: "0 6 * * 0"
+    - cron: "0 4 * * 0"
   workflow_dispatch:
 
 permissions:
-  contents: write   # чтобы агент 1 мог сохранить обновленную базу обратно в репозиторий
+  contents: write   # чтобы агент 1 мог сохранить обновлённую базу обратно в репозиторий
 
 jobs:
-  weekly:
+  refresh-base:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,23 +23,13 @@ jobs:
       - name: Установить зависимости
         run: pip install -r requirements.txt
 
-      - name: Обновить базу участников (агент 1)
+      - name: Проверить и дополнить базу (агент 1)
         run: python agents/agent1_registry.py --apply
 
       - name: Сохранить изменения базы в репозиторий
         run: |
           git config user.name "nkg-bot"
-          git config user.email "bot@nkg.local"
+          git config user.email "nkg-bot@users.noreply.github.com"
           git add data/participants.yaml
           git diff --staged --quiet || git commit -m "Авто-обновление базы участников (агент 1)"
           git push
-
-      - name: Собрать и отправить обзор недели (агент 2)
-        env:
-          LLM_PROVIDER: yandex
-          YANDEX_API_KEY: ${{ secrets.YANDEX_API_KEY }}
-          YANDEX_FOLDER_ID: ${{ secrets.YANDEX_FOLDER_ID }}
-          YANDEX_MODEL: yandexgpt
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python agents/agent2_digest.py --mode weekly --send
