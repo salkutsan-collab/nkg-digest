@@ -449,10 +449,21 @@ participants:
     status: active
 
   - id: vokzal-1853
-    name: Фуд-молл Vokzal 1853
+    name: Vokzal 1853
     category: гастрономия
     address: "наб. Обводного канала, 118"
-    tags: [гастрономия, фуд-молл, концерты, события]
+    tags: [гастрономия, фуд-молл, фестивали, маркеты, концерты]
+    events_url: "https://vokzal1853.ru/events/"
     sources:
-      - {type: website, url: "https://foodmallspb.ru/", verify: true}
+      - {type: website, url: "https://vokzal1853.ru/"}
+    status: active
+
+  - id: dolgoozerny-market
+    name: Гастромаркет Долгоозёрный
+    category: гастрономия
+    address: "ул. Ильюшина, 14"
+    tags: [гастрономия, гастромаркет, дегустации, фестивали]
+    events_url: "https://tkdoz.ru/afisha/"
+    sources:
+      - {type: website, url: "https://tkdoz.ru/"}
     status: needs_verification
