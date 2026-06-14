@@ -30,6 +30,7 @@ from bs4 import BeautifulSoup
 from ruamel.yaml import YAML
 
 import llm
+import prefs
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_PATH = os.path.join(ROOT, "data", "participants.yaml")
@@ -110,7 +111,8 @@ def extract_events(name, page_text, start, end):
         "дизайном, визуальным искусством, художниками, архитектурой "
         "(5 - напрямую про это; 3 - частично; 0 - не связано, например обычный "
         "кассовый фильм или спектакль без отношения к искусству и дизайну).\n"
-        "Бери только то, у чего понятна дата и что попадает в окно. "
+        + (prefs.as_prompt() + "\n" if prefs.as_prompt() else "")
+        + "Бери только то, у чего понятна дата и что попадает в окно. "
         "Если ничего нет - верни [].\n\n"
         f"ТЕКСТ СТРАНИЦЫ:\n{page_text}"
     )

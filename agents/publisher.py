@@ -413,6 +413,28 @@ def _load_json(path):
         return None
 
 
+def capture_preferences(since):
+    """Записать новые правила из текстовых ответов владельца (не номеров)."""
+    try:
+        import notify_telegram as nt
+        import prefs
+        added = []
+        for text in nt.owner_messages_since(since):
+            if prefs.looks_like_preference(text) and prefs.add_preference(text):
+                added.append(text.strip())
+        if added:
+            print("Запомнил предпочтения: " + "; ".join(added))
+            try:
+                nt.send_text("Запомнил на будущее: " + "; ".join(added),
+                             chat=nt.owner_chat())
+            except Exception:
+                pass
+        return added
+    except Exception as e:
+        print(f"  (предпочтения не записаны: {str(e)[:80]})")
+        return []
+
+
 def _owner_selection(since, n):
     """Прочитать ответ владельца (номера) после отправки предпросмотра."""
     try:
@@ -433,7 +455,9 @@ def run_publish(theme, day_key, today, use_llm, send):
         ranked = preview["events"]
         start = dt.date.fromisoformat(preview["start"])
         end = dt.date.fromisoformat(preview["end"])
-        selection = _owner_selection(preview.get("since", 0), len(ranked))
+        since = preview.get("since", 0)
+        selection = _owner_selection(since, len(ranked))
+        capture_preferences(since)  # запомнить правила из ответа владельца
         print("Использую список из предпросмотра."
               + (f" Ваш выбор: {selection}" if selection else " Ответа нет - авто-топ."))
     else:
