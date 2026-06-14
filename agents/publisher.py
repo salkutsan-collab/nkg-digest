@@ -19,7 +19,9 @@
 """
 
 import os
+import re
 import sys
+import json
 import argparse
 import datetime as dt
 
@@ -181,21 +183,25 @@ def rank_and_cap(events, limit):
 
 HEADLINE_SYSTEM = (
     "Ты редактор культурной афиши Петербурга. Придумываешь короткий образный "
-    "заголовок к подборке событий: яркий образ, потом двоеточие, потом 2-3 темы "
-    "дня. Простой деловой русский язык, без пафоса и рекламных слов (не пиши "
-    "'праздник', 'не пропустите', 'настоящий'), без жаргона и англицизмов, без "
-    "буквы е с точками и без длинного тире. Одна строка, не длиннее 9 слов. "
-    "Только сам заголовок, без кавычек и пояснений."
+    "заголовок к подборке событий. Главное: бери яркие слова и образы прямо из "
+    "названий событий (например 'хаос', 'неопределённость', 'любовь', 'пустые "
+    "вещи') и обыгрывай их в одной живой фразе - желательно через контраст или "
+    "связку. Можно построить как образ, потом двоеточие, потом суть. Простой "
+    "деловой русский язык, без пафоса и рекламных слов (не пиши 'праздник', "
+    "'не пропустите', 'настоящий'), без жаргона и англицизмов, без буквы е с "
+    "точками и без длинного тире. Одна строка, не длиннее 10 слов. Только сам "
+    "заголовок, без кавычек и пояснений."
 )
 
 
 def make_headline(events, theme):
     if not events:
         return None
-    titles = "; ".join(f"{e['title']} ({e.get('type', '')})" for e in events[:10])
+    titles = "; ".join(e["title"] for e in events[:12])
     hint = theme.get("intro_hint", "")
     user = (f"Тема дня: {theme.get('title', '')}. {hint}.\n"
-            f"События: {titles}.\nПридумай образный заголовок в нужном стиле.")
+            f"Названия событий: {titles}.\n"
+            "Придумай образный заголовок, обыграв образы из самих названий.")
     try:
         h = llm.chat(HEADLINE_SYSTEM, user, temperature=0.6, max_tokens=80)
         return h.strip().strip('"').splitlines()[0].strip().rstrip(" .,;")
@@ -214,61 +220,72 @@ def headline_and_subtitle(events, theme, use_llm):
 
 # ---------- режимы ----------
 
-def run_events(theme, today, use_llm, save_seen=False):
-    """Тематический день: собрать события по категориям и видам."""
-    base = a2.load_base()
-    categories = theme.get("categories") or []
-    participants = select_participants(base, categories)
-    # запомним категорию у каждого участника - пригодится для гастро-раздела
-    cat_by_name = {p["name"]: p.get("category", "") for p in participants}
-
+def theme_window(theme, target):
+    """Окно дат под тему: неделя вперёд, ближайшие выходные или следующая неделя."""
+    if theme.get("mode") == "weekly_all":
+        return next_week(target)
     if theme.get("weekend_only"):
-        start, end = upcoming_weekend(today)
-    else:
-        start, end = today, today + dt.timedelta(days=6)
+        return upcoming_weekend(target)
+    return target, target + dt.timedelta(days=6)
 
+
+def limit_for(theme):
+    meta = load_themes().get("meta", {})
+    if theme.get("mode") == "weekly_all":
+        return meta.get("limit_weekly", 20)
+    return meta.get("limit_daily", 10)
+
+
+def collect_for_theme(theme, target, use_llm):
+    """Собрать и отранжировать события темы (без обрезки лимитом). -> (events, start, end)."""
+    base = a2.load_base()
+    participants = select_participants(base, theme.get("categories") or [])
+    cat_by_name = {p["name"]: p.get("category", "") for p in participants}
+    start, end = theme_window(theme, target)
     print(f"Площадок по теме: {len(participants)}, окно {start} - {end}")
     if use_llm and not llm.available():
-        print("Ключ модели не найден - событий по тексту не собрать. Запустите с ключом.")
+        print("Ключ модели не найден - событий не собрать.")
         use_llm = False
-
     events = a2.collect(participants, start, end, use_llm=use_llm) if use_llm else []
     for e in events:
         e["_category"] = cat_by_name.get(e["_participant"], "")
     events = filter_types(events, theme.get("event_types") or [])
-
-    # фильтр по релевантности теме (для театров/кино - только про дизайн и искусство)
     minrel = theme.get("min_relevance", 0)
     if minrel:
         events = [e for e in events if relevance(e) >= minrel]
+    events = sorted(events, key=lambda e: (-relevance(e),
+                    a2._date(e.get("date_start")) or dt.date.max))
+    print(f"После отбора по теме: событий {len(events)}")
+    return events, start, end
 
-    # ранжируем по релевантности и оставляем не больше лимита
-    limit = load_themes().get("meta", {}).get("limit_daily", 10)
-    events = rank_and_cap(events, limit)
-    print(f"После отбора и лимита ({limit}): событий {len(events)}")
+
+def build_events_post(theme, ranked, start, end, selection, use_llm, today, save_seen=False):
+    """Собрать готовый пост: выбранные владельцем события или авто-топ по лимиту."""
+    if selection:
+        chosen = [ranked[i - 1] for i in selection if 1 <= i <= len(ranked)]
+    else:
+        chosen = ranked[:limit_for(theme)]
+    print(f"В пост войдёт событий: {len(chosen)}"
+          + (" (по выбору владельца)" if selection else " (авто-топ)"))
 
     # копим персон недели (для субботы) - из того, что реально вошло в пост
     try:
         import agent4_person
-        persons = [name for e in events for name in (e.get("persons") or [])]
-        agent4_person.add_persons(persons, today)
+        agent4_person.record_events(chosen, today)
     except Exception as ex:
         print(f"  (персоны не записаны: {str(ex)[:80]})")
 
-    # секции
     if theme.get("gastronomy"):
-        gastro = [e for e in events if is_gastro(e)]
-        rest = [e for e in events if not is_gastro(e)]
+        gastro = [e for e in chosen if is_gastro(e)]
+        rest = [e for e in chosen if not is_gastro(e)]
         sections = [(None, rest), ("Гастрономия и где поесть", gastro)]
     else:
-        sections = [(None, events)]
+        sections = [(None, chosen)]
 
-    title, subtitle = headline_and_subtitle(events, theme, use_llm)
-
+    title, subtitle = headline_and_subtitle(chosen, theme, use_llm)
     streetart_md = None
     if theme.get("include_streetart"):
         streetart_md = collect_streetart(use_llm, save_seen=save_seen)
-
     return build_post(title, start, end, sections,
                       subtitle=subtitle, streetart_md=streetart_md)
 
@@ -312,20 +329,120 @@ def collect_streetart(use_llm, save_seen=False):
         return None
 
 
-def run_weekly_all(theme, today, use_llm):
-    """Воскресенье: вся следующая неделя по всем направлениям."""
-    base = a2.load_base()
-    participants = select_participants(base, [])
-    start, end = next_week(today)
-    print(f"Все площадки: {len(participants)}, следующая неделя {start} - {end}")
-    if use_llm and not llm.available():
-        use_llm = False
-    events = a2.collect(participants, start, end, use_llm=use_llm) if use_llm else []
-    limit = load_themes().get("meta", {}).get("limit_weekly", 20)
-    events = rank_and_cap(events, limit)
-    print(f"После отбора и лимита ({limit}): событий {len(events)}")
-    title, subtitle = headline_and_subtitle(events, theme, use_llm)
-    return build_post(title, start, end, [(None, events)], subtitle=subtitle)
+PREVIEW_PATH = os.path.join(ROOT, "data", "preview.json")
+PREVIEW_MAX = 25  # сколько событий показываем владельцу на выбор
+
+
+def _preview_message(theme, ranked, start, end, limit):
+    head = f"{start.day} {a2.MONTHS[start.month]} - {end.day} {a2.MONTHS[end.month]}"
+    lines = [f"<b>Предпросмотр: {theme.get('title','')}</b>", f"{head}", ""]
+    for i, e in enumerate(ranked, 1):
+        d = a2._date(e.get("date_start"))
+        when = f"{d.day}.{d.month:02d}" if d else "?"
+        about = (e.get("about") or "").strip()
+        lines.append(f"{i}. [{when}] {e['title']} - {e.get('_participant','')}"
+                     + (f" - {about}" if about else ""))
+    lines += ["", f"Ответьте номерами через запятую, что оставить (например 1,3,5). "
+              f"Не ответите до полуночи - утром выйдет авто-топ {limit} по релевантности."]
+    return "\n".join(lines)
+
+
+def run_preview(theme, day_key, target, use_llm, send):
+    """Накануне: собрать список и прислать владельцу на выбор (или предложить персону)."""
+    if theme.get("mode") == "person":
+        import agent4_person
+        agent4_person.propose(dt.date.today(), send=send)
+        return
+    ranked, start, end = collect_for_theme(theme, target, use_llm)
+    shown = ranked[:PREVIEW_MAX]
+    data = {"target": target.isoformat(), "day_key": day_key,
+            "start": start.isoformat(), "end": end.isoformat(),
+            "events": shown, "since": 0}
+    if send and shown:
+        msg = _preview_message(theme, shown, start, end, limit_for(theme))
+        sent = _dm_owner(msg)
+        if sent:
+            try:
+                import notify_telegram
+                data["since"] = notify_telegram.current_update_id() or 0
+            except Exception:
+                pass
+            print(f"Предпросмотр отправлен владельцу ({len(shown)} событий).")
+        else:
+            print("TELEGRAM_OWNER_CHAT_ID не задан - предпросмотр не ушёл.")
+    with open(PREVIEW_PATH, "w", encoding="utf-8") as fh:
+        json.dump(data, fh, ensure_ascii=False, indent=1)
+    print(f"Список сохранён: {PREVIEW_PATH}")
+
+
+def _dm_owner(md):
+    try:
+        import notify_telegram as nt
+        if not nt.owner_chat():
+            return False
+        for part in nt.split_chunks(nt.md_to_tg(md)):
+            nt.send_text(part, chat=nt.owner_chat())
+        return True
+    except Exception as e:
+        print(f"  (личное сообщение не ушло: {str(e)[:80]})")
+        return False
+
+
+def _parse_selection(text, n):
+    nums = [int(x) for x in re.findall(r"\d+", text or "")]
+    sel = [x for x in nums if 1 <= x <= n]
+    return sel or None
+
+
+def _load_preview(today, day_key):
+    data = _load_json(PREVIEW_PATH)
+    if not data:
+        return None
+    if data.get("target") != today.isoformat() or data.get("day_key") != day_key:
+        return None
+    return data
+
+
+def _load_json(path):
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, encoding="utf-8") as fh:
+            return json.load(fh)
+    except Exception:
+        return None
+
+
+def _owner_selection(since, n):
+    """Прочитать ответ владельца (номера) после отправки предпросмотра."""
+    try:
+        import notify_telegram as nt
+        for text in reversed(nt.owner_messages_since(since)):
+            sel = _parse_selection(text, n)
+            if sel:
+                return sel
+    except Exception:
+        pass
+    return None
+
+
+def run_publish(theme, day_key, today, use_llm, send):
+    """Утро дня публикации: взять список из предпросмотра (или собрать заново) и опубликовать."""
+    preview = _load_preview(today, day_key)
+    if preview:
+        ranked = preview["events"]
+        start = dt.date.fromisoformat(preview["start"])
+        end = dt.date.fromisoformat(preview["end"])
+        selection = _owner_selection(preview.get("since", 0), len(ranked))
+        print("Использую список из предпросмотра."
+              + (f" Ваш выбор: {selection}" if selection else " Ответа нет - авто-топ."))
+    else:
+        ranked, start, end = collect_for_theme(theme, today, use_llm)
+        selection = None
+        print("Предпросмотра нет - собрал заново, авто-топ.")
+    md = build_events_post(theme, ranked, start, end, selection,
+                           use_llm, today, save_seen=send)
+    return md
 
 
 # ---------- самопроверка ----------
@@ -366,10 +483,12 @@ def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser()
-    ap.add_argument("--day", choices=WEEKDAY_KEYS, help="какой день собрать (по умолчанию сегодня)")
+    ap.add_argument("--day", choices=WEEKDAY_KEYS, help="какой день (по умолчанию сегодня)")
+    ap.add_argument("--preview", action="store_true",
+                    help="режим предпросмотра: собрать список ЗАВТРАШНЕГО дня и прислать владельцу")
     ap.add_argument("--no-llm", action="store_true", help="без модели (мало что соберётся)")
     ap.add_argument("--self-test", action="store_true", help="показать график и формат")
-    ap.add_argument("--send", action="store_true", help="отправить пост в Telegram")
+    ap.add_argument("--send", action="store_true", help="отправить (пост в канал или список владельцу)")
     args = ap.parse_args()
 
     if args.self_test:
@@ -378,12 +497,26 @@ def main():
 
     themes = load_themes()
     today = dt.date.today()
+    use_llm = not args.no_llm
+
+    # ----- режим предпросмотра: готовим ЗАВТРАШНИЙ день -----
+    if args.preview:
+        target = today + dt.timedelta(days=1)
+        day_key = args.day or WEEKDAY_KEYS[target.weekday()]
+        theme = theme_for(day_key, themes)
+        if not theme:
+            print(f"На {day_key} тема не задана.")
+            return
+        print(f"Предпросмотр на {day_key} ({target}), тема: {theme.get('title')}")
+        run_preview(theme, day_key, target, use_llm, send=args.send)
+        return
+
+    # ----- режим публикации: сегодняшний день -----
     day_key = args.day or WEEKDAY_KEYS[today.weekday()]
     theme = theme_for(day_key, themes)
     if not theme:
         print(f"На {day_key} тема не задана в themes.yaml.")
         return
-    use_llm = not args.no_llm
     mode = theme.get("mode", "events")
     print(f"День: {day_key}, режим: {mode}, тема: {theme.get('title')}")
 
@@ -392,17 +525,7 @@ def main():
         agent4_person.publish(use_llm=use_llm, send=args.send)
         return
 
-    if mode == "weekly_all":
-        md = run_weekly_all(theme, today, use_llm)
-    else:
-        md = run_events(theme, today, use_llm, save_seen=args.send)
-        # в пятницу заодно предлагаем владельцу персону недели
-        if day_key == "friday":
-            try:
-                import agent4_person
-                agent4_person.propose(today, send=args.send)
-            except Exception as ex:
-                print(f"  (предложение персоны не отправлено: {str(ex)[:80]})")
+    md = run_publish(theme, day_key, today, use_llm, send=args.send)
 
     os.makedirs(DIGEST_DIR, exist_ok=True)
     out = os.path.join(DIGEST_DIR, f"{today.isoformat()}-{day_key}.md")

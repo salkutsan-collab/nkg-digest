@@ -1,0 +1,50 @@
+name: Предпросмотр на завтра (вечером)
+
+# Каждый день в 18:00 UTC = 21:00 по Москве.
+# Собирает список событий ЗАВТРАШНЕЙ темы и присылает владельцу в личку на выбор.
+# Если завтра суббота - присылает черновик карточки персоны недели.
+on:
+  schedule:
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write   # сохраняем список предпросмотра и черновик персоны в репозиторий
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Установить зависимости
+        run: pip install -r requirements.txt
+
+      - name: Собрать список и прислать владельцу
+        env:
+          LLM_PROVIDER: yandex
+          YANDEX_API_KEY: ${{ secrets.YANDEX_API_KEY }}
+          YANDEX_FOLDER_ID: ${{ secrets.YANDEX_FOLDER_ID }}
+          YANDEX_MODEL: yandexgpt
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_OWNER_CHAT_ID: ${{ secrets.TELEGRAM_OWNER_CHAT_ID }}
+        run: python agents/publisher.py --preview --send
+
+      - name: Сохранить предпросмотр и черновик персоны
+        run: |
+          git config user.name "nkg-bot"
+          git config user.email "nkg-bot@users.noreply.github.com"
+          for f in data/preview.json data/person_choice.json data/person_tally.json; do
+            [ -f "$f" ] && git add "$f"
+          done
+          if git diff --cached --quiet; then
+            echo "Изменений нет."
+          else
+            git commit -m "Авто: предпросмотр на завтра / черновик персоны"
+            git push
+          fi

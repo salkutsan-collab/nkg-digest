@@ -100,31 +100,78 @@ def send_to_owner(text):
     return True
 
 
-def latest_reply_from_owner(allowed=("1", "2", "3")):
-    """Найти последний короткий ответ владельца боту (например '1', '2', '3').
-
-    Читает свежие апдейты бота (Telegram хранит их около суток).
-    Возвращает строку-ответ или None.
-    """
+def _get_updates():
     token, _ = _cfg()
-    owner = owner_chat()
-    if not owner:
-        return None
     try:
         r = requests.get(API.format(token=token, method="getUpdates"), timeout=30)
-        updates = r.json().get("result", [])
+        return r.json().get("result", [])
     except Exception:
-        return None
-    found = None
-    for upd in updates:
+        return []
+
+
+def current_update_id():
+    """Наибольший номер апдейта сейчас - запоминаем его при отправке вопроса,
+    чтобы потом читать только ответы, пришедшие ПОСЛЕ него."""
+    ids = [u.get("update_id", 0) for u in _get_updates()]
+    return max(ids) if ids else 0
+
+
+def owner_messages_since(since_id=0):
+    """Тексты сообщений владельца, пришедшие после since_id (по возрастанию)."""
+    owner = owner_chat()
+    if not owner:
+        return []
+    out = []
+    for upd in _get_updates():
+        if upd.get("update_id", 0) <= (since_id or 0):
+            continue
         msg = upd.get("message") or {}
         chat = msg.get("chat") or {}
         if str(chat.get("id")) != str(owner):
             continue
         text = (msg.get("text") or "").strip()
+        if text:
+            out.append(text)
+    return out
+
+
+def latest_reply_from_owner(allowed=("1", "2", "3"), since_id=0):
+    """Последний короткий ответ владельца из разрешенных (например 1/2/3)."""
+    found = None
+    for text in owner_messages_since(since_id):
         if text in allowed:
-            found = text  # берем последний подходящий
+            found = text
     return found
+
+
+def send_photos(image_urls, caption=None, chat=None):
+    """Отправить альбом фото (до 10). Подпись - на первом фото.
+    Возвращает True при успехе, False если не получилось (тогда шлите текст)."""
+    token, default_chat = _cfg()
+    chat = chat or default_chat
+    urls = [u for u in (image_urls or []) if u][:10]
+    if not chat or not urls:
+        return False
+    if len(urls) == 1:
+        body = {"chat_id": chat, "photo": urls[0]}
+        if caption:
+            body.update({"caption": caption[:1024], "parse_mode": "HTML"})
+        method = "sendPhoto"
+        payload = body
+    else:
+        media = []
+        for i, u in enumerate(urls):
+            item = {"type": "photo", "media": u}
+            if i == 0 and caption:
+                item.update({"caption": caption[:1024], "parse_mode": "HTML"})
+            media.append(item)
+        method = "sendMediaGroup"
+        payload = {"chat_id": chat, "media": media}
+    try:
+        r = requests.post(API.format(token=token, method=method), json=payload, timeout=60)
+        return bool(r.json().get("ok"))
+    except Exception:
+        return False
 
 
 def send_markdown(md):
