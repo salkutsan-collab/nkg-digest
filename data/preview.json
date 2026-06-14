@@ -1,0 +1,175 @@
+{
+ "target": "2026-06-15",
+ "day_key": "monday",
+ "start": "2026-06-15",
+ "end": "2026-06-22",
+ "events": [
+  {
+   "title": "Фокус: Перформанс",
+   "type": "выставка",
+   "date_start": "2026-05-29",
+   "date_end": "2026-07-19",
+   "time": null,
+   "place": "191123, Санкт-Петербург, ул. Чайковского, 61",
+   "persons": [],
+   "about": null,
+   "relevance": 5,
+   "_participant": "MYTH Gallery",
+   "_address": "ул. Чайковского, 61",
+   "_url": "https://mythgallery.art/exibitions",
+   "_category": "галерея"
+  },
+  {
+   "title": "ТЕПЕРЬ Я СТАВЛЮ ШКАФ НА МЕСТО",
+   "type": "выставка",
+   "date_start": "2026-05-30",
+   "date_end": "2026-06-28",
+   "time": null,
+   "place": "Navicula Artis",
+   "persons": [
+    "Дмитрий Петухов",
+    "Иван Осипов"
+   ],
+   "about": "Выставка Дмитрия Петухова и Ивана Осипова",
+   "relevance": 5,
+   "_participant": "Арт-центр Пушкинская-10",
+   "_address": "Лиговский просп., 53",
+   "_url": "https://p-10.ru/season/actual",
+   "_category": "музей"
+  },
+  {
+   "title": "Ленинград Саши Окуня. Начало (Из частных коллекций Петербурга)",
+   "type": "выставка",
+   "date_start": "2026-05-31",
+   "date_end": "2026-07-19",
+   "time": null,
+   "place": "Малый зал МНИ",
+   "persons": [],
+   "about": "Выставка из частных коллекций Петербурга",
+   "relevance": 5,
+   "_participant": "Арт-центр Пушкинская-10",
+   "_address": "Лиговский просп., 53",
+   "_url": "https://p-10.ru/season/actual",
+   "_category": "музей"
+  },
+  {
+   "title": "Константин и Владимир Маковские. Любовь земная и любовь небесная",
+   "type": "выставка",
+   "date_start": "2026-06-03",
+   "date_end": "2026-09-13",
+   "time": null,
+   "place": "Музей Фаберже, Санкт-Петербург",
+   "persons": [],
+   "about": "Выставка, посвящённая художественному наследию братьев Маковских, приурочена к 180-летию Владимира Маковского.",
+   "relevance": 5,
+   "_participant": "Музей Фаберже",
+   "_address": "наб. реки Фонтанки, 21",
+   "_url": "https://fabergemuseum.ru/sobyitiya/vyistavki/",
+   "_category": "музей"
+  },
+  {
+   "title": "АФРИКА. СЕРГЕЙ БУГАЕВ",
+   "type": "выставка",
+   "date_start": "2026-06-05",
+   "date_end": "2026-08-02",
+   "time": null,
+   "place": "Санкт-Петербург, Наб. канала Грибоедова, 101 и 103",
+   "persons": [
+    "Сергей Бугаев"
+   ],
+   "about": "Выставка работ Сергея Бугаева",
+   "relevance": 5,
+   "_participant": "Музей искусства Санкт-Петербурга XX-XXI веков (МИСП)",
+   "_address": "наб. канала Грибоедова, 103",
+   "_url": "https://mispxx-xxi.ru/exhibitions",
+   "_category": "музей"
+  },
+  {
+   "title": "Выставка Кирилла Шу «Из пустых вещей»",
+   "type": "выставка",
+   "date_start": "2026-06-16",
+   "date_end": "2026-08-17",
+   "time": null,
+   "place": "Санкт-Петербург, 13 линия В. О., дом 70",
+   "persons": [
+    "Кирилл Шу"
+   ],
+   "about": "Выставка в смешанной технике.",
+   "relevance": 5,
+   "_participant": "Артмуза",
+   "_address": "13-я линия В. О., 70-72",
+   "_url": "https://www.artmuza.spb.ru/events/novosti",
+   "_category": "музей"
+  },
+  {
+   "title": "Выставка Олега Осколкова «Гравитация хаоса»",
+   "type": "выставка",
+   "date_start": "2026-06-16",
+   "date_end": "2026-08-18",
+   "time": null,
+   "place": "Санкт-Петербург, 13 линия В. О., дом 70",
+   "persons": [
+    "Олег Осколков"
+   ],
+   "about": "Выставка живописи.",
+   "relevance": 5,
+   "_participant": "Артмуза",
+   "_address": "13-я линия В. О., 70-72",
+   "_url": "https://www.artmuza.spb.ru/events/novosti",
+   "_category": "музей"
+  },
+  {
+   "title": "Окно, в котором …",
+   "type": "выставка",
+   "date_start": "2026-06-17",
+   "date_end": "2026-09-13",
+   "time": null,
+   "place": "Санкт-Петербург, наб. Фонтанки, 24",
+   "persons": [
+    "Власовы-Шишмарёва"
+   ],
+   "about": "Выставка из собрания Власовых-Шишмарёвой",
+   "relevance": 5,
+   "_participant": "KGallery",
+   "_address": "наб. реки Фонтанки, 24",
+   "_url": "https://kgallery.ru/exhibitions",
+   "_category": "галерея"
+  },
+  {
+   "title": "Пик Неопределённости",
+   "type": "выставка",
+   "date_start": "2026-06-19",
+   "date_end": "2026-08-09",
+   "time": null,
+   "place": "Anna Nova Gallery",
+   "persons": [
+    "Марья Дмитриева",
+    "Елена Немкова"
+   ],
+   "about": "Первый совместный выставочный проект Марьи Дмитриевой и Елены Немковой с произведениями различных жанров.",
+   "relevance": 5,
+   "_participant": "Anna Nova Gallery",
+   "_address": "ул. Жуковского, 28",
+   "_url": "https://www.annanova-gallery.ru/exhibitions",
+   "_category": "галерея"
+  },
+  {
+   "title": "Николай Акимов и ученики",
+   "type": "выставка",
+   "date_start": "2026-03-26",
+   "date_end": "2026-07-05",
+   "time": null,
+   "place": "Санкт-Петербург, Наб. канала Грибоедова, 101 и 103",
+   "persons": [
+    "Николай Акимов"
+   ],
+   "about": "Выставка, посвящённая Николаю Акимову и его ученикам",
+   "relevance": 4,
+   "_participant": "Музей искусства Санкт-Петербурга XX-XXI веков (МИСП)",
+   "_address": "наб. канала Грибоедова, 103",
+   "_url": "https://mispxx-xxi.ru/exhibitions",
+   "_category": "музей"
+  }
+ ],
+ "since": 353222287
+}
