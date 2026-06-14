@@ -22,6 +22,7 @@ import os
 import re
 import sys
 import json
+import html
 import argparse
 import datetime as dt
 
@@ -288,8 +289,9 @@ def build_events_post(theme, ranked, start, end, selection, use_llm, today, save
     streetart_md = None
     if theme.get("include_streetart"):
         streetart_md = collect_streetart(use_llm, save_seen=save_seen)
-    return build_post(title, start, end, sections,
-                      subtitle=subtitle, streetart_md=streetart_md)
+    md = build_post(title, start, end, sections,
+                    subtitle=subtitle, streetart_md=streetart_md)
+    return md, chosen
 
 
 def collect_streetart(use_llm, save_seen=False):
@@ -466,9 +468,107 @@ def run_publish(theme, day_key, today, use_llm, send):
         ranked, start, end = collect_for_theme(theme, today, use_llm)
         selection = None
         print("Предпросмотра нет - собрал заново, авто-топ.")
-    md = build_events_post(theme, ranked, start, end, selection,
-                           use_llm, today, save_seen=send)
-    return md
+    md, chosen = build_events_post(theme, ranked, start, end, selection,
+                                   use_llm, today, save_seen=send)
+    return md, chosen
+
+
+# ---------- рекомендация дня (петербургская школа) ----------
+
+REC_SYSTEM = (
+    "Ты куратор петербургской культуры. Из списка событий выбираешь РОВНО ОДНО, "
+    "которое лучше всего выражает петербургскую школу и петербургский стиль - "
+    "местную традицию и идентичность в искусстве, графике, дизайне, архитектуре "
+    "(не привозное гастрольное и не случайное развлечение). Пиши простым деловым "
+    "русским языком, без пафоса и рекламных слов, без буквы е с точками и без "
+    "длинного тире. Отвечай ТОЛЬКО валидным JSON."
+)
+
+
+def pick_recommended(events, use_llm):
+    """Выбрать одно событие - про петербургскую школу. -> (event, why) или (None, '')."""
+    if not events:
+        return None, ""
+    if not (use_llm and llm.available()):
+        return events[0], "Самое заметное событие подборки."
+    lst = "\n".join(
+        f"{i+1}. {e.get('title')} ({e.get('type','')}), {e.get('_participant','')}"
+        f" - {(e.get('about') or '').strip()}" for i, e in enumerate(events[:15]))
+    user = ("Выбери одно событие, которое ярче всего про петербургскую школу и "
+            "петербургский стиль. Верни JSON: "
+            '{"index": номер_из_списка, "why": "1-2 предложения, чем это про '
+            'петербургскую школу"}.\nСобытия:\n' + lst)
+    try:
+        raw = llm.chat(REC_SYSTEM, user, temperature=0.3, max_tokens=300)
+        m = re.search(r"\{.*\}", raw, re.S)
+        data = json.loads(m.group(0)) if m else {}
+        idx = int(data.get("index", 1)) - 1
+        why = (data.get("why") or "").strip()
+        if 0 <= idx < len(events):
+            return events[idx], why
+    except Exception as e:
+        print(f"  (рекомендация: модель не выбрала: {str(e)[:80]})")
+    return events[0], ""
+
+
+def _when_str(e):
+    d = a2._date(e.get("date_start"))
+    if not d:
+        return ""
+    s = f", {d.day} {a2.MONTHS[d.month]}"
+    t = (e.get("time") or "").strip()
+    return s + (f", {t}" if t else "")
+
+
+def recommend(events, theme, use_llm, today, day_key, send):
+    """Собрать и отправить отдельный пост-рекомендацию дня с картинкой."""
+    event, why = pick_recommended(events, use_llm)
+    if not event:
+        return
+    import images
+    img, source = images.find_page_image(event.get("_url"))
+    title = html.escape(event.get("title", ""))
+    venue = html.escape(event.get("_participant", ""))
+    why_h = html.escape(why) if why else ""
+    url = event.get("_url") or ""
+    when = html.escape(_when_str(event))
+
+    head = "<b>Рекомендация дня: петербургская школа</b>"
+    body = f"<b>{title}</b> - {venue}{when}"
+    lines = [head, body]
+    if why_h:
+        lines.append(why_h)
+    if url:
+        lines.append(f'<a href="{url}">Подробнее о событии</a>')
+    text_caption = "\n".join(lines)
+    photo_caption = text_caption
+    if url and source:
+        photo_caption += f'\nФото: <a href="{url}">{html.escape(source)}</a>'
+
+    # запись в файл (для истории)
+    os.makedirs(DIGEST_DIR, exist_ok=True)
+    with open(os.path.join(DIGEST_DIR, f"{today.isoformat()}-{day_key}-rec.md"),
+              "w", encoding="utf-8") as fh:
+        fh.write(f"# Рекомендация дня: {event.get('title')}\n\n{why}\n\n"
+                 f"{event.get('_participant','')}{_when_str(event)}\n{url}\n"
+                 f"Фото: {source or ''} ({img or 'нет'})\n")
+    print(f"Рекомендация дня: {event.get('title')} | картинка: {'есть' if img else 'нет'}")
+
+    if not send:
+        return
+    sent = False
+    if img:
+        try:
+            import notify_telegram as nt
+            sent = nt.send_photos([img], caption=photo_caption)
+        except Exception as e:
+            print(f"  (фото рекомендации не ушло: {str(e)[:80]})")
+    if not sent:
+        try:
+            import notify_telegram as nt
+            nt.send_text(text_caption)
+        except Exception as e:
+            print(f"  (рекомендация не отправлена: {str(e)[:80]})")
 
 
 # ---------- самопроверка ----------
@@ -551,7 +651,7 @@ def main():
         agent4_person.publish(use_llm=use_llm, send=args.send)
         return
 
-    md = run_publish(theme, day_key, today, use_llm, send=args.send)
+    md, chosen = run_publish(theme, day_key, today, use_llm, send=args.send)
 
     os.makedirs(DIGEST_DIR, exist_ok=True)
     out = os.path.join(DIGEST_DIR, f"{today.isoformat()}-{day_key}.md")
@@ -567,6 +667,9 @@ def main():
             print(f"Отправка не удалась: {e}")
         except Exception as e:
             print(f"Отправка не удалась: {str(e)[:160]}")
+
+    # отдельный пост - рекомендация дня (петербургская школа) с картинкой
+    recommend(chosen, theme, use_llm, today, day_key, send=args.send)
 
 
 if __name__ == "__main__":
