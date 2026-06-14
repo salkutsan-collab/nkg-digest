@@ -196,9 +196,10 @@ def build_markdown(events, start, end, mode, intro=None):
         lines += ["На этой неделе событий не нашлось. Проверьте источники в базе.", ""]
         return "\n".join(lines)
 
-    exhibitions = [e for e in events if (e.get("type") or "").lower().startswith("выстав")
-                   and _date(e.get("date_end"))]
-    dated = [e for e in events if e not in exhibitions]
+    # "идущие" - то, что началось раньше окна, но еще продолжается (выставки, программы)
+    ongoing = [e for e in events
+               if _date(e.get("date_end")) and (_date(e.get("date_start")) or end) < start]
+    dated = [e for e in events if e not in ongoing]
 
     if dated:
         lines += ["## События по дням", ""]
@@ -207,8 +208,10 @@ def build_markdown(events, start, end, mode, intro=None):
         for e in dated:
             d = _date(e["date_start"])
             if d != cur:
+                if cur is not None:
+                    lines.append("")
                 cur = d
-                lines += ["", f"**{ru_date(d)}**"]
+                lines.append(f"**{ru_date(d)}**")
             t = (e.get("time") or "").strip()
             place = e.get("place") or e.get("_participant")
             prefix = f"{t} - " if t else ""
@@ -218,10 +221,10 @@ def build_markdown(events, start, end, mode, intro=None):
             lines.append(line)
         lines.append("")
 
-    if exhibitions:
-        lines += ["## Идут выставки", ""]
-        exhibitions.sort(key=lambda e: _date(e.get("date_end")) or end)
-        for e in exhibitions:
+    if ongoing:
+        lines += ["## Идут и продолжаются", ""]
+        ongoing.sort(key=lambda e: _date(e.get("date_end")) or end)
+        for e in ongoing:
             de = _date(e.get("date_end"))
             till = f" (до {de.day} {MONTHS[de.month]})" if de else ""
             lines.append(f"- {e['title']}{till} - {e['_participant']}")
@@ -257,13 +260,16 @@ def maybe_intro(events, start, end, mode):
         return None
     titles = "; ".join(f"{e['title']} ({e['_participant']})" for e in events[:12])
     system = (
-        "Ты редактор афиши. Пиши простым человечным русским языком, без жаргона "
-        "и англицизмов, без буквы е с точками и без длинного тире. 2-3 предложения."
+        "Ты редактор афиши. Пиши простым деловым русским языком, спокойным тоном, "
+        "без рекламных оборотов и пафоса (не используй слова вроде 'праздник', "
+        "'настоящий', 'не пропустите'), без жаргона и англицизмов, без буквы е с "
+        "точками и без длинного тире. Ровно 1-2 предложения."
     )
     user = (
-        f"Напиши короткое вступление к дайджесту культурных событий Петербурга "
-        f"на период {start.isoformat()} - {end.isoformat()}. "
-        f"Не перечисляй все, не выдумывай. Вот часть событий: {titles}"
+        f"Напиши короткое нейтральное вступление к дайджесту культурных событий "
+        f"Петербурга на период {start.isoformat()} - {end.isoformat()}. "
+        f"Можно назвать пару заметных площадок или тем. Не перечисляй все, не выдумывай. "
+        f"Вот часть событий: {titles}"
     )
     try:
         return llm.chat(system, user, temperature=0.5, max_tokens=300)

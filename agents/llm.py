@@ -45,6 +45,8 @@ def provider():
 def available():
     """Есть ли ключ для выбранного провайдера."""
     p = provider()
+    if p == "yandex":
+        return bool(os.environ.get("YANDEX_API_KEY") and os.environ.get("YANDEX_FOLDER_ID"))
     if p == "gigachat":
         return bool(os.environ.get("GIGACHAT_CREDENTIALS"))
     if p == "anthropic":
@@ -55,11 +57,42 @@ def available():
 def chat(system, user, temperature=0.3, max_tokens=1800):
     """Один вопрос к модели. Возвращает текст ответа."""
     p = provider()
+    if p == "yandex":
+        return _yandex(system, user, temperature, max_tokens)
     if p == "gigachat":
         return _gigachat(system, user, temperature, max_tokens)
     if p == "anthropic":
         return _anthropic(system, user, temperature, max_tokens)
     raise LLMError(f"Неизвестный провайдер LLM_PROVIDER={p}")
+
+
+def _yandex(system, user, temperature, max_tokens):
+    key = os.environ.get("YANDEX_API_KEY")
+    folder = os.environ.get("YANDEX_FOLDER_ID")
+    if not key or not folder:
+        raise LLMError("Нужны YANDEX_API_KEY и YANDEX_FOLDER_ID (см. .env.example).")
+    model = os.environ.get("YANDEX_MODEL", "yandexgpt")  # yandexgpt | yandexgpt-lite
+    import requests
+
+    msgs = []
+    if system:
+        msgs.append({"role": "system", "text": system})
+    msgs.append({"role": "user", "text": user})
+    body = {
+        "modelUri": f"gpt://{folder}/{model}/latest",
+        "completionOptions": {"stream": False, "temperature": temperature,
+                              "maxTokens": str(max_tokens)},
+        "messages": msgs,
+    }
+    r = requests.post(
+        "https://llm.api.cloud.yandex.net/foundationModels/v1/completion",
+        headers={"Authorization": f"Api-Key {key}", "Content-Type": "application/json"},
+        json=body, timeout=60,
+    )
+    data = r.json()
+    if "result" not in data:
+        raise LLMError(f"Ошибка YandexGPT: {str(data)[:200]}")
+    return data["result"]["alternatives"][0]["message"]["text"]
 
 
 def _gigachat(system, user, temperature, max_tokens):

@@ -35,10 +35,10 @@ jobs:
 
       - name: Собрать и отправить обзор недели (агент 2)
         env:
-          LLM_PROVIDER: gigachat
-          GIGACHAT_CREDENTIALS: ${{ secrets.GIGACHAT_CREDENTIALS }}
-          GIGACHAT_SCOPE: GIGACHAT_API_PERS
-          GIGACHAT_MODEL: GigaChat
+          LLM_PROVIDER: yandex
+          YANDEX_API_KEY: ${{ secrets.YANDEX_API_KEY }}
+          YANDEX_FOLDER_ID: ${{ secrets.YANDEX_FOLDER_ID }}
+          YANDEX_MODEL: yandexgpt
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python agents/agent2_digest.py --mode weekly --send
