@@ -512,10 +512,14 @@ def pick_recommended(events, use_llm):
 
 
 def _when_str(e):
-    d = a2._date(e.get("date_start"))
-    if not d:
+    ds = a2._date(e.get("date_start"))
+    de = a2._date(e.get("date_end"))
+    # длящееся событие (выставка с датой окончания) - показываем, до какого числа
+    if de and (not ds or de != ds):
+        return f", до {de.day} {a2.MONTHS[de.month]}"
+    if not ds:
         return ""
-    s = f", {d.day} {a2.MONTHS[d.month]}"
+    s = f", {ds.day} {a2.MONTHS[ds.month]}"
     t = (e.get("time") or "").strip()
     return s + (f", {t}" if t else "")
 
