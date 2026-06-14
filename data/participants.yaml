@@ -299,20 +299,6 @@ participants:
       - {type: website, url: "https://zifergauz.ru/"}
     status: active
 
-  # ---------- стрит-арт ----------
-
-  - id: street-art-museum
-    name: Музей стрит-арта
-    category: стрит-арт
-    address: "шоссе Революции, 84"
-    tags: [стрит-арт, выставки, фестивали]
-    events_url: "https://streetartmuseum.ru/category/meropriyatiya"
-    sources:
-      - {type: website, url: "https://streetartmuseum.ru/"}
-      - {type: vk, url: "https://vk.com/streetartmuseum"}
-      - {type: telegram, url: "https://t.me/streetartmuseum"}
-    status: active
-
   # ---------- дизайн-центр ----------
 
   - id: daa-expo

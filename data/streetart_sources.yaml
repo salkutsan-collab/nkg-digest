@@ -36,5 +36,4 @@ keywords:
 
 channels:
   - {handle: lenstreet,       name: ЛЕНСТРИТ,                 scope: spb}
-  - {handle: streetartmuseum, name: Музей стрит-арта,         scope: spb}
   - {handle: streetartkeeper, name: Стрит-арт хранитель (САХ), scope: ru}

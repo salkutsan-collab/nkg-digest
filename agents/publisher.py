@@ -401,7 +401,9 @@ def _dm_owner(md):
         for part in nt.split_chunks(nt.md_to_tg(md)):
             nt.send_text(part, chat=nt.owner_chat())
         return True
-    except Exception as e:
+    except (SystemExit, Exception) as e:
+        # send_text при ошибке Telegram бросает SystemExit - перехватываем,
+        # чтобы сбой личного сообщения не ронял весь предпросмотр (workflow).
         print(f"  (личное сообщение не ушло: {str(e)[:80]})")
         return False
 
@@ -574,19 +576,9 @@ def recommend(events, theme, use_llm, today, day_key, send):
 
     if not send:
         return
-    sent = False
-    if img:
-        try:
-            import notify_telegram as nt
-            sent = nt.send_photos([img], caption=photo_caption)
-        except Exception as e:
-            print(f"  (фото рекомендации не ушло: {str(e)[:80]})")
-    if not sent:
-        try:
-            import notify_telegram as nt
-            nt.send_text(text_caption)
-        except Exception as e:
-            print(f"  (рекомендация не отправлена: {str(e)[:80]})")
+    import broadcast
+    # в каждый мессенджер: фото с подписью, а если фото не доставить - текстом
+    broadcast.send_photo_or_text([img] if img else [], photo_caption, text_caption)
 
 
 # ---------- самопроверка ----------
@@ -679,8 +671,8 @@ def main():
 
     if args.send:
         try:
-            import notify_telegram
-            notify_telegram.send_markdown(md)
+            import broadcast
+            broadcast.send_markdown(md)
         except SystemExit as e:
             print(f"Отправка не удалась: {e}")
         except Exception as e:

@@ -368,8 +368,8 @@ def main():
 
 def _send(md):
     try:
-        import notify_telegram
-        notify_telegram.send_markdown(md)
+        import broadcast
+        broadcast.send_markdown(md)
     except SystemExit as e:
         print(f"Отправка не удалась: {e}")
     except Exception as e:

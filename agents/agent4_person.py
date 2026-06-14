@@ -261,13 +261,14 @@ def publish(use_llm=True, send=False):
     _save(CHOICE_PATH, choice)
 
     if send:
+        import broadcast
         urls = _photo_urls(imgs)
         sent = False
         if urls:
-            sent = _safe(lambda nt: nt.send_photos(urls, caption=f"<b>Персона недели: {name}</b>"))
+            sent = broadcast.send_photos(urls, caption=f"<b>Персона недели: {name}</b>")
         # текст: с заголовком, если фото не ушли; иначе только тело + примечание
         text_md = full_md if not sent else f"{body}{note}"
-        _safe(lambda nt: nt.send_markdown(text_md))
+        broadcast.send_markdown(text_md)
     return full_md
 
 
@@ -277,7 +278,8 @@ def _publish_text(md, today, send):
               "w", encoding="utf-8") as fh:
         fh.write(md + "\n")
     if send:
-        _safe(lambda nt: nt.send_markdown(md))
+        import broadcast
+        broadcast.send_markdown(md)
     return md
 
 
