@@ -1,0 +1,341 @@
+# Реестр участников Новой культурной географии (НКГ), Санкт-Петербург
+#
+# Этот файл - "база участников". Его ведет агент 1 (поиск и обновление),
+# но можно править и руками: добавлять, убирать, исправлять ссылки.
+#
+# Поля каждого участника:
+#   id        - короткий код (латиницей, без пробелов)
+#   name      - название
+#   category  - тип: креативное пространство | музей | галерея | стрит-арт |
+#               дизайн-центр | образование | фестиваль
+#   address   - адрес
+#   tags      - темы (для отбора в дайджест)
+#   events_url- страница афиши/событий (подсказка для агента 2)
+#   sources   - откуда брать новости. type: website | vk | telegram | timepad | instagram
+#   status    - active | needs_verification | dead
+#
+# Файл переписывается агентом 1 в едином формате; группировка по категориям - автоматическая.
+
+meta:
+  version: 1
+  updated: 2026-06-14
+  city: Санкт-Петербург
+  topics: [дизайн, современное искусство, стрит-арт, креативные индустрии]
+  source_report: Новая культурная география Санкт-Петербурга (2021)
+
+participants:
+
+  # ---------- креативное пространство ----------
+
+  - id: sevcable-port
+    name: Севкабель Порт
+    category: креативное пространство
+    address: "Кожевенная линия, 40"
+    tags: [фестивали, выставки, лекции, маркеты]
+    events_url: "https://sevcableport.ru/afisha"
+    sources:
+      - {type: website, url: "https://sevcableport.ru/"}
+      - {type: vk, url: "https://vk.com/sevcableport"}
+      - {type: telegram, url: "https://t.me/sevcableport"}
+    status: active
+
+  - id: new-holland
+    name: Новая Голландия
+    category: креативное пространство
+    address: "наб. Адмиралтейского канала, 2"
+    tags: [выставки, концерты, лекции, маркеты]
+    events_url: "https://www.newhollandsp.ru/events/all-events"
+    sources:
+      - {type: vk, url: "https://vk.com/newhollandsp"}
+      - {type: website, url: "https://www.newhollandsp.ru/", verify: true}
+      - {type: telegram, url: "https://t.me/newhollandsp"}
+    status: needs_verification
+
+  - id: berthold-centre
+    name: Бертгольд Центр
+    category: креативное пространство
+    address: "Гражданская ул., 13-15"
+    tags: [мастерские, лекции, маркеты]
+    sources:
+      - {type: vk, url: "https://vk.com/bertholdcentre"}
+    status: active
+
+  - id: brusnitsyn
+    name: Культурный квартал Брусницын
+    category: креативное пространство
+    address: "Кожевенная линия, 30"
+    tags: [выставки, лекции, маркеты]
+    events_url: "https://brusnitsyn.spb.ru/rez_all"
+    sources:
+      - {type: website, url: "https://brusnitsyn.spb.ru/", verify: true}
+      - {type: vk, url: "https://vk.com/brusnitsyn_spb"}
+      - {type: telegram, url: "https://t.me/brusnitsyn_spb"}
+    status: needs_verification
+
+  - id: nikolskie-ryady
+    name: Никольские ряды
+    category: креативное пространство
+    address: "Садовая ул., 62"
+    tags: [маркеты, фестивали, выставки]
+    sources:
+      - {type: vk, url: "https://vk.com/sadovaya62"}
+    status: active
+
+  - id: third-place
+    name: Третье место
+    category: креативное пространство
+    address: "Литейный просп., 62"
+    tags: [лекции, выставки, концерты]
+    sources:
+      - {type: website, url: "https://third-place.ru/", verify: true}
+    status: dead
+
+  - id: vavilov-loft
+    name: Вавилов Лофт
+    category: креативное пространство
+    address: "Кадетская линия, 5, корп. 2Д"
+    tags: [мастерские, маркеты, выставки]
+    sources:
+      - {type: vk, url: "https://vk.com/vavilovloft"}
+    status: active
+
+  - id: seno
+    name: СЕНО
+    category: креативное пространство
+    address: "Гороховая ул., 49Б"
+    tags: [лекции, выставки, маркеты]
+    sources:
+      - {type: vk, url: "https://vk.com/senospace", verify: true}
+    status: dead
+
+  - id: etagi
+    name: Лофт Проект Этажи
+    category: креативное пространство
+    address: "Лиговский просп., 74"
+    tags: [выставки, маркеты, лекции]
+    events_url: "https://www.loftprojectetagi.ru/visitors/mesta-vystavok-i-festivaley"
+    sources:
+      - {type: website, url: "https://www.loftprojectetagi.ru/", verify: true}
+    status: needs_verification
+
+  - id: levashovsky
+    name: Левашовский хлебозавод
+    category: креативное пространство
+    address: "Барочная ул., 4А"
+    tags: [выставки, концерты, лекции]
+    events_url: "https://levashovsky.ru/afisha"
+    sources:
+      - {type: website, url: "https://levashovsky.ru/"}
+      - {type: vk, url: "https://vk.com/levashovsky"}
+      - {type: telegram, url: "https://t.me/levashovsky"}
+    status: active
+
+  - id: open-workshops
+    name: Открытые мастерские
+    category: креативное пространство
+    address: "Лиговский просп., 99"
+    tags: [мастерские, выставки, лекции]
+    sources:
+      - {type: vk, url: "https://vk.com/openmasters", verify: true}
+    status: dead
+
+  # ---------- музей ----------
+
+  - id: artmuza
+    name: Артмуза
+    category: музей
+    address: "13-я линия В. О., 70-72"
+    tags: [выставки, галереи, мастерские]
+    events_url: "https://www.artmuza.spb.ru/events/novosti"
+    sources:
+      - {type: website, url: "https://www.artmuza.spb.ru/", verify: true}
+    status: needs_verification
+
+  - id: erarta
+    name: Музей современного искусства Эрарта
+    category: музей
+    address: "29-я линия В. О., 2"
+    tags: [выставки, современное искусство]
+    events_url: "https://www.erarta.com/ru/museum/new-exhibitions"
+    sources:
+      - {type: website, url: "https://www.erarta.com/"}
+      - {type: vk, url: "https://vk.com/erarta"}
+      - {type: telegram, url: "https://t.me/erarta_museum"}
+    status: active
+
+  - id: manege
+    name: ЦВЗ Манеж
+    category: музей
+    address: "Исаакиевская пл., 1"
+    tags: [выставки, современное искусство]
+    events_url: "https://manege.spb.ru/categories/events"
+    sources:
+      - {type: website, url: "https://manege.spb.ru/", verify: true}
+      - {type: vk, url: "https://vk.com/manegepetersburg"}
+      - {type: telegram, url: "https://t.me/spbmanege"}
+    status: needs_verification
+
+  - id: pushkinskaya-10
+    name: Арт-центр Пушкинская-10
+    category: музей
+    address: "Лиговский просп., 53"
+    tags: [выставки, современное искусство, музыка]
+    events_url: "https://p-10.ru/season/actual"
+    sources:
+      - {type: website, url: "https://p-10.ru/"}
+      - {type: vk, url: "https://vk.com/pushkinskaya10"}
+      - {type: telegram, url: "https://t.me/pushkinskaya10"}
+    status: active
+
+  - id: mispxx
+    name: Музей искусства Санкт-Петербурга XX-XXI веков (МИСП)
+    category: музей
+    address: "наб. канала Грибоедова, 103"
+    tags: [выставки, современное искусство]
+    events_url: "https://mispxx-xxi.ru/exhibitions"
+    sources:
+      - {type: website, url: "https://mispxx-xxi.ru/"}
+    status: active
+
+  - id: novy-museum
+    name: Новый музей современного искусства
+    category: музей
+    address: "6-я линия В. О., 29"
+    tags: [выставки, современное искусство]
+    events_url: "https://www.novymuseum.ru/events"
+    sources:
+      - {type: website, url: "https://www.novymuseum.ru/"}
+      - {type: telegram, url: "https://t.me/novymuseum"}
+    status: active
+
+  # ---------- галерея ----------
+
+  - id: marina-gisich
+    name: Marina Gisich Gallery
+    category: галерея
+    address: "наб. реки Фонтанки, 121"
+    tags: [выставки, современное искусство]
+    events_url: "https://www.gisich.com/ru/exhibitions"
+    sources:
+      - {type: website, url: "https://www.gisich.com/"}
+      - {type: telegram, url: "https://t.me/marinagisichgallery"}
+    status: active
+
+  - id: myth-gallery
+    name: MYTH Gallery
+    category: галерея
+    address: "ул. Чайковского, 61"
+    tags: [выставки, современное искусство]
+    events_url: "https://mythgallery.art/exibitions"
+    sources:
+      - {type: website, url: "https://mythgallery.art/"}
+      - {type: vk, url: "https://vk.com/mythgallery"}
+      - {type: telegram, url: "https://t.me/mythgallery"}
+    status: active
+
+  - id: anna-nova
+    name: Anna Nova Gallery
+    category: галерея
+    address: "ул. Жуковского, 28"
+    tags: [выставки, современное искусство]
+    events_url: "https://www.annanova-gallery.ru/exhibitions"
+    sources:
+      - {type: website, url: "https://www.annanova-gallery.ru/"}
+      - {type: vk, url: "https://vk.com/annanovagallery"}
+      - {type: telegram, url: "https://t.me/anna_nova_gallery"}
+    status: active
+
+  - id: kgallery
+    name: KGallery
+    category: галерея
+    address: "наб. реки Фонтанки, 24"
+    tags: [выставки, искусство]
+    events_url: "https://kgallery.ru/exhibitions"
+    sources:
+      - {type: website, url: "https://kgallery.ru/"}
+      - {type: vk, url: "https://vk.com/kgallery_saintp"}
+    status: active
+
+  - id: eggz-gallery
+    name: Eggz Gallery
+    category: галерея
+    address: "Галерная ул., 19"
+    tags: [выставки, современное искусство]
+    events_url: "https://www.eggzgallery.ru/moment"
+    sources:
+      - {type: website, url: "https://www.eggzgallery.ru/"}
+    status: active
+
+  - id: didi-gallery
+    name: DiDi Gallery
+    category: галерея
+    address: "Большой просп. В. О., 62"
+    tags: [выставки, современное искусство]
+    events_url: "https://didigallery.com/ru/exhibitions"
+    sources:
+      - {type: website, url: "https://didigallery.com/ru"}
+      - {type: vk, url: "https://vk.com/didi_art_gallery"}
+      - {type: telegram, url: "https://t.me/didiartgallery"}
+    status: active
+
+  - id: zifergauz
+    name: Галерея Цифергауз
+    category: галерея
+    address: "наб. Адмиралтейского канала, 2И"
+    tags: [выставки, дизайн, цифровое искусство]
+    sources:
+      - {type: website, url: "https://zifergauz.ru/"}
+    status: active
+
+  # ---------- стрит-арт ----------
+
+  - id: street-art-museum
+    name: Музей стрит-арта
+    category: стрит-арт
+    address: "шоссе Революции, 84"
+    tags: [стрит-арт, выставки, фестивали]
+    events_url: "https://streetartmuseum.ru/category/meropriyatiya"
+    sources:
+      - {type: website, url: "https://streetartmuseum.ru/"}
+      - {type: vk, url: "https://vk.com/streetartmuseum"}
+      - {type: telegram, url: "https://t.me/streetartmuseum"}
+    status: active
+
+  # ---------- дизайн-центр ----------
+
+  - id: daa-expo
+    name: Design District DAA
+    category: дизайн-центр
+    address: "Красногвардейская пл., 3Е"
+    tags: [дизайн, выставки, маркеты]
+    events_url: "https://daaexpo.ru/afisha"
+    sources:
+      - {type: website, url: "https://daaexpo.ru/", verify: true}
+      - {type: telegram, url: "https://t.me/EventDAAEXPO"}
+    status: needs_verification
+
+  # ---------- образование ----------
+
+  - id: stieglitz-academy
+    name: Академия имени Штиглица (Муха)
+    category: образование
+    address: "Соляной пер., 13"
+    tags: [дизайн, искусство, выставки дипломов]
+    events_url: "https://www.ghpa.ru/nauchnaya-deyatelnost/kongressno-vystavochnye-meropriyatiya"
+    sources:
+      - {type: website, url: "https://www.ghpa.ru/", verify: true}
+      - {type: vk, url: "https://vk.com/stieglitzacademy"}
+      - {type: telegram, url: "https://t.me/stieglitz_academy"}
+    status: needs_verification
+
+  - id: hse-design-spb
+    name: Школа дизайна НИУ ВШЭ - Санкт-Петербург
+    category: образование
+    address: "наб. канала Грибоедова, 123"
+    tags: [дизайн, лекции, выставки]
+    events_url: "https://spb.hse.ru/ba/designs"
+    sources:
+      - {type: website, url: "https://spb.hse.ru/design/", verify: true}
+      - {type: vk, url: "https://vk.com/hsedesignspb"}
+      - {type: telegram, url: "https://t.me/hsedesignspb"}
+    status: needs_verification

@@ -1,0 +1,32 @@
+name: Дайджест (ежедневно)
+
+# Запуск каждый день в 05:00 UTC = 08:00 по Москве.
+# Плюс кнопка ручного запуска во вкладке Actions.
+on:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Установить зависимости
+        run: pip install -r requirements.txt
+
+      - name: Собрать и отправить дайджест
+        env:
+          LLM_PROVIDER: gigachat
+          GIGACHAT_CREDENTIALS: ${{ secrets.GIGACHAT_CREDENTIALS }}
+          GIGACHAT_SCOPE: GIGACHAT_API_PERS
+          GIGACHAT_MODEL: GigaChat
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        # Если ключа GigaChat нет - агент сам перейдет в режим ссылок.
+        run: python agents/agent2_digest.py --mode daily --send

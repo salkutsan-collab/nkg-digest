@@ -1,0 +1,12 @@
+# секреты - никогда в репозиторий
+.env
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# рабочие выгрузки
+data/agent1_report.md
+digests/

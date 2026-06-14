@@ -1,0 +1,44 @@
+name: Обзор недели и обновление базы
+
+# Каждое воскресенье в 06:00 UTC = 09:00 по Москве.
+on:
+  schedule:
+    - cron: "0 6 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write   # чтобы агент 1 мог сохранить обновленную базу обратно в репозиторий
+
+jobs:
+  weekly:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Установить зависимости
+        run: pip install -r requirements.txt
+
+      - name: Обновить базу участников (агент 1)
+        run: python agents/agent1_registry.py --apply
+
+      - name: Сохранить изменения базы в репозиторий
+        run: |
+          git config user.name "nkg-bot"
+          git config user.email "bot@nkg.local"
+          git add data/participants.yaml
+          git diff --staged --quiet || git commit -m "Авто-обновление базы участников (агент 1)"
+          git push
+
+      - name: Собрать и отправить обзор недели (агент 2)
+        env:
+          LLM_PROVIDER: gigachat
+          GIGACHAT_CREDENTIALS: ${{ secrets.GIGACHAT_CREDENTIALS }}
+          GIGACHAT_SCOPE: GIGACHAT_API_PERS
+          GIGACHAT_MODEL: GigaChat
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python agents/agent2_digest.py --mode weekly --send
