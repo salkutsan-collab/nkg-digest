@@ -24,9 +24,13 @@ import argparse
 import concurrent.futures as cf
 from urllib.parse import urljoin, urlparse
 
+import json
+
 import requests
 from bs4 import BeautifulSoup
 from ruamel.yaml import YAML
+
+import llm
 
 # Шапка файла базы (комментарии сверху)
 HEADER = """\
@@ -267,6 +271,143 @@ def read_inbox():
     return lines
 
 
+INBOX_TEMPLATE = """\
+# Входящие для агента 1 (правки базы участников)
+
+Пишите сюда обычным текстом, что изменить в базе. Агент 1 прочитает,
+внесет правки в `participants.yaml` и очистит этот файл.
+
+Примеры (просто текстом, в свободной форме):
+
+- добавь галерею Name Gallery, сайт name-gallery.ru
+- добавь мастерскую такую-то на Васильевском
+- у Севкабеля поменялся адрес страницы афиши
+- убери из базы DiDi Gallery
+
+---
+<!-- Пишите ваши правки ниже этой линии -->
+"""
+
+_TRANSLIT = {
+    "а": "a", "б": "b", "в": "v", "г": "g", "д": "d", "е": "e", "ж": "zh",
+    "з": "z", "и": "i", "й": "y", "к": "k", "л": "l", "м": "m", "н": "n",
+    "о": "o", "п": "p", "р": "r", "с": "s", "т": "t", "у": "u", "ф": "f",
+    "х": "h", "ц": "ts", "ч": "ch", "ш": "sh", "щ": "sch", "ы": "y", "э": "e",
+    "ю": "yu", "я": "ya", "ъ": "", "ь": "",
+}
+
+
+def slug(name, taken):
+    """Короткий латинский id из названия, уникальный относительно taken."""
+    s = "".join(_TRANSLIT.get(ch, ch) for ch in str(name).lower())
+    s = re.sub(r"[^a-z0-9]+", "-", s).strip("-")[:30] or "place"
+    base = s
+    i = 2
+    while s in taken:
+        s = f"{base}-{i}"
+        i += 1
+    return s
+
+
+INBOX_SYSTEM = (
+    "Ты помощник, который превращает заметки человека о культурных площадках "
+    "Петербурга в структурированные действия над базой. Отвечай ТОЛЬКО валидным "
+    "JSON-массивом без пояснений."
+)
+
+
+def _parse_actions(raw):
+    m = re.search(r"\[.*\]", raw, re.S)
+    if not m:
+        return []
+    try:
+        data = json.loads(m.group(0))
+    except Exception:
+        return []
+    return data if isinstance(data, list) else []
+
+
+def _apply_fields(p, a):
+    """Записать в участника поля из действия (только заданные)."""
+    if a.get("category"):
+        p["category"] = a["category"]
+    if a.get("address"):
+        p["address"] = a["address"]
+    if a.get("events_url"):
+        p["events_url"] = a["events_url"]
+    if a.get("tags"):
+        p["tags"] = a["tags"]
+    if a.get("website"):
+        have = {s.get("url", "").rstrip("/").lower() for s in p.get("sources", [])}
+        if a["website"].rstrip("/").lower() not in have:
+            p.setdefault("sources", []).append(
+                {"type": "website", "url": a["website"], "verify": True})
+
+
+def apply_inbox(base, lines):
+    """Применить текстовые правки из входящих моделью. Возвращает (счетчик, лог)."""
+    if not lines:
+        return 0, []
+    cats = ("креативное пространство | музей | галерея | стрит-арт | дизайн-центр | "
+            "образование | фестиваль | театр | кино | гастрономия")
+    prompt = (
+        "Вот заметки человека о площадках (по одной в строке). Для каждой определи "
+        "действие над базой и верни JSON-массив объектов с полями:\n"
+        '  "action"     - "add" | "update" | "remove",\n'
+        '  "name"       - название площадки,\n'
+        f'  "category"   - одна из: {cats} (или null),\n'
+        '  "address"    - адрес или null,\n'
+        '  "events_url" - страница афиши/событий или null,\n'
+        '  "website"    - сайт или null,\n'
+        '  "tags"       - массив тем или [].\n'
+        "Заметки:\n" + "\n".join(f"- {x}" for x in lines)
+    )
+    try:
+        raw = llm.chat(INBOX_SYSTEM, prompt, temperature=0.1, max_tokens=1500)
+    except Exception as e:
+        print(f"  входящие: ошибка модели: {str(e)[:120]}")
+        return 0, []
+    actions = _parse_actions(raw)
+    by_name = {p["name"].lower(): p for p in base["participants"]}
+    taken = {p["id"] for p in base["participants"]}
+    n, log = 0, []
+    for a in actions:
+        if not isinstance(a, dict):
+            continue
+        act = (a.get("action") or "").lower()
+        name = (a.get("name") or "").strip()
+        if not name:
+            continue
+        target = by_name.get(name.lower())
+        if act == "remove":
+            if target:
+                base["participants"].remove(target)
+                n += 1
+                log.append(f"убрана: {name}")
+            continue
+        if act == "update" and target:
+            _apply_fields(target, a)
+            n += 1
+            log.append(f"обновлена: {name}")
+            continue
+        # add (или update несуществующей -> добавляем)
+        pid = slug(name, taken)
+        taken.add(pid)
+        p = {"id": pid, "name": name, "category": a.get("category") or "галерея",
+             "tags": [], "sources": [], "status": "needs_verification"}
+        _apply_fields(p, a)
+        base["participants"].append(p)
+        by_name[name.lower()] = p
+        n += 1
+        log.append(f"добавлена: {name} (id {pid})")
+    return n, log
+
+
+def clear_inbox():
+    with open(INBOX_PATH, "w", encoding="utf-8") as fh:
+        fh.write(INBOX_TEMPLATE)
+
+
 def write_report(findings, inbox, applied):
     out = []
     out.append("# Отчет агента 1 (реестр НКГ)\n")
@@ -307,11 +448,12 @@ def write_report(findings, inbox, applied):
 
     out.append("\n## Входящие (правки от человека)\n")
     if inbox:
-        out.append("Найдены строки во входящих. Для автоприменения нужен ключ ANTHROPIC_API_KEY (этап 2):\n")
+        out.append("Найдены строки во входящих. Для автоприменения нужен ключ модели "
+                   "(запустите с --apply при заданном ключе):\n")
         for s in inbox:
             out.append(f"- {s}")
     else:
-        out.append("Пусто.")
+        out.append("Пусто или уже применено.")
 
     with open(REPORT_PATH, "w", encoding="utf-8") as fh:
         fh.write("\n".join(out) + "\n")
@@ -383,10 +525,31 @@ def main():
         sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true", help="внести безопасные правки в базу")
+    ap.add_argument("--inbox-only", action="store_true",
+                    help="только применить входящие моделью, без проверки ссылок")
     ap.add_argument("--workers", type=int, default=8)
     args = ap.parse_args()
 
     base = load_base(BASE_PATH)
+
+    # быстрый режим: только применить текстовые правки из входящих
+    if args.inbox_only:
+        inbox = read_inbox()
+        if not inbox:
+            print("Входящие пусты.")
+            return
+        if not llm.available():
+            print("Нет ключа модели - не могу разобрать входящие.")
+            return
+        n, log = apply_inbox(base, inbox)
+        for line in log:
+            print("  -", line)
+        if n:
+            dump_base(base, BASE_PATH)
+            clear_inbox()
+        print(f"Входящие применены: {n}. Площадок в базе: {len(base['participants'])}")
+        return
+
     participants = list(base["participants"])
     print(f"Участников в базе: {len(participants)}")
     print("Проверяю ссылки...")
@@ -400,17 +563,25 @@ def main():
                   + ("  [редирект]" if f["redirects"] else "")
                   + ("  [+соцсети]" if (f['found']['vk'] or f['found']['telegram']) else ""))
 
+    inbox = read_inbox()
     applied = None
     if args.apply:
         applied = apply_fixes(base, findings)
+        if inbox and llm.available():
+            n, log = apply_inbox(base, inbox)
+            for line in log:
+                print("  входящие:", line)
+            if n:
+                clear_inbox()
+                inbox = []  # уже применили
+            print(f"Из входящих применено правок: {n}")
+        elif inbox:
+            print("Во входящих есть строки, но нет ключа модели - пропускаю.")
         dump_base(base, BASE_PATH)
-        print(f"Внесено правок в базу: {applied}")
+        print(f"Внесено правок в базу (ссылки): {applied}")
 
-    inbox = read_inbox()
     write_report(findings, inbox, applied)
     print(f"Отчет: {REPORT_PATH}")
-    if inbox:
-        print(f"Во входящих {len(inbox)} строк(и) - обработка текстовых правок будет на этапе 2 (с ключом модели).")
 
 
 if __name__ == "__main__":
