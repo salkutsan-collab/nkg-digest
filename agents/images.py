@@ -7,7 +7,7 @@
 Картинки потом показываются владельцу на одобрение, так что неточность не страшна.
 """
 
-from urllib.parse import urljoin, urlparse, urlsplit, urlunsplit, quote
+from urllib.parse import urljoin, urlparse, urlsplit, urlunsplit, quote, unquote
 
 import requests
 from bs4 import BeautifulSoup
@@ -89,14 +89,41 @@ def find_person_images(name, max_works=4):
     return {"portrait": portrait, "works": works, "title": title}
 
 
+# Разделы-афиши: у таких страниц og:image - дежурный баннер, не относящийся
+# к конкретному событию. Если ссылка ведёт сюда, картинку не берём.
+LISTING_SECTIONS = (
+    "exhibitions", "events", "afisha", "meropriyatiya", "meropriatiya",
+    "programma", "program", "calendar", "schedule", "raspisanie",
+    "news", "novosti", "sobytiya", "vystavki", "posters", "poster", "afisha",
+)
+
+
+def _is_listing_page(url):
+    """Ссылка ведёт на общий раздел (афишу), а не на конкретное событие?
+    Корень сайта или один сегмент-раздел (.../exhibitions) - это афиша."""
+    try:
+        path = urlparse(url).path.strip("/").lower()
+    except Exception:
+        return False
+    if not path:
+        return True  # корень сайта
+    segments = [s for s in path.split("/") if s]
+    # один сегмент и это известное название раздела (множественное/индексное)
+    return len(segments) == 1 and segments[0] in LISTING_SECTIONS
+
+
 def find_page_image(url):
     """Главная картинка со страницы события и название источника.
 
     Возвращает (image_url|None, source_name). Картинку берём из og:image
     (или twitter:image), источник - из og:site_name или домена сайта.
+    Для страниц-афиш (раздел, а не конкретное событие) картинку не берём -
+    там висит дежурный баннер, не относящийся к событию.
     """
     if not url:
         return None, None
+    if _is_listing_page(url):
+        return None, _domain(url)
     try:
         r = requests.get(url, headers=HEADERS, timeout=20)
         soup = BeautifulSoup(r.text, "html.parser")
@@ -132,12 +159,14 @@ def _encode(u):
 
 
 def _usable_image(u):
-    """Годится ли картинка для отправки (http, не пиксель/логотип/data)."""
+    """Годится ли картинка для отправки (http, не пиксель/логотип/баннер)."""
     if not u or not u.lower().startswith("http"):
         return False
-    low = u.lower()
+    low = unquote(u).lower()  # раскодируем кириллицу в имени файла
     bad = ("mc.yandex", "/watch", "pixel", "spacer", "1x1", "blank",
-           "logo", "icon", "sprite", "favicon", "counter", ".svg")
+           "logo", "icon", "sprite", "favicon", "counter", ".svg",
+           # дежурные заглавные баннеры (не относятся к конкретному событию)
+           "главн", "glavn", "banner", "slider", "hero", "заглав", "zaglav")
     if any(b in low for b in bad):
         return False
     return any(ext in low for ext in (".jpg", ".jpeg", ".png", ".webp", ".gif"))
