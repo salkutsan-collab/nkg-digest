@@ -204,10 +204,20 @@ participants:
     category: музей
     address: "6-я линия В. О., 29"
     tags: [выставки, современное искусство]
-    events_url: "https://www.novymuseum.ru/events"
+    events_url: "https://www.novymuseum.ru/exch/"
     sources:
       - {type: website, url: "https://www.novymuseum.ru/"}
       - {type: telegram, url: "https://t.me/novymuseum"}
+    status: active
+
+  - id: faberge-museum
+    name: Музей Фаберже
+    category: музей
+    address: "наб. реки Фонтанки, 21"
+    tags: [выставки, искусство, музей]
+    events_url: "https://fabergemuseum.ru/sobyitiya/vyistavki/"
+    sources:
+      - {type: website, url: "https://fabergemuseum.ru/"}
     status: active
 
   # ---------- галерея ----------

@@ -76,6 +76,9 @@ def event_line(e):
     line = f"- {prefix}{title_md} - {e['_participant']}"
     if place and place != e["_participant"]:
         line += f" ({place})"
+    about = (e.get("about") or "").strip()
+    if about:
+        line += f"\n  {about}"
     return line
 
 
@@ -108,17 +111,20 @@ def render_events(events, start, end):
             till = f" (до {de.day} {a2.MONTHS[de.month]})" if de else ""
             url = e.get("_url")
             title = f"[{e['title']}]({url})" if url else e["title"]
-            lines.append(f"- {title}{till} - {e['_participant']}")
+            row = f"- {title}{till} - {e['_participant']}"
+            about = (e.get("about") or "").strip()
+            if about:
+                row += f"\n  {about}"
+            lines.append(row)
         lines.append("")
     return lines
 
 
-def build_post(title, start, end, sections, intro=None, streetart_md=None):
+def build_post(title, start, end, sections, subtitle=None, streetart_md=None):
     head = f"{start.day} {a2.MONTHS[start.month]} - {end.day} {a2.MONTHS[end.month]}"
-    lines = [f"# {title}", "", f"_{head}_", ""]
+    tag = f"{subtitle} · {head}" if subtitle else head
+    lines = [f"# {title}", "", f"_{tag}_", ""]
     total = sum(len(evs) for _, evs in sections)
-    if intro:
-        lines += [intro.strip(), ""]
     if total == 0 and not streetart_md:
         lines += ["По этой теме на ближайшие дни событий не нашлось.", ""]
         return "\n".join(lines)
@@ -150,8 +156,60 @@ def filter_types(events, types):
     return [e for e in events if (e.get("type") or "другое") in keep]
 
 
+GASTRO_WORDS = ("гастро", "кухн", "еда", "фуд", "кофе", "вино", "ужин",
+                "дегустац", "ресторан", "завтрак", "напитк", "food")
+
+
 def is_gastro(e):
-    return e.get("type") == "гастро" or "гастроном" in (e.get("_category") or "")
+    if e.get("type") == "гастро" or "гастроном" in (e.get("_category") or ""):
+        return True
+    text = (e.get("title", "") + " " + (e.get("about") or "")).lower()
+    return any(w in text for w in GASTRO_WORDS)
+
+
+def relevance(e):
+    r = e.get("relevance")
+    return r if isinstance(r, (int, float)) else 2
+
+
+def rank_and_cap(events, limit):
+    """Сначала самые релевантные теме, затем по дате. Не больше limit штук."""
+    ranked = sorted(events, key=lambda e: (-relevance(e),
+                    a2._date(e.get("date_start")) or dt.date.max))
+    return ranked[:limit]
+
+
+HEADLINE_SYSTEM = (
+    "Ты редактор культурной афиши Петербурга. Придумываешь короткий образный "
+    "заголовок к подборке событий: яркий образ, потом двоеточие, потом 2-3 темы "
+    "дня. Простой деловой русский язык, без пафоса и рекламных слов (не пиши "
+    "'праздник', 'не пропустите', 'настоящий'), без жаргона и англицизмов, без "
+    "буквы е с точками и без длинного тире. Одна строка, не длиннее 9 слов. "
+    "Только сам заголовок, без кавычек и пояснений."
+)
+
+
+def make_headline(events, theme):
+    if not events:
+        return None
+    titles = "; ".join(f"{e['title']} ({e.get('type', '')})" for e in events[:10])
+    hint = theme.get("intro_hint", "")
+    user = (f"Тема дня: {theme.get('title', '')}. {hint}.\n"
+            f"События: {titles}.\nПридумай образный заголовок в нужном стиле.")
+    try:
+        h = llm.chat(HEADLINE_SYSTEM, user, temperature=0.6, max_tokens=80)
+        return h.strip().strip('"').splitlines()[0].strip().rstrip(" .,;")
+    except Exception:
+        return None
+
+
+def headline_and_subtitle(events, theme, use_llm):
+    """Заголовок-образ + подзаголовок с темой. Если модели нет - тема как заголовок."""
+    if use_llm and events and llm.available():
+        h = make_headline(events, theme)
+        if h:
+            return h, theme.get("title")
+    return theme.get("title", "Афиша НКГ"), None
 
 
 # ---------- режимы ----------
@@ -179,7 +237,17 @@ def run_events(theme, today, use_llm, save_seen=False):
         e["_category"] = cat_by_name.get(e["_participant"], "")
     events = filter_types(events, theme.get("event_types") or [])
 
-    # копим персон недели (для субботы)
+    # фильтр по релевантности теме (для театров/кино - только про дизайн и искусство)
+    minrel = theme.get("min_relevance", 0)
+    if minrel:
+        events = [e for e in events if relevance(e) >= minrel]
+
+    # ранжируем по релевантности и оставляем не больше лимита
+    limit = load_themes().get("meta", {}).get("limit_daily", 10)
+    events = rank_and_cap(events, limit)
+    print(f"После отбора и лимита ({limit}): событий {len(events)}")
+
+    # копим персон недели (для субботы) - из того, что реально вошло в пост
     try:
         import agent4_person
         persons = [name for e in events for name in (e.get("persons") or [])]
@@ -195,14 +263,14 @@ def run_events(theme, today, use_llm, save_seen=False):
     else:
         sections = [(None, events)]
 
-    intro = a2.maybe_intro(events, start, end, "daily") if (use_llm and events) else None
+    title, subtitle = headline_and_subtitle(events, theme, use_llm)
 
     streetart_md = None
     if theme.get("include_streetart"):
         streetart_md = collect_streetart(use_llm, save_seen=save_seen)
 
-    return build_post(theme.get("title", "Афиша НКГ"), start, end,
-                      sections, intro=intro, streetart_md=streetart_md)
+    return build_post(title, start, end, sections,
+                      subtitle=subtitle, streetart_md=streetart_md)
 
 
 def collect_streetart(use_llm, save_seen=False):
@@ -253,9 +321,11 @@ def run_weekly_all(theme, today, use_llm):
     if use_llm and not llm.available():
         use_llm = False
     events = a2.collect(participants, start, end, use_llm=use_llm) if use_llm else []
-    intro = a2.maybe_intro(events, start, end, "weekly") if (use_llm and events) else None
-    return build_post(theme.get("title", "Следующая неделя"), start, end,
-                      [(None, events)], intro=intro)
+    limit = load_themes().get("meta", {}).get("limit_weekly", 20)
+    events = rank_and_cap(events, limit)
+    print(f"После отбора и лимита ({limit}): событий {len(events)}")
+    title, subtitle = headline_and_subtitle(events, theme, use_llm)
+    return build_post(title, start, end, [(None, events)], subtitle=subtitle)
 
 
 # ---------- самопроверка ----------
@@ -273,15 +343,18 @@ def self_test():
     print("\nПример поста (понедельник, без сети) - формат со ссылками:")
     sample = [
         {"title": "Город как холст", "type": "выставка", "date_start": "2026-05-20",
-         "date_end": "2026-06-30", "_participant": "Музей стрит-арта",
+         "date_end": "2026-06-30", "_participant": "Музей стрит-арта", "relevance": 5,
+         "about": "Большая выставка про историю петербургского уличного искусства.",
          "_url": "https://streetartmuseum.ru/category/meropriyatiya"},
         {"title": "Новая графика", "type": "выставка", "date_start": "2026-06-16",
-         "time": "12:00", "_participant": "MYTH Gallery",
+         "time": "12:00", "_participant": "MYTH Gallery", "relevance": 5,
+         "about": "Молодые художники показывают эксперименты с печатной графикой.",
          "_url": "https://mythgallery.art/exibitions"},
     ]
-    md = build_post("Понедельник: стрит-арт, выставки и галереи",
+    md = build_post("Город как холст: стрит-арт и новая графика недели",
                     dt.date(2026, 6, 15), dt.date(2026, 6, 21),
                     [(None, sample)],
+                    subtitle="Понедельник: стрит-арт, выставки и галереи",
                     streetart_md="## Новое на стенах города\n\n- Новый мурал в Купчино "
                                  "- [ЛЕНСТРИТ](https://t.me/lenstreet/1)")
     print("\n" + md)
