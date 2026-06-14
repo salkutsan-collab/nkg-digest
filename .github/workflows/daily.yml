@@ -43,6 +43,7 @@ jobs:
           for f in data/streetart_seen.json data/person_tally.json data/person_choice.json data/preferences.md; do
             [ -f "$f" ] && git add "$f"
           done
+          [ -d data/archive ] && git add data/archive
           if git diff --cached --quiet; then
             echo "Память не менялась - коммит не нужен."
           else

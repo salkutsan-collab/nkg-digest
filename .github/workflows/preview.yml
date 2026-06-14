@@ -42,6 +42,7 @@ jobs:
           for f in data/preview.json data/person_choice.json data/person_tally.json; do
             [ -f "$f" ] && git add "$f"
           done
+          [ -d data/archive ] && git add data/archive
           if git diff --cached --quiet; then
             echo "Изменений нет."
           else

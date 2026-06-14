@@ -259,6 +259,13 @@ def collect_for_theme(theme, target, use_llm):
     events = sorted(events, key=lambda e: (-relevance(e),
                     a2._date(e.get("date_start")) or dt.date.max))
     print(f"После отбора по теме: событий {len(events)}")
+    # копим всё найденное в архив (для аналитики за месяц/год)
+    try:
+        import archive
+        added = archive.record_found(events, theme.get("label", ""))
+        print(f"  в архив добавлено новых: {added}")
+    except Exception as ex:
+        print(f"  (архив не записан: {str(ex)[:80]})")
     return events, start, end
 
 
@@ -277,6 +284,13 @@ def build_events_post(theme, ranked, start, end, selection, use_llm, today, save
         agent4_person.record_events(chosen, today)
     except Exception as ex:
         print(f"  (персоны не записаны: {str(ex)[:80]})")
+
+    # отметить в архиве, что эти события попали в пост
+    try:
+        import archive
+        archive.mark_published(chosen, theme.get("label", ""))
+    except Exception as ex:
+        print(f"  (архив publish не обновлён: {str(ex)[:80]})")
 
     if theme.get("gastronomy"):
         gastro = [e for e in chosen if is_gastro(e)]
