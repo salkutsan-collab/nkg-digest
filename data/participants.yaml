@@ -314,6 +314,16 @@ participants:
       - {type: telegram, url: "https://t.me/EventDAAEXPO"}
     status: needs_verification
 
+  - id: koordinata
+    name: Координата
+    category: дизайн-центр
+    address: "Вознесенский просп., 44-46"
+    tags: [дизайн, выставки, кураторские проекты]
+    events_url: "https://www.koordinata.space/"
+    sources:
+      - {type: website, url: "https://www.koordinata.space/", verify: true}
+    status: needs_verification
+
   # ---------- образование ----------
 
   - id: stieglitz-academy

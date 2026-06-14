@@ -19,6 +19,13 @@ Telegram), и страницей афиши `events_url`.
 (что, когда, где), собирает дайджест и кладет в `digests/`.
 Отправка в Telegram - следующий шаг.
 
+**Агент 3 - «Стрит-арт радар»** ([`agents/agent3_streetart.py`](agents/agent3_streetart.py)).
+Следит за Telegram-каналами про уличное искусство (список -
+[`data/streetart_sources.yaml`](data/streetart_sources.yaml)), ищет новости о новых
+муралах, граффити и арт-объектах Петербурга, отсеивает лишнее моделью и собирает
+блок «Новое на стенах города». Помнит показанное в `data/streetart_seen.json`,
+чтобы не повторяться. Каналы читаются через веб-витрину `t.me/s/<канал>` без токена.
+
 **Модель** - через [`agents/llm.py`](agents/llm.py). По умолчанию GigaChat
 (оплата в рублях), запасной вариант - Anthropic. Ключи берутся из `.env`.
 
@@ -42,6 +49,11 @@ py agents/agent2_digest.py --self-test
 py agents/agent2_digest.py --no-llm
 # полный сбор моделью (нужен ключ GigaChat в .env)
 py agents/agent2_digest.py
+
+# агент 3: стрит-арт радар
+py agents/agent3_streetart.py --self-test       # формат на примере, без сети
+py agents/agent3_streetart.py --no-llm --days 14 # только по словам-признакам
+py agents/agent3_streetart.py --send             # с моделью, отправить находки в канал
 ```
 
 ## Ключ модели (YandexGPT)
@@ -85,6 +97,7 @@ py agents/agent2_digest.py --no-llm --send   # собрать и сразу от
 - [x] Отправка в Telegram (код готов; нужен бот + канал)
 - [ ] Ключ YandexGPT -> включить автосбор событий
 - [ ] Расписание GitHub Actions (день/неделя)
+- [x] Агент 3: стрит-арт радар (муралы и арт-объекты из Telegram-каналов)
 - [ ] Умные правки «входящих» моделью; еженедельный обзор «что было»
 
 ## Правила стиля текстов
