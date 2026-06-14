@@ -210,12 +210,13 @@ def make_headline(events, theme):
 
 
 def headline_and_subtitle(events, theme, use_llm):
-    """Заголовок-образ + подзаголовок с темой. Если модели нет - тема как заголовок."""
+    """Заголовок-образ + подзаголовок с темой (без дня недели)."""
+    label = theme.get("label") or theme.get("title", "Афиша НКГ")
     if use_llm and events and llm.available():
         h = make_headline(events, theme)
         if h:
-            return h, theme.get("title")
-    return theme.get("title", "Афиша НКГ"), None
+            return h, label
+    return label, None
 
 
 # ---------- режимы ----------
@@ -226,7 +227,8 @@ def theme_window(theme, target):
         return next_week(target)
     if theme.get("weekend_only"):
         return upcoming_weekend(target)
-    return target, target + dt.timedelta(days=6)
+    # тематический день - подборка на неделю вперёд от даты выпуска
+    return target, target + dt.timedelta(days=7)
 
 
 def limit_for(theme):
@@ -495,7 +497,7 @@ def self_test():
     md = build_post("Город как холст: стрит-арт и новая графика недели",
                     dt.date(2026, 6, 15), dt.date(2026, 6, 21),
                     [(None, sample)],
-                    subtitle="Понедельник: стрит-арт, выставки и галереи",
+                    subtitle="Стрит-арт, выставки и галереи",
                     streetart_md="## Новое на стенах города\n\n- Новый мурал в Купчино "
                                  "- [ЛЕНСТРИТ](https://t.me/lenstreet/1)")
     print("\n" + md)
