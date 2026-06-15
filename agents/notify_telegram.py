@@ -145,30 +145,42 @@ def latest_reply_from_owner(allowed=("1", "2", "3"), since_id=0):
 
 
 def send_photos(image_urls, caption=None, chat=None):
-    """Отправить альбом фото (до 10). Подпись - на первом фото.
-    Возвращает True при успехе, False если не получилось (тогда шлите текст)."""
+    """Отправить альбом фото (до 10), ЗАГРУЖАЯ их файлом (Telegram плохо тянет
+    защищённые ссылки сам). Подпись - на первом фото. True при успехе."""
+    import json
+    import images
     token, default_chat = _cfg()
     chat = chat or default_chat
     urls = [u for u in (image_urls or []) if u][:10]
     if not chat or not urls:
         return False
-    if len(urls) == 1:
-        body = {"chat_id": chat, "photo": urls[0]}
-        if caption:
-            body.update({"caption": caption[:1024], "parse_mode": "HTML"})
-        method = "sendPhoto"
-        payload = body
-    else:
-        media = []
-        for i, u in enumerate(urls):
-            item = {"type": "photo", "media": u}
+    blobs = []
+    for u in urls:
+        data, ct = images.download_image(u)
+        if data:
+            ext = "png" if "png" in (ct or "") else "jpg"
+            blobs.append((f"photo{len(blobs)}.{ext}", data))
+    if not blobs:
+        return False
+    try:
+        if len(blobs) == 1:
+            data = {"chat_id": chat}
+            if caption:
+                data.update({"caption": caption[:1024], "parse_mode": "HTML"})
+            r = requests.post(API.format(token=token, method="sendPhoto"),
+                              data=data, files={"photo": blobs[0]}, timeout=120)
+            return bool(r.json().get("ok"))
+        media, files = [], {}
+        for i, blob in enumerate(blobs):
+            key = f"photo{i}"
+            files[key] = blob
+            item = {"type": "photo", "media": f"attach://{key}"}
             if i == 0 and caption:
                 item.update({"caption": caption[:1024], "parse_mode": "HTML"})
             media.append(item)
-        method = "sendMediaGroup"
-        payload = {"chat_id": chat, "media": media}
-    try:
-        r = requests.post(API.format(token=token, method=method), json=payload, timeout=60)
+        r = requests.post(API.format(token=token, method="sendMediaGroup"),
+                          data={"chat_id": chat, "media": json.dumps(media)},
+                          files=files, timeout=120)
         return bool(r.json().get("ok"))
     except Exception:
         return False

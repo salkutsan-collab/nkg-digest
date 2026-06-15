@@ -90,26 +90,52 @@ def send_markdown(md):
     return len(parts)
 
 
+def _upload_image(data, ct):
+    """Загрузить байты картинки в Max: вернуть payload для attachments или None.
+    Поток Max: POST /uploads?type=image -> url -> залить байты -> объект photos."""
+    try:
+        up = requests.post(API.format(method="uploads"), headers=_headers(),
+                           params={"type": "image"}, timeout=30)
+        url = up.json().get("url") if up.status_code == 200 else None
+        if not url:
+            return None
+        fr = requests.post(url, files={"data": ("img", data, ct or "image/jpeg")}, timeout=120)
+        photos = fr.json().get("photos") if fr.status_code == 200 else None
+        return {"type": "image", "payload": {"photos": photos}} if photos else None
+    except Exception:
+        return None
+
+
 def send_photos(image_urls, caption=None, chat=None):
-    """Отправить картинку с подписью. Max принимает фото по внешнему URL.
-    Возвращает True при успехе, False если не вышло (тогда зовущий шлет текст)."""
+    """Отправить фото с подписью, ЗАГРУЖАЯ их файлом (Max не принимает фото по URL).
+    Возвращает True при успехе, False если не вышло (тогда зовущий шлёт текст)."""
+    import images
     token, default_chat = _cfg()
     chat = chat or default_chat
     urls = [u for u in (image_urls or []) if u][:10]
     if not chat or not urls:
         return False
-    attachments = [{"type": "image", "payload": {"url": u}} for u in urls]
+    attachments = []
+    for u in urls:
+        data, ct = images.download_image(u)
+        if not data:
+            continue
+        att = _upload_image(data, ct)
+        if att:
+            attachments.append(att)
+    if not attachments:
+        return False
     body = {"attachments": attachments}
     if caption:
         body.update({"text": caption, "format": "html"})
-    # Max обрабатывает картинку асинхронно - возможна ошибка "не готово", пробуем повторить
-    for attempt in range(4):
+    # Max обрабатывает картинку асинхронно - возможна ошибка "не готово", повторяем
+    for _ in range(5):
         try:
             _post("messages", params={"chat_id": chat}, json=body)
             return True
         except RuntimeError as e:
             if "not.ready" in str(e) or "attachment" in str(e):
-                time.sleep(1.5)
+                time.sleep(2)
                 continue
             print(f"  (Max: фото не ушло: {str(e)[:120]})")
             return False

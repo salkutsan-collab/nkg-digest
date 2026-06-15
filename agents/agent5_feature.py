@@ -340,25 +340,30 @@ def verify_places(draft, provider):
         return ""
 
 
-def feature_images(event, limit=3):
-    """2-3 картинки для зацепления. Сначала - со страницы самого события (промо-кадры
-    выставки), затем добираем фото автора из Википедии, если не хватило."""
-    out = images.page_content_images(event.get("_url"), limit=limit)
-    if len(out) < limit:
-        persons = [p for p in (event.get("persons") or []) if p]
-        if persons:
-            info = images.find_person_images(persons[0])
-            for u in [info.get("portrait")] + info.get("works", []):
-                if u and u not in out:
-                    out.append(u)
-                    if len(out) >= limit:
-                        break
+def feature_images(event, limit=4):
+    """3-4 картинки для зацепа: фото со страницы галереи/выставки + портреты авторов
+    (и куратора, если он указан) из Википедии."""
+    out = list(images.page_content_images(event.get("_url"), limit=limit))
+    for name in [p for p in (event.get("persons") or []) if p][:3]:
+        if len(out) >= limit:
+            break
+        info = images.find_person_images(name)
+        for u in [info.get("portrait")] + (info.get("works") or []):
+            if u and u not in out:
+                out.append(u)
+                if len(out) >= limit:
+                    break
     return out[:limit]
 
 
-def _valid(urls):
-    """Оставить только реально загружающиеся картинки (битые/защищённые отсеять)."""
-    return [u for u in (urls or []) if images.image_loads(u)][:3]
+def _gather_photos(event, raw=""):
+    """Собрать до 4 картинок: найденные моделью + со страницы события + портреты авторов.
+    Отправка сама загрузит их файлом и пропустит нерабочие, поэтому здесь только собираем."""
+    out = []
+    for u in _extract_photos(raw) + feature_images(event):
+        if u and u not in out:
+            out.append(u)
+    return out[:4]
 
 
 def build(event):
@@ -368,11 +373,8 @@ def build(event):
         raw = research_feature(event, prov)
         if raw:
             checked = verify_places(raw, prov) or raw   # проверка мест маршрута перед публикацией
-            photos = _valid(_extract_photos(raw))       # фото берём из исходного ответа
             body = style_clean(_strip_photo_line(checked))
-            if not photos:                              # модель фото не дала - пробуем со страницы
-                photos = _valid(feature_images(event))
-            return body, [], photos
+            return body, [], _gather_photos(event, raw)
         print("  (откат на сбор без веб-поиска)")
     # запасной путь: YandexGPT по странице события + Википедии
     page, venue_about, wiki = gather_sources(event)
@@ -380,7 +382,7 @@ def build(event):
     body = write_post(event, facts, wiki)
     if not body:
         return None, None, None
-    return style_clean(body), wiki, _valid(feature_images(event))
+    return style_clean(body), wiki, _gather_photos(event)
 
 
 def header_caption(event):

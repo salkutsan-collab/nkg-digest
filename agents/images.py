@@ -156,6 +156,22 @@ def _bg_images(html, base_url, limit):
     return out
 
 
+def download_image(url, timeout=25, max_bytes=10_000_000):
+    """Скачать картинку в байты: (data, content_type) или (None, None).
+    Нужно, чтобы загружать фото В мессенджер файлом (по ссылке они тянут плохо)."""
+    try:
+        r = requests.get(url, headers=HEADERS, timeout=timeout)
+        ct = (r.headers.get("Content-Type") or "").lower()
+        if r.status_code != 200 or "image" not in ct:
+            return None, None
+        data = r.content
+        if not data or len(data) > max_bytes:
+            return None, None
+        return data, ct
+    except Exception:
+        return None, None
+
+
 def page_content_images(url, limit=3):
     """Картинки СО СТРАНИЦЫ СОБЫТИЯ для фотозацепа. Сначала пробуем статично; если
     пусто (JS-сайт галереи) - открываем страницу браузером и берём реальную афишу.
