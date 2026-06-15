@@ -40,7 +40,8 @@ WEEKDAY_KEYS = ["monday", "tuesday", "wednesday", "thursday",
 
 # Закрытые/нерабочие площадки - не показываем нигде: ни в событиях, ни в стрит-арт
 # радаре (даже если сторонний канал их упомянёт). Сравнение по подстроке, регистр не важен.
-BLOCKED = ("музей стрит-арта", "streetartmuseum", "street-art-museum", "street art museum")
+BLOCKED = ("музей стрит-арта", "streetartmuseum", "street-art-museum", "street art museum",
+           "лофт-проект ткачи", "лофт проект ткачи", "ткачи")
 
 
 def _is_blocked(*texts):

@@ -212,6 +212,10 @@ RESEARCH_SYSTEM = (
     "(к грубой бетонной скульптуре - конструктивистская архитектура или брутальные "
     "интерьеры рядом; к тихой графике - сады, тихие дворы, букинисты), а не просто "
     "ближайшее кафе. К каждому месту - короткая фраза, почему оно в тему. "
+    "ВАЖНО: рекомендуй ТОЛЬКО места, которые работают СЕЙЧАС (2026) - проверяй это "
+    "поиском. Не предлагай закрытые или давно не работающие пространства (например, "
+    "лофт Ткачи и Музей стрит-арта закрыты - их и подобные не предлагать). Лучше "
+    "меньше мест, но все действующие. "
     "Структура: первая фраза по сути; что за событие и чем интересна площадка; "
     "конкретные работы автора и где их видели; раздел 'Сделать из этого прогулку' "
     "(посмотреть/поесть/сфотографировать рядом, подобранные под стиль автора); "
@@ -250,7 +254,7 @@ def _strip_photo_line(text):
     return "\n".join(out).strip()
 
 
-def _anthropic_research(user):
+def _anthropic_research(user, system=RESEARCH_SYSTEM):
     import anthropic
     client = anthropic.Anthropic()
     model = os.environ.get("FEATURE_MODEL", "claude-sonnet-4-6")
@@ -262,7 +266,7 @@ def _anthropic_research(user):
     text = ""
     for _ in range(5):  # серверный цикл инструментов может вернуть pause_turn - продолжаем
         resp = client.messages.create(
-            model=model, max_tokens=4000, system=RESEARCH_SYSTEM,
+            model=model, max_tokens=4000, system=system,
             tools=tools, messages=messages, thinking={"type": "disabled"},
         )
         if resp.stop_reason == "pause_turn":
@@ -273,12 +277,12 @@ def _anthropic_research(user):
     return text.strip()
 
 
-def _openai_research(user):
+def _openai_research(user, system=RESEARCH_SYSTEM):
     import requests as rq
     key = os.environ["OPENAI_API_KEY"]
     model = os.environ.get("OPENAI_MODEL", "gpt-4o-search-preview")
     body = {"model": model,
-            "messages": [{"role": "system", "content": RESEARCH_SYSTEM},
+            "messages": [{"role": "system", "content": system},
                          {"role": "user", "content": user}],
             "max_tokens": 1500}
     r = rq.post("https://api.openai.com/v1/chat/completions",
@@ -310,6 +314,32 @@ def research_feature(event, provider):
         return ""
 
 
+VERIFY_SYSTEM = (
+    "Ты редактор-фактчекер культурного канала. Тебе дают готовый черновик поста. "
+    "Твоя задача - проверить раздел про прогулку: КАЖДОЕ упомянутое место (музей, "
+    "галерея, кафе, пространство, парк) перепроверь веб-поиском - работает ли оно "
+    "СЕЙЧАС (2026), не закрыто ли, не переехало. Закрытые, несуществующие или "
+    "сомнительные места убери; если осталось мало - замени на соседние, которые "
+    "поиском подтверждены как действующие. Остальной текст (про событие и автора) "
+    "оставь без изменений. Тот же стиль: простой язык, без рекламы, без буквы е с "
+    "точками и без длинного тире. Верни ВЕСЬ пост целиком, в том же формате "
+    "(включая строки 'Источники:' и 'Фото:', если они были)."
+)
+
+
+def verify_places(draft, provider):
+    """Шаг проверки перед публикацией: перепроверить, что места маршрута работают."""
+    user = ("Проверь и при необходимости исправь этот пост (раздел про прогулку - "
+            "убрать закрытые/несуществующие места, оставить только действующие):\n\n" + draft)
+    try:
+        if provider == "openai":
+            return _openai_research(user, system=VERIFY_SYSTEM)
+        return _anthropic_research(user, system=VERIFY_SYSTEM)
+    except Exception as e:
+        print(f"  (проверка маршрута не удалась: {str(e)[:120]})")
+        return ""
+
+
 def feature_images(event, limit=3):
     """2-3 картинки для зацепления. Сначала - со страницы самого события (промо-кадры
     выставки), затем добираем фото автора из Википедии, если не хватило."""
@@ -337,9 +367,10 @@ def build(event):
     if prov in ("openai", "anthropic"):
         raw = research_feature(event, prov)
         if raw:
-            photos = _valid(_extract_photos(raw))    # фото, найденные моделью в вебе
-            body = style_clean(_strip_photo_line(raw))
-            if not photos:                           # модель фото не дала - пробуем со страницы
+            checked = verify_places(raw, prov) or raw   # проверка мест маршрута перед публикацией
+            photos = _valid(_extract_photos(raw))       # фото берём из исходного ответа
+            body = style_clean(_strip_photo_line(checked))
+            if not photos:                              # модель фото не дала - пробуем со страницы
                 photos = _valid(feature_images(event))
             return body, [], photos
         print("  (откат на сбор без веб-поиска)")
