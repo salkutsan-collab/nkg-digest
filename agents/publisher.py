@@ -38,6 +38,15 @@ DIGEST_DIR = os.path.join(ROOT, "digests")
 WEEKDAY_KEYS = ["monday", "tuesday", "wednesday", "thursday",
                 "friday", "saturday", "sunday"]
 
+# Закрытые/нерабочие площадки - не показываем нигде: ни в событиях, ни в стрит-арт
+# радаре (даже если сторонний канал их упомянёт). Сравнение по подстроке, регистр не важен.
+BLOCKED = ("музей стрит-арта", "streetartmuseum", "street-art-museum", "street art museum")
+
+
+def _is_blocked(*texts):
+    blob = " ".join(t for t in texts if t).lower()
+    return any(b in blob for b in BLOCKED)
+
 
 # ---------- конфиг ----------
 
@@ -256,6 +265,9 @@ def collect_for_theme(theme, target, use_llm):
     minrel = theme.get("min_relevance", 0)
     if minrel:
         events = [e for e in events if relevance(e) >= minrel]
+    # выкинуть закрытые площадки (на случай устаревшего списка/предпросмотра)
+    events = [e for e in events
+              if not _is_blocked(e.get("_participant"), e.get("title"), e.get("_url"))]
     events = sorted(events, key=lambda e: (-relevance(e),
                     a2._date(e.get("date_start")) or dt.date.max))
     print(f"После отбора по теме: событий {len(events)}")
@@ -330,18 +342,22 @@ def collect_streetart(use_llm, save_seen=False):
                 items.append(c)
         if save_seen:
             a3.save_seen(seen)
-        if not items:
-            return None
-        lines = ["## Новое на стенах города", ""]
+        rows = []
         for it in items:
+            # не пускаем в радар упоминания закрытых площадок
+            if _is_blocked(it.get("text"), it.get("_channel"), it.get("summary"),
+                           it.get("place"), it.get("url")):
+                continue
             summ = it.get("summary") or a3.first_sentence(it["text"])
             place = it.get("place")
             line = f"- {summ}"
             if place and place.lower() not in summ.lower():
                 line += f" ({place})"
             line += f" - [{it['_channel']}]({it['url']})"
-            lines.append(line)
-        return "\n".join(lines)
+            rows.append(line)
+        if not rows:
+            return None
+        return "\n".join(["## Новое на стенах города", ""] + rows)
     except Exception as ex:
         print(f"  (стрит-арт блок пропущен: {str(ex)[:80]})")
         return None
@@ -596,9 +612,9 @@ def self_test():
     print("\nПример поста (понедельник, без сети) - формат со ссылками:")
     sample = [
         {"title": "Город как холст", "type": "выставка", "date_start": "2026-05-20",
-         "date_end": "2026-06-30", "_participant": "Музей стрит-арта", "relevance": 5,
-         "about": "Большая выставка про историю петербургского уличного искусства.",
-         "_url": "https://streetartmuseum.ru/category/meropriyatiya"},
+         "date_end": "2026-06-30", "_participant": "Marina Gisich Gallery", "relevance": 5,
+         "about": "Выставка про петербургское уличное искусство и графику.",
+         "_url": "https://gisich.com/"},
         {"title": "Новая графика", "type": "выставка", "date_start": "2026-06-16",
          "time": "12:00", "_participant": "MYTH Gallery", "relevance": 5,
          "about": "Молодые художники показывают эксперименты с печатной графикой.",

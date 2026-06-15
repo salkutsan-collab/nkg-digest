@@ -303,7 +303,7 @@ def self_test():
          "_address": "Кожевенная линия, 40"},
         {"title": "Выставка «Город как холст»", "type": "выставка",
          "date_start": "2026-05-20", "date_end": "2026-06-30",
-         "_participant": "Музей стрит-арта", "_address": "шоссе Революции, 84"},
+         "_participant": "MYTH Gallery", "_address": "улица Чайковского, 61"},
     ]
     md = build_markdown(events, start, end, "daily",
                         intro="На этой неделе - разговор о графике, маркет дизайна "

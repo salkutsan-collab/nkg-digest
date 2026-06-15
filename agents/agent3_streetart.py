@@ -278,7 +278,7 @@ def self_test():
          "url": "https://t.me/lenstreet/1", "_channel": "ЛЕНСТРИТ",
          "place": "Купчино, Бухарестская ул."},
         {"text": "Во дворе на Васильевском острове установили новый арт-объект из металла.",
-         "url": "https://t.me/streetartmuseum/2", "_channel": "Музей стрит-арта",
+         "url": "https://t.me/streetartkeeper/2", "_channel": "Стрит-арт хранитель (САХ)",
          "place": "Васильевский остров"},
     ]
     for s in sample:
