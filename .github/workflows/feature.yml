@@ -1,0 +1,41 @@
+name: Разбор дня (днём)
+
+# Каждый день в 11:00 UTC = 14:00 по Москве.
+# Содержательный пост про одно событие дня: конкретика, маршрут под стиль, источники.
+# Движок - OpenAI с веб-поиском (FEATURE_PROVIDER=openai). Сбор событий, если он
+# вообще понадобится, идёт на YandexGPT - поэтому ключи Yandex тоже прокинуты.
+on:
+  schedule:
+    - cron: "0 11 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  feature:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Установить зависимости
+        run: pip install -r requirements.txt
+
+      - name: Собрать и отправить «Разбор дня»
+        env:
+          LLM_PROVIDER: yandex
+          YANDEX_API_KEY: ${{ secrets.YANDEX_API_KEY }}
+          YANDEX_FOLDER_ID: ${{ secrets.YANDEX_FOLDER_ID }}
+          YANDEX_MODEL: yandexgpt
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FEATURE_PROVIDER: openai
+          OPENAI_MODEL: gpt-4o-search-preview
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
+          MAX_CHAT_ID: ${{ secrets.MAX_CHAT_ID }}
+        run: python agents/agent5_feature.py --send

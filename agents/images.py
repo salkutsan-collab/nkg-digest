@@ -7,6 +7,8 @@
 Картинки потом показываются владельцу на одобрение, так что неточность не страшна.
 """
 
+import re
+
 from urllib.parse import urljoin, urlparse, urlsplit, urlunsplit, quote, unquote
 
 import requests
@@ -76,6 +78,61 @@ def _page_image_urls(title, limit=12):
             if url:
                 urls.append(url)
     return urls
+
+
+def page_content_images(url, limit=3):
+    """Несколько картинок СО СТРАНИЦЫ СОБЫТИЯ для фотозацепа.
+    Берём og:image (если это не страница-афиша) и содержательные <img>, пропуская
+    баннеры, логотипы и пиксели (см. _usable_image)."""
+    if not url:
+        return []
+    try:
+        r = requests.get(url, headers=HEADERS, timeout=20)
+        soup = BeautifulSoup(r.text, "html.parser")
+    except Exception:
+        return []
+    out, seen = [], set()
+    if not _is_listing_page(url):
+        for sel in [("meta", {"property": "og:image"}),
+                    ("meta", {"name": "twitter:image"})]:
+            tag = soup.find(*sel)
+            if tag and tag.get("content"):
+                c = urljoin(url, tag["content"].strip())
+                if _usable_image(c) and c not in seen:
+                    seen.add(c)
+                    out.append(_encode(c))
+    for im in soup.find_all("img", src=True):
+        c = urljoin(url, im["src"].strip())
+        if c in seen or not _usable_image(c):
+            continue
+        seen.add(c)
+        out.append(_encode(c))
+        if len(out) >= limit:
+            break
+    return out[:limit]
+
+
+def wiki_summary(name, sentences=4):
+    """Краткая справка из русской Википедии для опоры на факты.
+    Возвращает (заголовок, текст-интро, url) или (None, '', None), если не нашлось."""
+    title = _find_title(name)
+    if not title:
+        return None, "", None
+    d = _get({"action": "query", "prop": "extracts", "exintro": 1,
+              "explaintext": 1, "redirects": 1, "titles": title})
+    pages = (d.get("query") or {}).get("pages") or []
+    text = ""
+    for p in pages:
+        text = (p.get("extract") or "").strip()
+        if text:
+            title = p.get("title", title)
+            break
+    if not text:
+        return None, "", None
+    parts = re.split(r"(?<=[.!?])\s+", text)
+    short = " ".join(parts[:sentences]).strip()
+    url = "https://ru.wikipedia.org/wiki/" + quote(title.replace(" ", "_"))
+    return title, short, url
 
 
 def find_person_images(name, max_works=4):
