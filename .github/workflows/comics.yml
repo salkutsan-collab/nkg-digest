@@ -4,9 +4,7 @@ name: Комиксы Петербурга (понедельник, в личку
 # Подборка про комиксы в СПб (выставки, встречи, маркеты, магазины) - ТОЛЬКО владельцу
 # в личный чат Telegram, в каналы не публикуется. Движок - веб-поиск OpenAI.
 on:
-  schedule:
-    - cron: "0 6 * * 1"
-  workflow_dispatch:
+  workflow_dispatch:   # запуск только извне (cron-job.org), без капризного schedule
 
 permissions:
   contents: read

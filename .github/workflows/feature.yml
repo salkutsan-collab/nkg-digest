@@ -5,9 +5,7 @@ name: Разбор дня (днём)
 # и присылает владельцу; здесь учитываются правки из лички). Если черновика нет -
 # собирает свежий. Движок - OpenAI с веб-поиском; сбор событий при необходимости - Yandex.
 on:
-  schedule:
-    - cron: "0 11 * * *"
-  workflow_dispatch:
+  workflow_dispatch:   # запуск только извне (cron-job.org), без капризного schedule
 
 permissions:
   contents: read
