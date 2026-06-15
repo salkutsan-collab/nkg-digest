@@ -639,6 +639,8 @@ def main():
     ap.add_argument("--day", choices=WEEKDAY_KEYS, help="какой день (по умолчанию сегодня)")
     ap.add_argument("--preview", action="store_true",
                     help="режим предпросмотра: собрать список ЗАВТРАШНЕГО дня и прислать владельцу")
+    ap.add_argument("--recommend", action="store_true",
+                    help="отдельный пост: только рекомендация дня (выходит в 11:30)")
     ap.add_argument("--no-llm", action="store_true", help="без модели (мало что соберётся)")
     ap.add_argument("--self-test", action="store_true", help="показать график и формат")
     ap.add_argument("--send", action="store_true", help="отправить (пост в канал или список владельцу)")
@@ -662,6 +664,23 @@ def main():
             return
         print(f"Предпросмотр на {day_key} ({target}), тема: {theme.get('title')}")
         run_preview(theme, day_key, target, use_llm, send=args.send)
+        return
+
+    # ----- режим рекомендации дня (отдельный пост в 11:30) -----
+    if args.recommend:
+        day_key = args.day or WEEKDAY_KEYS[today.weekday()]
+        theme = theme_for(day_key, themes)
+        if not theme or theme.get("mode") == "person":
+            print("Сегодня рекомендация дня не выходит (нет темы или день персоны).")
+            return
+        data = _load_preview(today, day_key)
+        if data:
+            ranked = data["events"]  # берём уже собранный утром список, без повторного сбора
+        else:
+            ranked, _s, _e = collect_for_theme(theme, today, use_llm)
+        chosen = ranked[:limit_for(theme)]
+        print(f"Рекомендация дня из {len(chosen)} событий ({day_key}).")
+        recommend(chosen, theme, use_llm, today, day_key, send=args.send)
         return
 
     # ----- режим публикации: сегодняшний день -----
@@ -695,8 +714,7 @@ def main():
         except Exception as e:
             print(f"Отправка не удалась: {str(e)[:160]}")
 
-    # отдельный пост - рекомендация дня (петербургская школа) с картинкой
-    recommend(chosen, theme, use_llm, today, day_key, send=args.send)
+    # Рекомендация дня вынесена в отдельный запуск (11:30) - см. режим --recommend.
 
 
 if __name__ == "__main__":

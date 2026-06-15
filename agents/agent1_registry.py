@@ -520,6 +520,36 @@ def dump_base(base, path):
         fh.write("\n".join(L) + "\n")
 
 
+def _dm_owner_changes(log):
+    """Написать владельцу в личку, что изменилось в базе (кого добавили и т. п.)."""
+    def names(prefix):
+        out = []
+        for l in log:
+            if l.startswith(prefix):
+                out.append(l.split(":", 1)[1].split("(id")[0].strip())
+        return out
+    added, updated, removed = names("добавлена"), names("обновлена"), names("убрана")
+    if not (added or updated or removed):
+        return
+    parts = []
+    if added:
+        parts.append("добавлены: " + ", ".join(added))
+    if updated:
+        parts.append("обновлены: " + ", ".join(updated))
+    if removed:
+        parts.append("убраны: " + ", ".join(removed))
+    msg = "<b>Обновление базы участников</b>\n" + "; ".join(parts) + "."
+    try:
+        import notify_telegram as nt
+        if nt.owner_chat():
+            nt.send_text(msg, chat=nt.owner_chat())
+            print("Владельцу отправлено сообщение об изменениях базы.")
+        else:
+            print("TELEGRAM_OWNER_CHAT_ID не задан - сообщение об изменениях не ушло.")
+    except Exception as e:
+        print(f"  (сообщение владельцу не ушло: {str(e)[:100]})")
+
+
 def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
@@ -567,8 +597,10 @@ def main():
     applied = None
     if args.apply:
         applied = apply_fixes(base, findings)
+        inbox_log = []
         if inbox and llm.available():
             n, log = apply_inbox(base, inbox)
+            inbox_log = log
             for line in log:
                 print("  входящие:", line)
             if n:
@@ -579,6 +611,7 @@ def main():
             print("Во входящих есть строки, но нет ключа модели - пропускаю.")
         dump_base(base, BASE_PATH)
         print(f"Внесено правок в базу (ссылки): {applied}")
+        _dm_owner_changes(inbox_log)  # написать владельцу, кого добавили/обновили/убрали
 
     write_report(findings, inbox, applied)
     print(f"Отчет: {REPORT_PATH}")

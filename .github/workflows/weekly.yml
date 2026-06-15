@@ -24,6 +24,13 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Проверить и дополнить базу (агент 1)
+        env:
+          LLM_PROVIDER: yandex
+          YANDEX_API_KEY: ${{ secrets.YANDEX_API_KEY }}
+          YANDEX_FOLDER_ID: ${{ secrets.YANDEX_FOLDER_ID }}
+          YANDEX_MODEL: yandexgpt
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_OWNER_CHAT_ID: ${{ secrets.TELEGRAM_OWNER_CHAT_ID }}
         run: python agents/agent1_registry.py --apply
 
       - name: Сохранить изменения базы в репозиторий

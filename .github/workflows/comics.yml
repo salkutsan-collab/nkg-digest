@@ -1,0 +1,34 @@
+name: Комиксы Петербурга (понедельник, в личку)
+
+# Каждый понедельник в 06:00 UTC = 09:00 по Москве.
+# Подборка про комиксы в СПб (выставки, встречи, маркеты, магазины) - ТОЛЬКО владельцу
+# в личный чат Telegram, в каналы не публикуется. Движок - веб-поиск OpenAI.
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  comics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Установить зависимости
+        run: pip install -r requirements.txt
+
+      - name: Собрать комиксы и прислать владельцу
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FEATURE_PROVIDER: openai
+          OPENAI_MODEL: gpt-4o-search-preview
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_OWNER_CHAT_ID: ${{ secrets.TELEGRAM_OWNER_CHAT_ID }}
+        run: python agents/agent6_comics.py --send
