@@ -80,6 +80,19 @@ def _page_image_urls(title, limit=12):
     return urls
 
 
+def image_loads(url, timeout=10):
+    """Быстрая проверка, что по ссылке реально отдаётся картинка (а не 403/HTML).
+    Нужна перед отправкой: ссылки от модели часто защищены от прямого скачивания."""
+    try:
+        r = requests.get(url, headers=HEADERS, timeout=timeout, stream=True)
+        ok = (r.status_code == 200
+              and "image" in (r.headers.get("Content-Type") or "").lower())
+        r.close()
+        return ok
+    except Exception:
+        return False
+
+
 def page_content_images(url, limit=3):
     """Несколько картинок СО СТРАНИЦЫ СОБЫТИЯ для фотозацепа.
     Берём og:image (если это не страница-афиша) и содержательные <img>, пропуская

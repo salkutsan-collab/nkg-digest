@@ -326,16 +326,21 @@ def feature_images(event, limit=3):
     return out[:limit]
 
 
+def _valid(urls):
+    """Оставить только реально загружающиеся картинки (битые/защищённые отсеять)."""
+    return [u for u in (urls or []) if images.image_loads(u)][:3]
+
+
 def build(event):
     # глубокий путь: веб-поиск через OpenAI или Anthropic (конкретика, прогулка, источники, фото)
     prov = feature_provider()
     if prov in ("openai", "anthropic"):
         raw = research_feature(event, prov)
         if raw:
-            photos = _extract_photos(raw)            # фото, найденные моделью в вебе
+            photos = _valid(_extract_photos(raw))    # фото, найденные моделью в вебе
             body = style_clean(_strip_photo_line(raw))
             if not photos:                           # модель фото не дала - пробуем со страницы
-                photos = feature_images(event)
+                photos = _valid(feature_images(event))
             return body, [], photos
         print("  (откат на сбор без веб-поиска)")
     # запасной путь: YandexGPT по странице события + Википедии
@@ -344,7 +349,7 @@ def build(event):
     body = write_post(event, facts, wiki)
     if not body:
         return None, None, None
-    return style_clean(body), wiki, feature_images(event)
+    return style_clean(body), wiki, _valid(feature_images(event))
 
 
 def header_caption(event):
