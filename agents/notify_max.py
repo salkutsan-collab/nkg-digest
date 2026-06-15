@@ -80,6 +80,19 @@ def send_text(text, chat=None):
                        "notify": True, "disable_link_preview": True})
 
 
+def dm_recipients():
+    """Список user_id для личных сообщений в Max (секрет MAX_DM_RECIPIENTS через запятую)."""
+    raw = os.environ.get("MAX_DM_RECIPIENTS", "")
+    return [x.strip() for x in raw.split(",") if x.strip()]
+
+
+def send_dm(text, user_id):
+    """Личное сообщение пользователю Max по его user_id (адресуется не chat_id, а user_id)."""
+    return _post("messages", params={"user_id": user_id},
+                 json={"text": text, "format": "html",
+                       "notify": True, "disable_link_preview": True})
+
+
 def send_markdown(md):
     """Отправить наш markdown-дайджест в канал (с разбивкой на части)."""
     text = md_to_tg(md)  # тот же конвертер, что и для Telegram (HTML)
@@ -160,12 +173,31 @@ def show_chats():
               f"({c.get('type')}: {c.get('title') or c.get('link') or '-'})")
 
 
+def show_updates():
+    """Показать, кто писал боту в личку - чтобы взять user_id для личной рассылки."""
+    data = _get("updates", params={"timeout": 0, "limit": 30})
+    seen = {}
+    for u in data.get("updates", []):
+        msg = u.get("message") or {}
+        snd = msg.get("sender") or {}
+        if snd.get("user_id"):
+            seen[snd["user_id"]] = snd.get("name") or snd.get("username") or "-"
+    if not seen:
+        print("Никто пока не писал боту в личку.")
+        print("Пусть человек откроет max.ru/id7801670627_bot, нажмёт «Старт» и напишет,")
+        print("затем запустите снова.")
+        return
+    for uid, name in seen.items():
+        print(f"user_id = {uid}   ({name})")
+
+
 def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser()
     ap.add_argument("--me", action="store_true", help="проверить токен (кто я)")
     ap.add_argument("--chats", action="store_true", help="показать chat_id чатов бота")
+    ap.add_argument("--updates", action="store_true", help="показать user_id написавших в личку")
     ap.add_argument("--test", action="store_true", help="отправить проверочное сообщение")
     ap.add_argument("--file", help="отправить дайджест из файла .md")
     args = ap.parse_args()
@@ -176,6 +208,9 @@ def main():
         return
     if args.chats:
         show_chats()
+        return
+    if args.updates:
+        show_updates()
         return
     if args.test:
         send_text("<b>Проверка связи</b>\nДайджест НКГ подключен к каналу в Max.")

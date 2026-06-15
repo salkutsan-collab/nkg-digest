@@ -76,12 +76,29 @@ def run(send=False):
         print("\n----- конец -----")
         return
 
-    if not nt.owner_chat():
-        print("TELEGRAM_OWNER_CHAT_ID не задан - подборка не отправлена.")
-        return
-    for part in nt.split_chunks(msg):
-        nt.send_text(part, chat=nt.owner_chat())
-    print("Подборка про комиксы отправлена владельцу в личку.")
+    parts = nt.split_chunks(msg)
+    sent = False
+    # Telegram - владельцу в личку (если задан)
+    if nt.owner_chat():
+        try:
+            for p in parts:
+                nt.send_text(p, chat=nt.owner_chat())
+            print("Комиксы: отправлено в Telegram-личку владельцу.")
+            sent = True
+        except Exception as e:
+            print(f"  (Telegram-личка: {str(e)[:100]})")
+    # Max - в личку получателям по user_id (секрет MAX_DM_RECIPIENTS)
+    try:
+        import notify_max as nm
+        for uid in nm.dm_recipients():
+            for p in parts:
+                nm.send_dm(p, uid)
+            print(f"Комиксы: отправлено в Max-личку (user_id={uid}).")
+            sent = True
+    except Exception as e:
+        print(f"  (Max-личка: {str(e)[:100]})")
+    if not sent:
+        print("Получатели не настроены (TELEGRAM_OWNER_CHAT_ID / MAX_DM_RECIPIENTS).")
 
 
 def main():

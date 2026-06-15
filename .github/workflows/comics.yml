@@ -31,4 +31,6 @@ jobs:
           OPENAI_MODEL: gpt-4o-search-preview
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_OWNER_CHAT_ID: ${{ secrets.TELEGRAM_OWNER_CHAT_ID }}
+          MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
+          MAX_DM_RECIPIENTS: ${{ secrets.MAX_DM_RECIPIENTS }}
         run: python agents/agent6_comics.py --send
