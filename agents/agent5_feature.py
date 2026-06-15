@@ -404,17 +404,15 @@ def run(send=False):
         return
 
     import broadcast
-    sent_photos = False
+    # фото - необязательный зацеп без подписи; полный текст (с заголовком) уходит всегда,
+    # поэтому сбой картинки на любой площадке не урезает сам пост
     if imgs:
         try:
-            sent_photos = broadcast.send_photos(imgs, caption=cap)
+            broadcast.send_photos(imgs)
         except Exception as e:
             print(f"  (фото не ушли: {str(e)[:100]})")
     try:
-        if sent_photos:
-            broadcast.send_text(bhtml)                 # альбом с подписью-заголовком + текст
-        else:
-            broadcast.send_text(cap + "\n\n" + bhtml)  # без фото - всё одним сообщением
+        broadcast.send_text(cap + "\n\n" + bhtml)
         print("Разбор дня опубликован.")
     except Exception as e:
         print(f"Отправка не удалась: {str(e)[:160]}")
