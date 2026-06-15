@@ -3,3 +3,4 @@ beautifulsoup4>=4.12
 ruamel.yaml>=0.18
 gigachat>=0.1.30
 anthropic>=0.40
+playwright>=1.40

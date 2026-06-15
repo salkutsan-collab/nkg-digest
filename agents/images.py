@@ -93,29 +93,25 @@ def image_loads(url, timeout=10):
         return False
 
 
-def page_content_images(url, limit=3):
-    """Несколько картинок СО СТРАНИЦЫ СОБЫТИЯ для фотозацепа.
-    Берём og:image (если это не страница-афиша) и содержательные <img>, пропуская
-    баннеры, логотипы и пиксели (см. _usable_image)."""
-    if not url:
-        return []
-    try:
-        r = requests.get(url, headers=HEADERS, timeout=20)
-        soup = BeautifulSoup(r.text, "html.parser")
-    except Exception:
-        return []
+def _imgs_from_soup(soup, base_url, limit):
+    """Достать пригодные картинки из разобранной страницы (og:image + <img>, с учётом
+    ленивой загрузки data-src). Баннеры/логотипы/пиксели отсекает _usable_image."""
     out, seen = [], set()
-    if not _is_listing_page(url):
+    if not _is_listing_page(base_url):
         for sel in [("meta", {"property": "og:image"}),
                     ("meta", {"name": "twitter:image"})]:
             tag = soup.find(*sel)
             if tag and tag.get("content"):
-                c = urljoin(url, tag["content"].strip())
+                c = urljoin(base_url, tag["content"].strip())
                 if _usable_image(c) and c not in seen:
                     seen.add(c)
                     out.append(_encode(c))
-    for im in soup.find_all("img", src=True):
-        c = urljoin(url, im["src"].strip())
+    for im in soup.find_all("img"):
+        src = (im.get("src") or im.get("data-src") or im.get("data-lazy-src")
+               or im.get("data-original") or "")
+        if not src.strip():
+            continue
+        c = urljoin(base_url, src.strip())
         if c in seen or not _usable_image(c):
             continue
         seen.add(c)
@@ -123,6 +119,66 @@ def page_content_images(url, limit=3):
         if len(out) >= limit:
             break
     return out[:limit]
+
+
+def _render_html(url, timeout=25000):
+    """Отрендерить JS-страницу настоящим браузером (Playwright). None, если браузер
+    недоступен или не получилось - тогда работаем по статичному HTML."""
+    try:
+        from playwright.sync_api import sync_playwright
+    except Exception:
+        return None
+    try:
+        with sync_playwright() as pw:
+            browser = pw.chromium.launch(args=["--no-sandbox"])
+            page = browser.new_page(user_agent=HEADERS["User-Agent"])
+            try:
+                page.goto(url, wait_until="networkidle", timeout=timeout)
+            except Exception:
+                pass  # сети «успокоиться» не дождались - берём что есть
+            html = page.content()
+            browser.close()
+            return html
+    except Exception:
+        return None
+
+
+def _bg_images(html, base_url, limit):
+    """Картинки, заданные через CSS background-image: url(...) - многие галереи так
+    показывают афиши вместо тега <img>."""
+    out = []
+    for src in re.findall(r"background-image\s*:\s*url\(([^)]+)\)", html, re.I):
+        c = urljoin(base_url, src.strip().strip("'\""))
+        if _usable_image(c) and c not in out:
+            out.append(_encode(c))
+            if len(out) >= limit:
+                break
+    return out
+
+
+def page_content_images(url, limit=3):
+    """Картинки СО СТРАНИЦЫ СОБЫТИЯ для фотозацепа. Сначала пробуем статично; если
+    пусто (JS-сайт галереи) - открываем страницу браузером и берём реальную афишу.
+    Учитываем и <img> (в т.ч. ленивые data-src), и CSS background-image."""
+    if not url:
+        return []
+
+    def collect(html):
+        imgs = _imgs_from_soup(BeautifulSoup(html, "html.parser"), url, limit)
+        for c in _bg_images(html, url, limit):
+            if c not in imgs:
+                imgs.append(c)
+        return imgs[:limit]
+
+    try:
+        r = requests.get(url, headers=HEADERS, timeout=20)
+        out = collect(r.text)
+    except Exception:
+        out = []
+    if out:
+        return out
+    html = _render_html(url)  # JS-страница - рендерим браузером
+    return collect(html) if html else []
 
 
 def wiki_summary(name, sentences=4):
@@ -235,8 +291,8 @@ def _usable_image(u):
     low = unquote(u).lower()  # раскодируем кириллицу в имени файла
     bad = ("mc.yandex", "/watch", "pixel", "spacer", "1x1", "blank",
            "logo", "icon", "sprite", "favicon", "counter", ".svg",
-           # дежурные заглавные баннеры (не относятся к конкретному событию)
-           "главн", "glavn", "banner", "slider", "hero", "заглав", "zaglav")
+           # дежурные заглавные баннеры главной страницы (не относятся к событию)
+           "главн", "glavn", "заглав", "zaglav")
     if any(b in low for b in bad):
         return False
     return any(ext in low for ext in (".jpg", ".jpeg", ".png", ".webp", ".gif"))
