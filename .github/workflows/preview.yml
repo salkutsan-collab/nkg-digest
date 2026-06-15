@@ -1,11 +1,12 @@
 name: Предпросмотр на завтра (вечером)
 
-# Каждый день в 18:00 UTC = 21:00 по Москве.
-# Собирает список событий ЗАВТРАШНЕЙ темы и присылает владельцу в личку на выбор.
+# Каждый день в 15:00 UTC = 18:00 по Москве.
+# На одном сборе ЗАВТРАШНИХ событий: (1) список темы владельцу на выбор;
+# (2) черновик «Разбора дня» на завтра владельцу на согласование.
 # Если завтра суббота - присылает черновик карточки персоны недели.
 on:
   schedule:
-    - cron: "0 18 * * *"
+    - cron: "0 15 * * *"
   workflow_dispatch:
 
 permissions:
@@ -35,11 +36,20 @@ jobs:
           TELEGRAM_OWNER_CHAT_ID: ${{ secrets.TELEGRAM_OWNER_CHAT_ID }}
         run: python agents/publisher.py --preview --send
 
+      - name: Черновик «Разбора дня» на завтра владельцу на согласование
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FEATURE_PROVIDER: openai
+          OPENAI_MODEL: gpt-4o-search-preview
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_OWNER_CHAT_ID: ${{ secrets.TELEGRAM_OWNER_CHAT_ID }}
+        run: python agents/agent5_feature.py --preview --send
+
       - name: Сохранить предпросмотр и черновик персоны
         run: |
           git config user.name "nkg-bot"
           git config user.email "nkg-bot@users.noreply.github.com"
-          for f in data/preview.json data/person_choice.json data/person_tally.json; do
+          for f in data/preview.json data/feature_preview.json data/person_choice.json data/person_tally.json; do
             [ -f "$f" ] && git add "$f"
           done
           [ -d data/archive ] && git add data/archive

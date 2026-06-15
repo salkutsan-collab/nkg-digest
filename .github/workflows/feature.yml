@@ -1,9 +1,9 @@
 name: Разбор дня (днём)
 
 # Каждый день в 11:00 UTC = 14:00 по Москве.
-# Содержательный пост про одно событие дня: конкретика, маршрут под стиль, источники.
-# Движок - OpenAI с веб-поиском (FEATURE_PROVIDER=openai). Сбор событий, если он
-# вообще понадобится, идёт на YandexGPT - поэтому ключи Yandex тоже прокинуты.
+# Публикует УТВЕРЖДЁННЫЙ черновик «Разбора дня» (его готовит вечерний прогон в 18:00
+# и присылает владельцу; здесь учитываются правки из лички). Если черновика нет -
+# собирает свежий. Движок - OpenAI с веб-поиском; сбор событий при необходимости - Yandex.
 on:
   schedule:
     - cron: "0 11 * * *"
@@ -39,6 +39,7 @@ jobs:
           OPENAI_MODEL: gpt-4o-search-preview
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_OWNER_CHAT_ID: ${{ secrets.TELEGRAM_OWNER_CHAT_ID }}
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
           MAX_CHAT_ID: ${{ secrets.MAX_CHAT_ID }}
         run: python agents/agent5_feature.py --send

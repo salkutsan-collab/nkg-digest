@@ -21,6 +21,7 @@
 import os
 import re
 import sys
+import json
 import argparse
 import datetime as dt
 
@@ -31,22 +32,22 @@ import llm
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIGEST_DIR = os.path.join(ROOT, "digests")
+STATE_PATH = os.path.join(ROOT, "data", "feature_preview.json")  # черновик на согласование
 
 
 # ---------- выбор события и сбор источников ----------
 
-def todays_events():
-    """События сегодняшнего дня: из предпросмотра (если он про сегодня) или сбор заново."""
-    today = dt.date.today()
-    day_key = pub.WEEKDAY_KEYS[today.weekday()]
+def events_for(target):
+    """События на дату target: из предпросмотра (если он про эту дату) или сбор заново."""
+    day_key = pub.WEEKDAY_KEYS[target.weekday()]
     data = pub._load_json(pub.PREVIEW_PATH)
-    if data and data.get("target") == today.isoformat():
+    if data and data.get("target") == target.isoformat():
         return data.get("events", [])
     themes = pub.load_themes()
     theme = pub.theme_for(day_key, themes)
     if not theme or theme.get("mode") == "person":
         return []
-    events, _start, _end = pub.collect_for_theme(theme, today, use_llm=True)
+    events, _start, _end = pub.collect_for_theme(theme, target, use_llm=True)
     return events
 
 
@@ -288,7 +289,7 @@ def _openai_research(user, system=RESEARCH_SYSTEM):
     r = rq.post("https://api.openai.com/v1/chat/completions",
                 headers={"Authorization": "Bearer " + key,
                          "Content-Type": "application/json"},
-                json=body, timeout=120)
+                json=body, timeout=180)
     data = r.json()
     if r.status_code != 200:
         raise RuntimeError(f"OpenAI: {r.status_code} {str(data)[:200]}")
@@ -409,41 +410,9 @@ def body_html(event, body, wiki):
     return "\n".join(lines)
 
 
-def run(send=False):
-    if hasattr(sys.stdout, "reconfigure"):
-        sys.stdout.reconfigure(encoding="utf-8")
-    events = todays_events()
-    subject = pick_subject(events)
-    if not subject:
-        print("Разбор дня: подходящего события не нашлось - пропускаем.")
-        return
-    print(f"Разбор дня про: {subject.get('title')} - {subject.get('_participant')}")
-    body, wiki, imgs = build(subject)
-    if not body:
-        print("Разбор дня: текст не получился - пропускаем.")
-        return
-    imgs = imgs or []
-    cap = header_caption(subject)
-    bhtml = body_html(subject, body, wiki)
-
-    today = dt.date.today()
-    os.makedirs(DIGEST_DIR, exist_ok=True)
-    with open(os.path.join(DIGEST_DIR, f"{today.isoformat()}-feature.md"),
-              "w", encoding="utf-8") as fh:
-        fh.write(body + "\n")
-
-    if not send:
-        print("\n----- ПРЕДПРОСМОТР (не отправлено) -----\n")
-        print(cap + "\n\n" + bhtml)
-        print(f"\n[фото для зацепа: {len(imgs)}]")
-        for u in imgs:
-            print("  " + u)
-        print("----- конец -----")
-        return
-
+def _send_to_channels(cap, bhtml, imgs):
+    """Опубликовать в каналы: фото-зацеп (без подписи) + полный текст с заголовком."""
     import broadcast
-    # фото - необязательный зацеп без подписи; полный текст (с заголовком) уходит всегда,
-    # поэтому сбой картинки на любой площадке не урезает сам пост
     if imgs:
         try:
             broadcast.send_photos(imgs)
@@ -456,12 +425,149 @@ def run(send=False):
         print(f"Отправка не удалась: {str(e)[:160]}")
 
 
+def _dm_owner(text_html):
+    """Прислать владельцу в личку (черновик на согласование)."""
+    try:
+        import notify_telegram as nt
+        if not nt.owner_chat():
+            print("TELEGRAM_OWNER_CHAT_ID не задан - черновик не отправлен.")
+            return False
+        for part in nt.split_chunks(text_html):
+            nt.send_text(part, chat=nt.owner_chat())
+        return True
+    except Exception as e:
+        print(f"  (черновик владельцу не ушёл: {str(e)[:100]})")
+        return False
+
+
+_APPROVE = {"ок", "ok", "да", "+", "ага", "норм", "хорошо", "ок.", "ok.", "+1"}
+
+
+def _owner_correction(since):
+    """Текстовые правки владельца после черновика (короткие 'ок' - это не правка)."""
+    try:
+        import notify_telegram as nt
+        texts = [t.strip() for t in nt.owner_messages_since(since) if t and t.strip()]
+        corr = [t for t in texts if t.lower() not in _APPROVE]
+        return "\n".join(corr).strip()
+    except Exception:
+        return ""
+
+
+REVISE_SYSTEM = (
+    "Ты редактор. Тебе дают пост и правку от главного редактора. Внеси правку в пост и "
+    "верни ВЕСЬ пост целиком, в том же стиле (простой язык, без рекламы, без буквы е с "
+    "точками и без длинного тире). Ничего лишнего сверх правки не добавляй."
+)
+
+
+def apply_correction(body, correction, provider):
+    user = (f"ПОСТ:\n{body}\n\nПРАВКА РЕДАКТОРА:\n{correction}\n\n"
+            "Верни исправленный пост целиком.")
+    try:
+        if provider == "openai":
+            return _openai_research(user, system=REVISE_SYSTEM)
+        if provider == "anthropic":
+            return _anthropic_research(user, system=REVISE_SYSTEM)
+    except Exception as e:
+        print(f"  (правка не применена: {str(e)[:100]})")
+    return ""
+
+
+def run_preview(send=False):
+    """За сутки: собрать «Разбор дня» на ЗАВТРА и прислать владельцу на согласование."""
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    target = dt.date.today() + dt.timedelta(days=1)
+    subject = pick_subject(events_for(target))
+    if not subject:
+        print("Разбор дня (черновик): подходящего события на завтра не нашлось.")
+        return
+    print(f"Черновик «Разбора» на {target}: {subject.get('title')} - {subject.get('_participant')}")
+    body, wiki, imgs = build(subject)
+    if not body:
+        print("Разбор дня (черновик): текст не получился.")
+        return
+    cap = header_caption(subject)
+    bhtml = body_html(subject, body, wiki)
+    since = 0
+    if send:
+        msg = ("<b>Черновик «Разбора дня» на завтра</b>\n\n" + cap + "\n\n" + bhtml
+               + "\n\n<i>Ответьте боту, что поправить, или промолчите - опубликую завтра "
+               "в 14:00.</i>")
+        if _dm_owner(msg):
+            try:
+                import notify_telegram as nt
+                since = nt.current_update_id() or 0
+            except Exception:
+                pass
+            print("Черновик отправлен владельцу в личку.")
+    state = {"target": target.isoformat(), "event": subject, "body": body,
+             "photos": imgs or [], "since": since}
+    with open(STATE_PATH, "w", encoding="utf-8") as fh:
+        json.dump(state, fh, ensure_ascii=False, indent=1)
+    print(f"Черновик сохранён: {STATE_PATH}")
+
+
+def run_publish(send=False):
+    """В 14:00: опубликовать утверждённый черновик (с учётом правок из лички),
+    а если черновика нет - собрать свежий."""
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    today = dt.date.today()
+    state = pub._load_json(STATE_PATH)
+    if state and state.get("target") == today.isoformat():
+        subject = state["event"]
+        body = state["body"]
+        imgs = state.get("photos") or []
+        wiki = []
+        corr = _owner_correction(state.get("since", 0))
+        if corr:
+            print(f"Правка редактора: {corr[:120]}")
+            revised = apply_correction(body, corr, feature_provider())
+            if revised:
+                body = style_clean(_strip_photo_line(revised))
+        print(f"Публикую утверждённый «Разбор дня»: {subject.get('title')}")
+    else:
+        subject = pick_subject(events_for(today))
+        if not subject:
+            print("Разбор дня: подходящего события не нашлось - пропускаем.")
+            return
+        print(f"Черновика нет, собираю свежий: {subject.get('title')}")
+        body, wiki, imgs = build(subject)
+        if not body:
+            print("Разбор дня: текст не получился - пропускаем.")
+            return
+        imgs = imgs or []
+    cap = header_caption(subject)
+    bhtml = body_html(subject, body, wiki)
+    os.makedirs(DIGEST_DIR, exist_ok=True)
+    with open(os.path.join(DIGEST_DIR, f"{today.isoformat()}-feature.md"),
+              "w", encoding="utf-8") as fh:
+        fh.write(body + "\n")
+    if not send:
+        print("\n----- ПРЕДПРОСМОТР (не отправлено) -----\n")
+        print(cap + "\n\n" + bhtml)
+        print(f"\n[фото для зацепа: {len(imgs)}]")
+        for u in imgs:
+            print("  " + u)
+        print("----- конец -----")
+        return
+    _send_to_channels(cap, bhtml, imgs)
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--sample", action="store_true", help="напечатать пост, не отправляя")
-    ap.add_argument("--send", action="store_true", help="опубликовать в каналы")
+    ap.add_argument("--preview", action="store_true",
+                    help="собрать «Разбор» на ЗАВТРА и прислать владельцу на согласование")
+    ap.add_argument("--sample", action="store_true", help="напечатать, не отправляя")
+    ap.add_argument("--send", action="store_true", help="опубликовать / отправить владельцу")
     args = ap.parse_args()
-    run(send=args.send and not args.sample)
+    do_send = args.send and not args.sample
+    if args.preview:
+        run_preview(send=do_send)
+    else:
+        run_publish(send=do_send)
 
 
 if __name__ == "__main__":
