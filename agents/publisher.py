@@ -425,6 +425,30 @@ def _dm_owner(md):
         return False
 
 
+EMPTY_DAY_PATH = os.path.join(ROOT, "data", "empty_day.json")
+
+
+def ask_owner_empty_day(theme, day_key, today):
+    """Событий по теме нет: в канал НИЧЕГО не публикуем, спрашиваем владельца в личку."""
+    title = theme.get("title", "")
+    msg = (f"По теме «{title}» на сегодня событий не нашлось. В канал ничего не публикую.\n\n"
+           "Если хотите вместо этого пост с интересными фактами и историей про людей, "
+           "которых ещё не было в обзорах, - ответьте боту словом «факты». "
+           "Промолчите - ничего не публикуем.")
+    sent = _dm_owner(msg)
+    since = 0
+    try:
+        import notify_telegram as nt
+        since = nt.current_update_id() or 0
+    except Exception:
+        pass
+    with open(EMPTY_DAY_PATH, "w", encoding="utf-8") as fh:
+        json.dump({"date": today.isoformat(), "day_key": day_key, "since": since},
+                  fh, ensure_ascii=False, indent=1)
+    print("Событий нет - публикация пропущена, владельцу отправлен вопрос."
+          if sent else "Событий нет - публикация пропущена (владелец не задан).")
+
+
 def _parse_selection(text, n):
     nums = [int(x) for x in re.findall(r"\d+", text or "")]
     sel = [x for x in nums if 1 <= x <= n]
@@ -687,15 +711,17 @@ def main():
     print(f"Готово: {out}")
 
     if args.send:
-        try:
-            import broadcast
-            broadcast.send_markdown(md)
-        except SystemExit as e:
-            print(f"Отправка не удалась: {e}")
-        except Exception as e:
-            print(f"Отправка не удалась: {str(e)[:160]}")
-
-    # Рекомендация дня вынесена в отдельный запуск (11:30) - см. режим --recommend.
+        if not chosen:
+            # правило: событий нет -> в канал не публикуем, спрашиваем владельца в личку
+            ask_owner_empty_day(theme, day_key, today)
+        else:
+            try:
+                import broadcast
+                broadcast.send_markdown(md)
+            except SystemExit as e:
+                print(f"Отправка не удалась: {e}")
+            except Exception as e:
+                print(f"Отправка не удалась: {str(e)[:160]}")
 
 
 if __name__ == "__main__":
