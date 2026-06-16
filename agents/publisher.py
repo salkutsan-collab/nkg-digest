@@ -425,30 +425,6 @@ def _dm_owner(md):
         return False
 
 
-EMPTY_DAY_PATH = os.path.join(ROOT, "data", "empty_day.json")
-
-
-def ask_owner_empty_day(theme, day_key, today):
-    """Событий по теме нет: в канал НИЧЕГО не публикуем, спрашиваем владельца в личку."""
-    title = theme.get("title", "")
-    msg = (f"По теме «{title}» на сегодня событий не нашлось. В канал ничего не публикую.\n\n"
-           "Если хотите вместо этого пост с интересными фактами и историей про людей, "
-           "которых ещё не было в обзорах, - ответьте боту словом «факты». "
-           "Промолчите - ничего не публикуем.")
-    sent = _dm_owner(msg)
-    since = 0
-    try:
-        import notify_telegram as nt
-        since = nt.current_update_id() or 0
-    except Exception:
-        pass
-    with open(EMPTY_DAY_PATH, "w", encoding="utf-8") as fh:
-        json.dump({"date": today.isoformat(), "day_key": day_key, "since": since},
-                  fh, ensure_ascii=False, indent=1)
-    print("Событий нет - публикация пропущена, владельцу отправлен вопрос."
-          if sent else "Событий нет - публикация пропущена (владелец не задан).")
-
-
 def _parse_selection(text, n):
     nums = [int(x) for x in re.findall(r"\d+", text or "")]
     sel = [x for x in nums if 1 <= x <= n]
@@ -712,8 +688,8 @@ def main():
 
     if args.send:
         if not chosen:
-            # правило: событий нет -> в канал не публикуем, спрашиваем владельца в личку
-            ask_owner_empty_day(theme, day_key, today)
+            # правило: событий по теме нет -> просто ничего не публикуем
+            print("Событий по теме нет - публикация пропущена.")
         else:
             try:
                 import broadcast
