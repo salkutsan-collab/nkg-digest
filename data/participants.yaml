@@ -7,7 +7,7 @@
 #   id        - короткий код (латиницей, без пробелов)
 #   name      - название
 #   category  - тип: креативное пространство | музей | галерея | стрит-арт |
-#               дизайн-центр | образование | фестиваль
+#               дизайн-центр | образование | фестиваль | театр | кино | гастрономия
 #   address   - адрес
 #   tags      - темы (для отбора в дайджест)
 #   events_url- страница афиши/событий (подсказка для агента 2)
@@ -118,7 +118,7 @@ participants:
     events_url: "https://www.loftprojectetagi.ru/visitors/mesta-vystavok-i-festivaley"
     sources:
       - {type: website, url: "https://www.loftprojectetagi.ru/", verify: true}
-    status: needs_verification
+    status: dead
 
   - id: levashovsky
     name: Левашовский хлебозавод
@@ -175,6 +175,7 @@ participants:
       - {type: website, url: "https://manege.spb.ru/", verify: true}
       - {type: vk, url: "https://vk.com/manegepetersburg"}
       - {type: telegram, url: "https://t.me/spbmanege"}
+      - {type: telegram, url: "https://t.me/manege_bookshop"}
     status: needs_verification
 
   - id: pushkinskaya-10
@@ -218,6 +219,8 @@ participants:
     events_url: "https://fabergemuseum.ru/sobyitiya/vyistavki/"
     sources:
       - {type: website, url: "https://fabergemuseum.ru/"}
+      - {type: vk, url: "https://vk.com/fabergemuseum"}
+      - {type: telegram, url: "https://t.me/fabergemuseum"}
     status: active
 
   # ---------- галерея ----------
@@ -320,7 +323,7 @@ participants:
     events_url: "https://www.koordinata.space/"
     sources:
       - {type: website, url: "https://www.koordinata.space/", verify: true}
-    status: needs_verification
+    status: dead
 
   # ---------- образование ----------
 
@@ -358,6 +361,8 @@ participants:
     events_url: "https://alexandrinsky.ru/afisha-i-bilety/programma/"
     sources:
       - {type: website, url: "https://alexandrinsky.ru/"}
+      - {type: vk, url: "https://vk.com/alexandrinsky"}
+      - {type: telegram, url: "https://t.me/alexandrinsky"}
     status: active
 
   - id: skorohod
@@ -378,6 +383,7 @@ participants:
     events_url: "https://pkteatr.ru/schedule"
     sources:
       - {type: website, url: "https://pkteatr.ru/"}
+      - {type: vk, url: "https://vk.com/priut_komedianta"}
     status: active
 
   - id: karlsson-haus
@@ -388,6 +394,7 @@ participants:
     events_url: "https://www.karlssonhaus.ru/"
     sources:
       - {type: website, url: "https://www.karlssonhaus.ru/", verify: true}
+      - {type: telegram, url: "https://t.me/karlssonhaus"}
     status: needs_verification
 
   # ---------- кино ----------
@@ -400,7 +407,7 @@ participants:
     events_url: "https://www.domkino.spb.ru/schedule/"
     sources:
       - {type: website, url: "https://www.domkino.spb.ru/"}
-    status: active
+    status: dead
 
   - id: avrora-cinema
     name: Кинотеатр «Аврора»
@@ -417,8 +424,11 @@ participants:
     category: кино
     address: "Караванная ул., 12"
     tags: [кино, артхаус, авторское]
+    events_url: "https://rodinakino.ru/?facility=rodina"
     sources:
       - {type: website, url: "https://rodinakino.ru/", verify: true}
+      - {type: vk, url: "https://vk.com/kinorodinasp"}
+      - {type: telegram, url: "https://t.me/rodinakino_spb"}
     status: needs_verification
 
   # ---------- гастрономия ----------
@@ -442,7 +452,7 @@ participants:
     events_url: "https://vokzal1853.ru/events/"
     sources:
       - {type: website, url: "https://vokzal1853.ru/"}
-    status: active
+    status: dead
 
   - id: dolgoozerny-market
     name: Гастромаркет Долгоозёрный
@@ -452,4 +462,4 @@ participants:
     events_url: "https://tkdoz.ru/afisha/"
     sources:
       - {type: website, url: "https://tkdoz.ru/"}
-    status: needs_verification
+    status: active
