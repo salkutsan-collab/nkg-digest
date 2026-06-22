@@ -345,5 +345,127 @@
     }
    ]
   }
+ },
+ "2026-W26": {
+  "Ахсарбек Ахполов": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка «Большая прогулка»",
+     "p": "Новый музей современного искусства",
+     "u": "https://www.novymuseum.ru/exch/"
+    }
+   ]
+  },
+  "Ульяна Гончарова": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка «Большая прогулка»",
+     "p": "Новый музей современного искусства",
+     "u": "https://www.novymuseum.ru/exch/"
+    }
+   ]
+  },
+  "Алексей Го": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Групповая выставка ART.NEXT",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Анна Кириллова": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Групповая выставка ART.NEXT",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Елизавета Михалева": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Групповая выставка ART.NEXT",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Олег Олейник": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Групповая выставка ART.NEXT",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Яна Ракитина": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Групповая выставка ART.NEXT",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Влада Коллапс": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Групповая выставка ART.NEXT",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Димитрий Зойлян": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Димитрия Зойляна «Собака-меандр»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Владимир Савчук": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Владимира Савчука «Ландшафты ваших лиц на ладони»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Екатерина Кузьмина": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Екатерины Кузьминой «Во сне они превращались в марионеток»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Максим Има": {
+   "count": 1,
+   "events": [
+    {
+     "t": "МАКСИМ ИМА. ЗАЩИТА ДЕВЕЛОПЕРСКОГО ПРОЕКТА. 2026",
+     "p": "Marina Gisich Gallery",
+     "u": "https://www.gisich.com/ru/exhibitions"
+    }
+   ]
+  }
  }
 }
