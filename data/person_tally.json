@@ -486,6 +486,16 @@
      "u": "https://levashovsky.ru/afisha"
     }
    ]
+  },
+  "Теодор Курентзис": {
+   "count": 1,
+   "events": [
+    {
+     "t": "TheatreHD: Курентзис: Реквием. Верди",
+     "p": "Киноцентр «Родина»",
+     "u": "https://rodinakino.ru/?facility=rodina"
+    }
+   ]
   }
  }
 }
