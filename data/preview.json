@@ -1,23 +1,23 @@
 {
- "target": "2026-06-26",
- "day_key": "friday",
- "start": "2026-06-27",
- "end": "2026-06-28",
+ "target": "2026-06-28",
+ "day_key": "sunday",
+ "start": "2026-06-29",
+ "end": "2026-07-05",
  "events": [
   {
-   "title": "Выставочный проект «Русский императив»",
+   "title": "Траектории интервалов",
    "type": "выставка",
-   "date_start": "2026-05-08",
-   "date_end": "2026-07-12",
+   "date_start": "2026-03-13",
+   "date_end": "2026-10-18",
    "time": null,
-   "place": "Музейно-выставочный комплекс «Манеж», Санкт-Петербург, Исаакиевская площадь, 1",
+   "place": "Севкабель Порт",
    "persons": [],
-   "about": "Выставка «Русский императив».",
+   "about": null,
    "relevance": 5,
-   "_participant": "ЦВЗ Манеж",
-   "_address": "Исаакиевская пл., 1",
-   "_url": "https://manege.spb.ru/categories/events",
-   "_category": "музей"
+   "_participant": "Севкабель Порт",
+   "_address": "Кожевенная линия, 40",
+   "_url": "https://sevcableport.ru/afisha",
+   "_category": "креативное пространство"
   },
   {
    "title": "Фокус: Перформанс",
@@ -35,17 +35,14 @@
    "_category": "галерея"
   },
   {
-   "title": "ТЕПЕРЬ Я СТАВЛЮ ШКАФ НА МЕСТО",
+   "title": "Ленинград Саши Окуня. Начало (Из частных коллекций Петербурга)",
    "type": "выставка",
-   "date_start": "2026-05-30",
-   "date_end": "2026-06-28",
+   "date_start": "2026-05-31",
+   "date_end": "2026-07-19",
    "time": null,
-   "place": "Navicula Artis",
-   "persons": [
-    "Дмитрий Петухов",
-    "Иван Осипов"
-   ],
-   "about": null,
+   "place": "Малый зал МНИ",
+   "persons": [],
+   "about": "Выставка из частных коллекций Петербурга",
    "relevance": 5,
    "_participant": "Арт-центр Пушкинская-10",
    "_address": "Лиговский просп., 53",
@@ -73,7 +70,7 @@
    "date_start": "2026-06-05",
    "date_end": "2026-08-02",
    "time": null,
-   "place": "Санкт-Петербург, Наб. канала Грибоедова, 101 и 103",
+   "place": "Санкт-Петербург, наб. канала Грибоедова, 101 и 103",
    "persons": [
     "Сергей Бугаев"
    ],
@@ -82,6 +79,24 @@
    "_participant": "Музей искусства Санкт-Петербурга XX-XXI веков (МИСП)",
    "_address": "наб. канала Грибоедова, 103",
    "_url": "https://mispxx-xxi.ru/exhibitions",
+   "_category": "музей"
+  },
+  {
+   "title": "Выставка «Большая прогулка»",
+   "type": "выставка",
+   "date_start": "2026-06-12",
+   "date_end": "2026-07-19",
+   "time": null,
+   "place": null,
+   "persons": [
+    "Ахсарбек Ахполов",
+    "Ульяна Гончарова"
+   ],
+   "about": "Работы художников-живописцев Ахсарбека Ахполова и Ульяны Гончаровой.",
+   "relevance": 5,
+   "_participant": "Новый музей современного искусства",
+   "_address": "6-я линия В. О., 29",
+   "_url": "https://www.novymuseum.ru/exch/",
    "_category": "музей"
   },
   {
@@ -94,7 +109,7 @@
    "persons": [
     "Виталий Пушницкий"
    ],
-   "about": "Персональная выставка Виталия Пушницкого",
+   "about": null,
    "relevance": 5,
    "_participant": "Marina Gisich Gallery",
    "_address": "наб. реки Фонтанки, 121",
@@ -186,12 +201,107 @@
    "_category": "музей"
   },
   {
+   "title": "«Д – Т – Д»",
+   "type": "выставка",
+   "date_start": "2026-06-27",
+   "date_end": "2026-08-09",
+   "time": null,
+   "place": "ТРАВЕРТИН",
+   "persons": [
+    "Владимир Духовлинов",
+    "Илья Духовлинов"
+   ],
+   "about": null,
+   "relevance": 5,
+   "_participant": "Арт-центр Пушкинская-10",
+   "_address": "Лиговский просп., 53",
+   "_url": "https://p-10.ru/season/actual",
+   "_category": "музей"
+  },
+  {
+   "title": "Временное | Вечное",
+   "type": "выставка",
+   "date_start": "2026-06-27",
+   "date_end": "2026-08-30",
+   "time": null,
+   "place": "Большой зал МНИ",
+   "persons": [],
+   "about": "Коллективная выставка",
+   "relevance": 5,
+   "_participant": "Арт-центр Пушкинская-10",
+   "_address": "Лиговский просп., 53",
+   "_url": "https://p-10.ru/season/actual",
+   "_category": "музей"
+  },
+  {
+   "title": "Обратная сторона горы",
+   "type": "выставка",
+   "date_start": "2026-06-27",
+   "date_end": "2026-08-30",
+   "time": null,
+   "place": "«Арт-Лига»",
+   "persons": [],
+   "about": "Коллективная выставка",
+   "relevance": 5,
+   "_participant": "Арт-центр Пушкинская-10",
+   "_address": "Лиговский просп., 53",
+   "_url": "https://p-10.ru/season/actual",
+   "_category": "музей"
+  },
+  {
+   "title": "Выставочный проект «Русский императив»",
+   "type": "выставка",
+   "date_start": "2026-06-29",
+   "date_end": "2026-07-12",
+   "time": null,
+   "place": "Музейно-выставочный комплекс «Манеж», Санкт-Петербург, Исаакиевская площадь, 1",
+   "persons": [],
+   "about": "Выставка «Русский императив» в Манеже",
+   "relevance": 5,
+   "_participant": "ЦВЗ Манеж",
+   "_address": "Исаакиевская пл., 1",
+   "_url": "https://manege.spb.ru/categories/events",
+   "_category": "музей"
+  },
+  {
+   "title": "TheatreHD: Венская опера: Дон Жуан",
+   "type": "спектакль",
+   "date_start": "2026-06-29",
+   "date_end": null,
+   "time": "18:40",
+   "place": "Киноцентр «Родина»",
+   "persons": [],
+   "about": "Опера",
+   "relevance": 5,
+   "_participant": "Киноцентр «Родина»",
+   "_address": "Караванная ул., 12",
+   "_url": "https://rodinakino.ru/?facility=rodina",
+   "_category": "кино"
+  },
+  {
+   "title": "TheatreHD: Курентзис: Реквием. Верди",
+   "type": "концерт",
+   "date_start": "2026-07-01",
+   "date_end": null,
+   "time": "20:00",
+   "place": "Киноцентр «Родина»",
+   "persons": [
+    "Теодор Курентзис"
+   ],
+   "about": "Концерт",
+   "relevance": 5,
+   "_participant": "Киноцентр «Родина»",
+   "_address": "Караванная ул., 12",
+   "_url": "https://rodinakino.ru/?facility=rodina",
+   "_category": "кино"
+  },
+  {
    "title": "Николай Акимов и ученики",
    "type": "выставка",
    "date_start": "2026-03-26",
    "date_end": "2026-07-05",
    "time": null,
-   "place": "Санкт-Петербург, Наб. канала Грибоедова, 101 и 103",
+   "place": "Санкт-Петербург, наб. канала Грибоедова, 101 и 103",
    "persons": [
     "Николай Акимов"
    ],
@@ -200,21 +310,6 @@
    "_participant": "Музей искусства Санкт-Петербурга XX-XXI веков (МИСП)",
    "_address": "наб. канала Грибоедова, 103",
    "_url": "https://mispxx-xxi.ru/exhibitions",
-   "_category": "музей"
-  },
-  {
-   "title": "Дополнительная программа к выставке «Русский Императив»",
-   "type": "другое",
-   "date_start": "2026-05-08",
-   "date_end": "2026-07-12",
-   "time": null,
-   "place": "Музейно-выставочный комплекс «Манеж», Санкт-Петербург, Исаакиевская площадь, 1",
-   "persons": [],
-   "about": "Дополнительная программа к выставке «Русский Императив».",
-   "relevance": 4,
-   "_participant": "ЦВЗ Манеж",
-   "_address": "Исаакиевская пл., 1",
-   "_url": "https://manege.spb.ru/categories/events",
    "_category": "музей"
   },
   {
@@ -227,7 +322,7 @@
    "persons": [
     "Максим Има"
    ],
-   "about": "Выставка Максима Имы",
+   "about": null,
    "relevance": 4,
    "_participant": "Marina Gisich Gallery",
    "_address": "наб. реки Фонтанки, 121",
@@ -235,13 +330,30 @@
    "_category": "галерея"
   },
   {
-   "title": "Ленинград Саши Окуня. Начало (Из частных коллекций Петербурга)",
-   "type": "выставка",
-   "date_start": "2026-05-31",
-   "date_end": "2026-07-19",
+   "title": "Летние концерты в Порту",
+   "type": "концерт",
+   "date_start": "2026-05-29",
+   "date_end": "2026-07-31",
    "time": null,
-   "place": "Малый зал МНИ",
+   "place": "Севкабель Порт",
    "persons": [],
+   "about": null,
+   "relevance": 4,
+   "_participant": "Севкабель Порт",
+   "_address": "Кожевенная линия, 40",
+   "_url": "https://sevcableport.ru/afisha",
+   "_category": "креативное пространство"
+  },
+  {
+   "title": "Истории, рассказанные под подушкой",
+   "type": "выставка",
+   "date_start": "2026-06-26",
+   "date_end": "2026-08-02",
+   "time": null,
+   "place": "INTROVERT Gallery",
+   "persons": [
+    "Ксения Макаренко"
+   ],
    "about": null,
    "relevance": 4,
    "_participant": "Арт-центр Пушкинская-10",
@@ -250,168 +362,52 @@
    "_category": "музей"
   },
   {
-   "title": "Детский фестиваль «Арт-наука»",
-   "type": "фестиваль",
-   "date_start": "2026-06-25",
-   "date_end": "2026-06-28",
+   "title": "Дополнительная программа к выставке «Русский Императив»",
+   "type": "другое",
+   "date_start": "2026-06-29",
+   "date_end": "2026-07-12",
    "time": null,
-   "place": "Севкабель Порт",
+   "place": "Музейно-выставочный комплекс «Манеж», Санкт-Петербург, Исаакиевская площадь, 1",
    "persons": [],
-   "about": "Детский фестиваль",
+   "about": "Дополнительная программа мероприятий к выставке «Русский Императив»",
    "relevance": 4,
-   "_participant": "Севкабель Порт",
-   "_address": "Кожевенная линия, 40",
-   "_url": "https://sevcableport.ru/afisha",
+   "_participant": "ЦВЗ Манеж",
+   "_address": "Исаакиевская пл., 1",
+   "_url": "https://manege.spb.ru/categories/events",
+   "_category": "музей"
+  },
+  {
+   "title": "Большая кухня малых голландцев",
+   "type": "лекция",
+   "date_start": "2026-07-01",
+   "date_end": null,
+   "time": "12:00",
+   "place": "Лекторий masters",
+   "persons": [
+    "Ольга Хорошилова"
+   ],
+   "about": "Лекция о кулинарных традициях XVII века в Голландии.",
+   "relevance": 4,
+   "_participant": "Левашовский хлебозавод",
+   "_address": "Барочная ул., 4А",
+   "_url": "https://levashovsky.ru/afisha",
    "_category": "креативное пространство"
   },
   {
-   "title": "Фестиваль ЭтоЭтно",
-   "type": "фестиваль",
-   "date_start": "2026-06-27",
-   "date_end": "2026-06-28",
-   "time": null,
-   "place": "Севкабель Порт",
-   "persons": [],
-   "about": "Фестиваль ЭтоЭтно",
-   "relevance": 3,
-   "_participant": "Севкабель Порт",
-   "_address": "Кожевенная линия, 40",
-   "_url": "https://sevcableport.ru/afisha",
-   "_category": "креативное пространство"
-  },
-  {
-   "title": "Кочегар. АртПоказ",
+   "title": "SUB Метрополис. АртПоказ",
    "type": "кино",
-   "date_start": "2026-06-27",
+   "date_start": "2026-07-01",
    "date_end": null,
    "time": "19:00",
-   "place": "Большой зал",
+   "place": "Киноцентр «Родина»",
    "persons": [],
-   "about": "Драма, криминал, хоррор",
-   "relevance": 3,
+   "about": "Драма, триллер, фантастика",
+   "relevance": 4,
    "_participant": "Киноцентр «Родина»",
    "_address": "Караванная ул., 12",
    "_url": "https://rodinakino.ru/?facility=rodina",
    "_category": "кино"
-  },
-  {
-   "title": "Марк глазами Софии",
-   "type": "кино",
-   "date_start": "2026-06-27",
-   "date_end": null,
-   "time": "19:30",
-   "place": "Малый 1 зал",
-   "persons": [],
-   "about": "Документальный",
-   "relevance": 2,
-   "_participant": "Киноцентр «Родина»",
-   "_address": "Караванная ул., 12",
-   "_url": "https://rodinakino.ru/?facility=rodina",
-   "_category": "кино"
-  },
-  {
-   "title": "Я танцую по стране",
-   "type": "экскурсия",
-   "date_start": "2026-06-27",
-   "date_end": "2026-07-25",
-   "time": null,
-   "place": "Севкабель Порт",
-   "persons": [],
-   "about": "Экскурсия",
-   "relevance": 1,
-   "_participant": "Севкабель Порт",
-   "_address": "Кожевенная линия, 40",
-   "_url": "https://sevcableport.ru/afisha",
-   "_category": "креативное пространство"
-  },
-  {
-   "title": "Ателье колдовских колпаков",
-   "type": "кино",
-   "date_start": "2026-06-27",
-   "date_end": null,
-   "time": "16:20",
-   "place": null,
-   "persons": [],
-   "about": "Аниме, мультфильм, фэнтези",
-   "relevance": 1,
-   "_participant": "Киноцентр «Родина»",
-   "_address": "Караванная ул., 12",
-   "_url": "https://rodinakino.ru/?facility=rodina",
-   "_category": "кино"
-  },
-  {
-   "title": "Вероятно, чаепитие состоится",
-   "type": "спектакль",
-   "date_start": "2026-06-27",
-   "date_end": null,
-   "time": [
-    "12:00",
-    "14:30",
-    "17:00"
-   ],
-   "place": "Ул. Ломоносова, 14 (во дворе)",
-   "persons": [],
-   "about": null,
-   "relevance": 0,
-   "_participant": "Театр Karlsson Haus",
-   "_address": "Фурштатская ул., 30",
-   "_url": "https://www.karlssonhaus.ru/",
-   "_category": "театр"
-  },
-  {
-   "title": "Пой, Юсси, пой!",
-   "type": "спектакль",
-   "date_start": "2026-06-27",
-   "date_end": null,
-   "time": [
-    "12:00",
-    "14:30"
-   ],
-   "place": "Наб. р. Фонтанки, 50 (домик во дворе)",
-   "persons": [],
-   "about": null,
-   "relevance": 0,
-   "_participant": "Театр Karlsson Haus",
-   "_address": "Фурштатская ул., 30",
-   "_url": "https://www.karlssonhaus.ru/",
-   "_category": "театр"
-  },
-  {
-   "title": "Эйнштейн. Что нам светит?",
-   "type": "спектакль",
-   "date_start": "2026-06-27",
-   "date_end": null,
-   "time": [
-    "13:00",
-    "16:00"
-   ],
-   "place": "Ул. Кирочная, 67",
-   "persons": [],
-   "about": null,
-   "relevance": 0,
-   "_participant": "Театр Karlsson Haus",
-   "_address": "Фурштатская ул., 30",
-   "_url": "https://www.karlssonhaus.ru/",
-   "_category": "театр"
-  },
-  {
-   "title": "Домашние монстры",
-   "type": "спектакль",
-   "date_start": "2026-06-27",
-   "date_end": null,
-   "time": [
-    "13:30",
-    "16:00"
-   ],
-   "place": "Наб. р. Фонтанки, 50 (во дворе)",
-   "persons": [],
-   "about": null,
-   "relevance": 0,
-   "_participant": "Театр Karlsson Haus",
-   "_address": "Фурштатская ул., 30",
-   "_url": "https://www.karlssonhaus.ru/",
-   "_category": "театр"
   }
  ],
- "since": 353222295
+ "since": 0
 }
