@@ -363,6 +363,7 @@ participants:
       - {type: website, url: "https://alexandrinsky.ru/"}
       - {type: vk, url: "https://vk.com/alexandrinsky"}
       - {type: telegram, url: "https://t.me/alexandrinsky"}
+      - {type: telegram, url: "https://t.me/newstageprojects"}
     status: active
 
   - id: skorohod
