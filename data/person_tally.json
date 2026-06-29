@@ -587,5 +587,97 @@
     }
    ]
   }
+ },
+ "2026-W27": {
+  "Сергей Бугаев": {
+   "count": 1,
+   "events": [
+    {
+     "t": "АФРИКА. СЕРГЕЙ БУГАЕВ",
+     "p": "Музей искусства Санкт-Петербурга XX-XXI веков (МИСП)",
+     "u": "https://mispxx-xxi.ru/exhibitions"
+    }
+   ]
+  },
+  "Ахсарбек Ахполов": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка «Большая прогулка»",
+     "p": "Новый музей современного искусства",
+     "u": "https://www.novymuseum.ru/exch/"
+    }
+   ]
+  },
+  "Ульяна Гончарова": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка «Большая прогулка»",
+     "p": "Новый музей современного искусства",
+     "u": "https://www.novymuseum.ru/exch/"
+    }
+   ]
+  },
+  "Виталий Пушницкий": {
+   "count": 1,
+   "events": [
+    {
+     "t": "ВИТАЛИЙ ПУШНИЦКИЙ. ЗЕМЛЯ. 2026",
+     "p": "Marina Gisich Gallery",
+     "u": "https://www.gisich.com/ru/exhibitions"
+    }
+   ]
+  },
+  "Марья Дмитриева": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Пик Неопределённости",
+     "p": "Anna Nova Gallery",
+     "u": "https://www.annanova-gallery.ru/exhibitions"
+    }
+   ]
+  },
+  "Елена Немкова": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Пик Неопределённости",
+     "p": "Anna Nova Gallery",
+     "u": "https://www.annanova-gallery.ru/exhibitions"
+    }
+   ]
+  },
+  "Димитрий Зойлян": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Димитрия Зойляна «Собака-меандр»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Владимир Савчук": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Владимира Савчука «Ландшафты ваших лиц на ладони»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Екатерина Кузьмина": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Екатерины Кузьминой «Во сне они превращались в марионеток»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  }
  }
 }
