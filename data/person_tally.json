@@ -678,6 +678,16 @@
      "u": "https://www.artmuza.spb.ru/events/novosti"
     }
    ]
+  },
+  "Ноймайер": {
+   "count": 1,
+   "events": [
+    {
+     "t": "TheatreHD: Ноймайер: Стеклянный зверинец. Спектакль в кинотеатре",
+     "p": "Киноцентр «Родина»",
+     "u": "https://rodinakino.ru/?facility=rodina"
+    }
+   ]
   }
  }
 }
