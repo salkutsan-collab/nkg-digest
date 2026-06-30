@@ -1,71 +1,106 @@
 {
- "target": "2026-06-30",
- "day_key": "tuesday",
- "start": "2026-06-30",
- "end": "2026-07-07",
+ "target": "2026-07-01",
+ "day_key": "wednesday",
+ "start": "2026-07-01",
+ "end": "2026-07-08",
  "events": [
   {
-   "title": "TheatreHD: Ноймайер: Стеклянный зверинец. Спектакль в кинотеатре",
-   "type": "спектакль",
-   "date_start": "2026-06-30",
-   "date_end": null,
-   "time": "12:35",
-   "place": null,
-   "persons": [
-    "Ноймайер"
-   ],
-   "about": "Балет",
-   "relevance": 5,
-   "_participant": "Киноцентр «Родина»",
-   "_address": "Караванная ул., 12",
-   "_url": "https://rodinakino.ru/?facility=rodina",
-   "_category": "кино"
-  },
-  {
-   "title": "Арт-лекторий: Джотто. Предчувствие Ренессанса",
+   "title": "Живопись «Золотого века»",
    "type": "лекция",
-   "date_start": "2026-06-30",
+   "date_start": "2026-07-08",
    "date_end": null,
-   "time": "11:25",
-   "place": null,
-   "persons": [],
-   "about": "Документальный фильм об искусстве",
+   "time": "12:00",
+   "place": "Лекторий masters",
+   "persons": [
+    "Максим Костыря"
+   ],
+   "about": "Лекция о гении Рембрандта, Франса Халса, Яна Вермеера и других известных художников.",
    "relevance": 5,
-   "_participant": "Киноцентр «Родина»",
-   "_address": "Караванная ул., 12",
-   "_url": "https://rodinakino.ru/?facility=rodina",
-   "_category": "кино"
+   "_participant": "Левашовский хлебозавод",
+   "_address": "Барочная ул., 4А",
+   "_url": "https://levashovsky.ru/afisha",
+   "_category": "креативное пространство"
   },
   {
-   "title": "TheatreHD: Венская опера: Дон Жуан",
-   "type": "спектакль",
+   "title": "Большая кухня малых голландцев",
+   "type": "лекция",
    "date_start": "2026-07-01",
    "date_end": null,
-   "time": "18:40",
-   "place": null,
-   "persons": [],
-   "about": "Опера",
-   "relevance": 5,
-   "_participant": "Киноцентр «Родина»",
-   "_address": "Караванная ул., 12",
-   "_url": "https://rodinakino.ru/?facility=rodina",
-   "_category": "кино"
-  },
-  {
-   "title": "SUB Метрополис. АртПоказ",
-   "type": "кино",
-   "date_start": "2026-07-01",
-   "date_end": null,
-   "time": "19:00",
-   "place": null,
-   "persons": [],
-   "about": "Драма, триллер, фантастика",
+   "time": "12:00",
+   "place": "Лекторий masters",
+   "persons": [
+    "Ольга Хорошилова"
+   ],
+   "about": "Лекция о кулинарных традициях XVII века в Голландии и их отражении в живописи.",
    "relevance": 3,
-   "_participant": "Киноцентр «Родина»",
-   "_address": "Караванная ул., 12",
-   "_url": "https://rodinakino.ru/?facility=rodina",
-   "_category": "кино"
+   "_participant": "Левашовский хлебозавод",
+   "_address": "Барочная ул., 4А",
+   "_url": "https://levashovsky.ru/afisha",
+   "_category": "креативное пространство"
+  },
+  {
+   "title": "Туры по выставке «Русский Императив»",
+   "type": "экскурсия",
+   "date_start": "2026-07-01",
+   "date_end": "2026-07-12",
+   "time": null,
+   "place": "Музейно-выставочный комплекс «Манеж», Санкт-Петербург, Исаакиевская площадь, 1",
+   "persons": [],
+   "about": "Экскурсии по выставке «Русский Императив»",
+   "relevance": 3,
+   "_participant": "ЦВЗ Манеж",
+   "_address": "Исаакиевская пл., 1",
+   "_url": "https://manege.spb.ru/categories/events",
+   "_category": "музей"
+  },
+  {
+   "title": "Программа лекторий’порт на июль",
+   "type": "лекция",
+   "date_start": "2026-07-03",
+   "date_end": "2026-07-19",
+   "time": null,
+   "place": "Севкабель Порт",
+   "persons": [],
+   "about": null,
+   "relevance": 3,
+   "_participant": "Севкабель Порт",
+   "_address": "Кожевенная линия, 40",
+   "_url": "https://sevcableport.ru/afisha",
+   "_category": "креативное пространство"
+  },
+  {
+   "title": "Кукловедение",
+   "type": "мастер-класс",
+   "date_start": "2026-07-05",
+   "date_end": null,
+   "time": [
+    "11:30",
+    "14:00"
+   ],
+   "place": "Ул. Ломоносова, 14 (во дворе)",
+   "persons": [],
+   "about": null,
+   "relevance": 3,
+   "_participant": "Театр Karlsson Haus",
+   "_address": "Фурштатская ул., 30",
+   "_url": "https://www.karlssonhaus.ru/",
+   "_category": "театр"
+  },
+  {
+   "title": "Мастер-класс Я хочу собрать Ледовый",
+   "type": "мастер-класс",
+   "date_start": "2026-07-04",
+   "date_end": null,
+   "time": null,
+   "place": "Севкабель Порт",
+   "persons": [],
+   "about": null,
+   "relevance": 2,
+   "_participant": "Севкабель Порт",
+   "_address": "Кожевенная линия, 40",
+   "_url": "https://sevcableport.ru/afisha",
+   "_category": "креативное пространство"
   }
  ],
- "since": 353222296
+ "since": 353222297
 }
