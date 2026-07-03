@@ -17,8 +17,8 @@
 # Файл переписывается агентом 1 в едином формате; группировка по категориям - автоматическая.
 
 meta:
-  version: 1
-  updated: 2026-06-14
+  version: 2
+  updated: 2026-07-03
   city: Санкт-Петербург
   topics: [дизайн, современное искусство, стрит-арт, креативные индустрии]
   source_report: Новая культурная география Санкт-Петербурга (2021)
@@ -141,6 +141,16 @@ participants:
       - {type: vk, url: "https://vk.com/openmasters", verify: true}
     status: dead
 
+  - id: lenpoligrafmash
+    name: Квартал Ленполиграфмаш
+    category: креативное пространство
+    address: "наб. реки Карповки, 5"
+    tags: [дизайн, выставки, лекции, маркеты]
+    events_url: "https://lpmtech.ru/?s=%D0%B2%D1%8B%D1%81%D1%82%D0%B0%D0%B2%D0%BA%D0%B8"
+    sources:
+      - {type: website, url: "https://lpmtech.ru/"}
+    status: active
+
   # ---------- музей ----------
 
   - id: artmuza
@@ -223,6 +233,17 @@ participants:
       - {type: telegram, url: "https://t.me/fabergemuseum"}
     status: active
 
+  - id: kuryokhin-center
+    name: Центр современного искусства им. Сергея Курехина
+    category: музей
+    address: "Средний просп. В. О., 93"
+    tags: [выставки, современное искусство, перформанс, концерты]
+    events_url: "https://www.kuryokhin.net/afisha"
+    sources:
+      - {type: website, url: "https://www.kuryokhin.net/"}
+      - {type: vk, url: "https://vk.com/kuryokhincenter"}
+    status: active
+
   # ---------- галерея ----------
 
   - id: marina-gisich
@@ -300,6 +321,108 @@ participants:
     tags: [выставки, дизайн, цифровое искусство]
     sources:
       - {type: website, url: "https://zifergauz.ru/"}
+    status: dead
+
+  - id: name-gallery
+    name: Name Gallery
+    category: галерея
+    address: "Большая Конюшенная ул., 2"
+    tags: [выставки, современное искусство]
+    events_url: "http://namegallery.ru/archive"
+    sources:
+      - {type: website, url: "http://namegallery.ru/"}
+      - {type: vk, url: "https://vk.com/namegallery"}
+      - {type: telegram, url: "https://t.me/namegalleryspb"}
+    status: active
+
+  - id: luda-gallery
+    name: Галерея Люда
+    category: галерея
+    address: "Тележная ул., 37"
+    tags: [выставки, современное искусство]
+    sources:
+      - {type: website, url: "https://galleryluda.com/"}
+    status: active
+
+  - id: abramova-gallery
+    name: Abramova Gallery
+    category: галерея
+    address: "Красногвардейская пл., 3Е (Design District DAA)"
+    tags: [выставки, современное искусство]
+    events_url: "https://abramovagallery.art/news/"
+    sources:
+      - {type: website, url: "https://abramovagallery.art/"}
+      - {type: vk, url: "https://vk.com/abramovagallery"}
+      - {type: telegram, url: "https://t.me/Abramovagallery"}
+    status: active
+
+  - id: michaels-gallery
+    name: "Michael's Gallery"
+    category: галерея
+    address: "Заозерная ул., 3"
+    tags: [выставки, современное искусство]
+    events_url: "https://michaelsgallery.art/opencall"
+    sources:
+      - {type: website, url: "https://michaelsgallery.art/"}
+      - {type: telegram, url: "https://t.me/michaelsgalleryart"}
+    status: active
+
+  - id: jessica-gallery
+    name: Jessica Gallery
+    category: галерея
+    address: "Кожевенная линия, 30 (Брусницын)"
+    tags: [выставки, современное искусство]
+    events_url: "https://jessicagallery.com/events"
+    sources:
+      - {type: website, url: "https://jessicagallery.com/"}
+    status: active
+
+  - id: joy-gallery
+    name: JOY Gallery
+    category: галерея
+    address: "Петровская коса, 6, корп. 1"
+    tags: [выставки, современное искусство]
+    events_url: "http://joygallery.ru/exhibitions"
+    sources:
+      - {type: website, url: "https://joygallery.ru/"}
+      - {type: telegram, url: "https://t.me/joygallery_saintp"}
+    status: active
+
+  - id: sobo-gallery
+    name: Sobo Gallery
+    category: галерея
+    address: "Моховая ул., 27-29"
+    tags: [выставки, современное искусство]
+    events_url: "https://sobo.gallery/"
+    sources:
+      - {type: website, url: "https://sobo.gallery/"}
+      - {type: telegram, url: "https://t.me/sobogallery"}
+    status: active
+
+  - id: ohra-gallery
+    name: Фиджитал-галерея Охра
+    category: галерея
+    address: "наб. реки Мойки, 37"
+    tags: [выставки, современное искусство, цифровое искусство]
+    events_url: "https://phygitalgallery.ru/proect"
+    sources:
+      - {type: website, url: "https://phygitalgallery.ru/"}
+      - {type: vk, url: "https://vk.com/ohra.phygital"}
+      - {type: telegram, url: "https://t.me/phygitalgallery"}
+    status: active
+
+  # ---------- стрит-арт ----------
+
+  - id: street-art-storage
+    name: Стрит-арт хранение (САХ)
+    category: стрит-арт
+    address: "Кожевенная ул., 40Е (Севкабель Порт)"
+    tags: [стрит-арт, выставки, муралы, арт-объекты]
+    events_url: "https://street-art-storage.com/projects/"
+    sources:
+      - {type: website, url: "https://street-art-storage.com/"}
+      - {type: vk, url: "https://vk.com/streetartstorage"}
+      - {type: telegram, url: "https://t.me/streetartkeeper"}
     status: active
 
   # ---------- дизайн-центр ----------
@@ -322,8 +445,8 @@ participants:
     tags: [дизайн, выставки, кураторские проекты]
     events_url: "https://www.koordinata.space/"
     sources:
-      - {type: website, url: "https://www.koordinata.space/", verify: true}
-    status: dead
+      - {type: website, url: "https://www.koordinata.space/"}
+    status: active
 
   # ---------- образование ----------
 
@@ -453,7 +576,9 @@ participants:
     events_url: "https://vokzal1853.ru/events/"
     sources:
       - {type: website, url: "https://vokzal1853.ru/"}
-    status: dead
+      - {type: vk, url: "https://vk.com/vokzal1853"}
+      - {type: telegram, url: "https://t.me/vokzal_1853_official"}
+    status: active
 
   - id: dolgoozerny-market
     name: Гастромаркет Долгоозёрный
