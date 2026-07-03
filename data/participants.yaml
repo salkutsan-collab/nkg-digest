@@ -89,8 +89,8 @@ participants:
     address: "Литейный просп., 62"
     tags: [лекции, выставки, концерты]
     sources:
-      - {type: website, url: "https://third-place.ru/", verify: true}
-    status: dead
+      - {type: website, url: "https://third-place.ru/"}
+    status: active
 
   - id: vavilov-loft
     name: Вавилов Лофт
@@ -107,8 +107,8 @@ participants:
     address: "Гороховая ул., 49Б"
     tags: [лекции, выставки, маркеты]
     sources:
-      - {type: vk, url: "https://vk.com/senospace", verify: true}
-    status: dead
+      - {type: vk, url: "https://vk.com/senospace"}
+    status: active
 
   - id: etagi
     name: Лофт Проект Этажи
@@ -117,8 +117,8 @@ participants:
     tags: [выставки, маркеты, лекции]
     events_url: "https://www.loftprojectetagi.ru/visitors/mesta-vystavok-i-festivaley"
     sources:
-      - {type: website, url: "https://www.loftprojectetagi.ru/", verify: true}
-    status: dead
+      - {type: website, url: "https://www.loftprojectetagi.ru/"}
+    status: active
 
   - id: levashovsky
     name: Левашовский хлебозавод
