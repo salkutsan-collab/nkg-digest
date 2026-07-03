@@ -314,15 +314,6 @@ participants:
       - {type: telegram, url: "https://t.me/didiartgallery"}
     status: active
 
-  - id: zifergauz
-    name: Галерея Цифергауз
-    category: галерея
-    address: "наб. Адмиралтейского канала, 2И"
-    tags: [выставки, дизайн, цифровое искусство]
-    sources:
-      - {type: website, url: "https://zifergauz.ru/"}
-    status: dead
-
   - id: name-gallery
     name: Name Gallery
     category: галерея
@@ -522,16 +513,6 @@ participants:
     status: needs_verification
 
   # ---------- кино ----------
-
-  - id: dom-kino-spb
-    name: Киноцентр «Дом кино»
-    category: кино
-    address: "Караванная ул., 12"
-    tags: [кино, артхаус, ретроспективы]
-    events_url: "https://www.domkino.spb.ru/schedule/"
-    sources:
-      - {type: website, url: "https://www.domkino.spb.ru/"}
-    status: dead
 
   - id: avrora-cinema
     name: Кинотеатр «Аврора»
