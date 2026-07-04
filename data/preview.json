@@ -1,9 +1,24 @@
 {
- "target": "2026-07-03",
- "day_key": "friday",
- "start": "2026-07-04",
- "end": "2026-07-05",
+ "target": "2026-07-05",
+ "day_key": "sunday",
+ "start": "2026-07-06",
+ "end": "2026-07-12",
  "events": [
+  {
+   "title": "Траектории интервалов",
+   "type": "выставка",
+   "date_start": "2026-03-13",
+   "date_end": "2026-10-18",
+   "time": null,
+   "place": "Севкабель Порт",
+   "persons": [],
+   "about": null,
+   "relevance": 5,
+   "_participant": "Севкабель Порт",
+   "_address": "Кожевенная линия, 40",
+   "_url": "https://sevcableport.ru/afisha",
+   "_category": "креативное пространство"
+  },
   {
    "title": "Фокус: Перформанс",
    "type": "выставка",
@@ -42,9 +57,9 @@
    "date_start": "2026-06-03",
    "date_end": "2026-09-13",
    "time": null,
-   "place": "Музей Фаберже, Санкт-Петербург",
+   "place": "Музей Фаберже",
    "persons": [],
-   "about": "Выставка, посвященная художественному наследию братьев Маковских, приурочена к 180-летию Владимира Маковского.",
+   "about": "Выставка, посвященная художественному наследию двух братьев из знаменитой творческой династии.",
    "relevance": 5,
    "_participant": "Музей Фаберже",
    "_address": "наб. реки Фонтанки, 21",
@@ -57,7 +72,7 @@
    "date_start": "2026-06-05",
    "date_end": "2026-08-02",
    "time": null,
-   "place": "Санкт-Петербург, Наб. канала Грибоедова, 101 и 103",
+   "place": "Санкт-Петербург, наб. канала Грибоедова, 101 и 103",
    "persons": [
     "Сергей Бугаев"
    ],
@@ -78,7 +93,7 @@
    "persons": [
     "Виталий Пушницкий"
    ],
-   "about": "Персональная выставка Виталия Пушницкого",
+   "about": null,
    "relevance": 5,
    "_participant": "Marina Gisich Gallery",
    "_address": "наб. реки Фонтанки, 121",
@@ -98,6 +113,23 @@
    "_participant": "KGallery",
    "_address": "наб. реки Фонтанки, 24",
    "_url": "https://kgallery.ru/exhibitions",
+   "_category": "галерея"
+  },
+  {
+   "title": "«Сервантное хранение», Паша Безор",
+   "type": "выставка",
+   "date_start": "2026-06-18",
+   "date_end": "2026-07-26",
+   "time": null,
+   "place": "Моховая ул., 27-29, Санкт-Петербург, 191028",
+   "persons": [
+    "Паша Безор"
+   ],
+   "about": "Выставка произведений Паши Безора.",
+   "relevance": 5,
+   "_participant": "Sobo Gallery",
+   "_address": "Моховая ул., 27-29",
+   "_url": "https://sobo.gallery/",
    "_category": "галерея"
   },
   {
@@ -200,14 +232,93 @@
    "_category": "музей"
   },
   {
+   "title": "Выставка «ВАН ГОГ И ТЕО»",
+   "type": "выставка",
+   "date_start": "2026-07-06",
+   "date_end": "2026-08-31",
+   "time": "10:00",
+   "place": "Лофт Проект Этажи",
+   "persons": [],
+   "about": "Выставка посвящена жизни и творчеству Ван Гога и его брата Тео",
+   "relevance": 5,
+   "_participant": "Лофт Проект Этажи",
+   "_address": "Лиговский просп., 74",
+   "_url": "https://www.loftprojectetagi.ru/visitors/mesta-vystavok-i-festivaley",
+   "_category": "креативное пространство"
+  },
+  {
+   "title": "Фрида Кало. Да здравствует жизнь!",
+   "type": "выставка",
+   "date_start": "2026-07-06",
+   "date_end": "2026-08-31",
+   "time": "10:00",
+   "place": "Лофт Проект Этажи",
+   "persons": [
+    "Фрида Кало"
+   ],
+   "about": "Выставка, посвящённая жизни и творчеству Фриды Кало",
+   "relevance": 5,
+   "_participant": "Лофт Проект Этажи",
+   "_address": "Лиговский просп., 74",
+   "_url": "https://www.loftprojectetagi.ru/visitors/mesta-vystavok-i-festivaley",
+   "_category": "креативное пространство"
+  },
+  {
+   "title": "Выставка «Корпорация счастья»",
+   "type": "выставка",
+   "date_start": "2026-07-06",
+   "date_end": "2026-07-28",
+   "time": null,
+   "place": "Средний пр. В.О. 93",
+   "persons": [],
+   "about": "Выставка Центра искусства и науки ИТМО",
+   "relevance": 5,
+   "_participant": "Центр современного искусства им. Сергея Курехина",
+   "_address": "Средний просп. В. О., 93",
+   "_url": "https://www.kuryokhin.net/afisha",
+   "_category": "музей"
+  },
+  {
+   "title": "Выставка «Адреса перемен 2.0 Художественная жизнь Ленинграда — Санкт-Петербурга 1980−2000»",
+   "type": "выставка",
+   "date_start": "2026-07-06",
+   "date_end": null,
+   "time": null,
+   "place": "Средний пр. В.О. 93",
+   "persons": [],
+   "about": "Художественная жизнь Ленинграда — Санкт-Петербурга 1980−2000",
+   "relevance": 5,
+   "_participant": "Центр современного искусства им. Сергея Курехина",
+   "_address": "Средний просп. В. О., 93",
+   "_url": "https://www.kuryokhin.net/afisha",
+   "_category": "музей"
+  },
+  {
+   "title": "Живопись «Золотого века»",
+   "type": "лекция",
+   "date_start": "2026-07-08",
+   "date_end": null,
+   "time": "12:00",
+   "place": "Лекторий masters",
+   "persons": [
+    "Максим Костыря"
+   ],
+   "about": "Лекция о гении Рембрандта, Франса Халса, Яна Вермеера, Якоба ван Рёйсдала и других известных художников.",
+   "relevance": 5,
+   "_participant": "Левашовский хлебозавод",
+   "_address": "Барочная ул., 4А",
+   "_url": "https://levashovsky.ru/afisha",
+   "_category": "креативное пространство"
+  },
+  {
    "title": "Выставочный проект «Русский императив»",
    "type": "выставка",
-   "date_start": "2026-07-04",
+   "date_start": "2026-07-08",
    "date_end": "2026-07-12",
    "time": null,
    "place": "Музейно-выставочный комплекс «Манеж», Санкт-Петербург, Исаакиевская площадь, 1",
    "persons": [],
-   "about": "Выставка «Русский императив» в Манеже",
+   "about": "Выставка посвящена русскому искусству.",
    "relevance": 5,
    "_participant": "ЦВЗ Манеж",
    "_address": "Исаакиевская пл., 1",
@@ -215,21 +326,34 @@
    "_category": "музей"
   },
   {
-   "title": "Николай Акимов и ученики",
-   "type": "выставка",
-   "date_start": "2026-03-26",
-   "date_end": "2026-07-05",
+   "title": "Туры по выставке «Русский Императив»",
+   "type": "экскурсия",
+   "date_start": "2026-07-08",
+   "date_end": "2026-07-12",
    "time": null,
-   "place": "Санкт-Петербург, Наб. канала Грибоедова, 101 и 103",
-   "persons": [
-    "Николай Акимов"
-   ],
-   "about": "Выставка, посвященная Николаю Акимову и его ученикам",
-   "relevance": 4,
-   "_participant": "Музей искусства Санкт-Петербурга XX-XXI веков (МИСП)",
-   "_address": "наб. канала Грибоедова, 103",
-   "_url": "https://mispxx-xxi.ru/exhibitions",
+   "place": "Музейно-выставочный комплекс «Манеж», Санкт-Петербург, Исаакиевская площадь, 1",
+   "persons": [],
+   "about": "Экскурсии по выставке «Русский Императив».",
+   "relevance": 5,
+   "_participant": "ЦВЗ Манеж",
+   "_address": "Исаакиевская пл., 1",
+   "_url": "https://manege.spb.ru/categories/events",
    "_category": "музей"
+  },
+  {
+   "title": "Внутренние вступительные испытания",
+   "type": "другое",
+   "date_start": "2026-07-10",
+   "date_end": null,
+   "time": null,
+   "place": "Санкт-Петербург, 25-я линия Васильевского острова, 6, корп. 1, каб. 304",
+   "persons": [],
+   "about": "Вступительные испытания на программу «Дизайн» в Школе дизайна НИУ ВШЭ — Санкт-Петербург.",
+   "relevance": 5,
+   "_participant": "Школа дизайна НИУ ВШЭ - Санкт-Петербург",
+   "_address": "наб. канала Грибоедова, 123",
+   "_url": "https://spb.hse.ru/ba/designs",
+   "_category": "образование"
   },
   {
    "title": "МАКСИМ ИМА. ЗАЩИТА ДЕВЕЛОПЕРСКОГО ПРОЕКТА. 2026",
@@ -241,7 +365,7 @@
    "persons": [
     "Максим Има"
    ],
-   "about": "Выставка, посвященная защите девелоперского проекта",
+   "about": null,
    "relevance": 4,
    "_participant": "Marina Gisich Gallery",
    "_address": "наб. реки Фонтанки, 121",
@@ -267,152 +391,20 @@
    "_category": "музей"
   },
   {
-   "title": "Спички юбилейные «Дверь»",
-   "type": "выставка",
-   "date_start": "2026-06-27",
-   "date_end": "2026-07-26",
-   "time": null,
-   "place": null,
-   "persons": [
-    "Ксения Макаренко"
-   ],
-   "about": null,
-   "relevance": 3,
-   "_participant": "Арт-центр Пушкинская-10",
-   "_address": "Лиговский просп., 53",
-   "_url": "https://p-10.ru/season/actual",
-   "_category": "музей"
-  },
-  {
-   "title": "Метрополис. АртПоказ",
-   "type": "кино",
-   "date_start": "2026-07-04",
-   "date_end": null,
-   "time": "20:30",
-   "place": "Киноцентр «Родина», Большой зал",
-   "persons": [],
-   "about": "Артпоказ фильма «Метрополис» 1927 года.",
-   "relevance": 3,
-   "_participant": "Киноцентр «Родина»",
-   "_address": "Караванная ул., 12",
-   "_url": "https://rodinakino.ru/?facility=rodina",
-   "_category": "кино"
-  },
-  {
-   "title": "Кукловедение",
+   "title": "Мастер-классы по керамике в Керамиста",
    "type": "мастер-класс",
-   "date_start": "2026-07-05",
-   "date_end": null,
-   "time": [
-    "11:30",
-    "14:00"
-   ],
-   "place": "Ул. Ломоносова, 14 (во дворе)",
-   "persons": [],
-   "about": null,
-   "relevance": 3,
-   "_participant": "Театр Karlsson Haus",
-   "_address": "Фурштатская ул., 30",
-   "_url": "https://www.karlssonhaus.ru/",
-   "_category": "театр"
-  },
-  {
-   "title": "Я хочу собрать Ледовый",
-   "type": "мастер-класс",
-   "date_start": "2026-07-04",
-   "date_end": null,
+   "date_start": "2026-07-01",
+   "date_end": "2026-07-31",
    "time": null,
    "place": "Севкабель Порт",
    "persons": [],
    "about": null,
-   "relevance": 2,
+   "relevance": 4,
    "_participant": "Севкабель Порт",
    "_address": "Кожевенная линия, 40",
    "_url": "https://sevcableport.ru/afisha",
    "_category": "креативное пространство"
-  },
-  {
-   "title": "Петербургская Ярмарка",
-   "type": "маркет",
-   "date_start": "2026-07-04",
-   "date_end": "2026-07-05",
-   "time": null,
-   "place": "Севкабель Порт",
-   "persons": [],
-   "about": null,
-   "relevance": 1,
-   "_participant": "Севкабель Порт",
-   "_address": "Кожевенная линия, 40",
-   "_url": "https://sevcableport.ru/afisha",
-   "_category": "креативное пространство"
-  },
-  {
-   "title": "Вероятно, чаепитие состоится",
-   "type": "спектакль",
-   "date_start": "2026-07-04",
-   "date_end": null,
-   "time": [
-    "12:00",
-    "14:30",
-    "17:00"
-   ],
-   "place": "Ул. Ломоносова, 14 (во дворе)",
-   "persons": [],
-   "about": null,
-   "relevance": 0,
-   "_participant": "Театр Karlsson Haus",
-   "_address": "Фурштатская ул., 30",
-   "_url": "https://www.karlssonhaus.ru/",
-   "_category": "театр"
-  },
-  {
-   "title": "Зверский детектив. Логово волка",
-   "type": "спектакль",
-   "date_start": "2026-07-04",
-   "date_end": null,
-   "time": [
-    "13:00",
-    "16:00"
-   ],
-   "place": "Ул. Кирочная, 67",
-   "persons": [],
-   "about": null,
-   "relevance": 0,
-   "_participant": "Театр Karlsson Haus",
-   "_address": "Фурштатская ул., 30",
-   "_url": "https://www.karlssonhaus.ru/",
-   "_category": "театр"
-  },
-  {
-   "title": "Закулисье реальности",
-   "type": "кино",
-   "date_start": "2026-07-04",
-   "date_end": null,
-   "time": "21:00",
-   "place": "Киноцентр «Родина», Малый 2 зал",
-   "persons": [],
-   "about": "Просмотр фильма «Закулисье реальности» с субтитрами.",
-   "relevance": 0,
-   "_participant": "Киноцентр «Родина»",
-   "_address": "Караванная ул., 12",
-   "_url": "https://rodinakino.ru/?facility=rodina",
-   "_category": "кино"
-  },
-  {
-   "title": "Ночной бизнес",
-   "type": "кино",
-   "date_start": "2026-07-04",
-   "date_end": null,
-   "time": "21:20",
-   "place": "Киноцентр «Родина», Малый 1 зал",
-   "persons": [],
-   "about": "Боевик «Ночной бизнес».",
-   "relevance": 0,
-   "_participant": "Киноцентр «Родина»",
-   "_address": "Караванная ул., 12",
-   "_url": "https://rodinakino.ru/?facility=rodina",
-   "_category": "кино"
   }
  ],
- "since": 0
+ "since": 353222298
 }
