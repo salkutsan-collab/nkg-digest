@@ -90,7 +90,7 @@ participants:
     tags: [лекции, выставки, концерты]
     sources:
       - {type: website, url: "https://third-place.ru/"}
-    status: active
+    status: dead
 
   - id: vavilov-loft
     name: Вавилов Лофт
@@ -108,7 +108,7 @@ participants:
     tags: [лекции, выставки, маркеты]
     sources:
       - {type: vk, url: "https://vk.com/senospace"}
-    status: active
+    status: dead
 
   - id: etagi
     name: Лофт Проект Этажи
@@ -437,7 +437,7 @@ participants:
     events_url: "https://www.koordinata.space/"
     sources:
       - {type: website, url: "https://www.koordinata.space/"}
-    status: active
+    status: dead
 
   # ---------- образование ----------
 
