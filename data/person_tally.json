@@ -729,5 +729,87 @@
     }
    ]
   }
+ },
+ "2026-W28": {
+  "Платон Петров": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Ленинград Саши Окуня. Начало (Из частных коллекций Петербурга)",
+     "p": "Арт-центр Пушкинская-10",
+     "u": "https://p-10.ru/season/actual"
+    }
+   ]
+  },
+  "Сергей Бугаев": {
+   "count": 1,
+   "events": [
+    {
+     "t": "АФРИКА. СЕРГЕЙ БУГАЕВ",
+     "p": "Музей искусства Санкт-Петербурга XX-XXI веков (МИСП)",
+     "u": "https://mispxx-xxi.ru/exhibitions"
+    }
+   ]
+  },
+  "Виталий Пушницкий": {
+   "count": 1,
+   "events": [
+    {
+     "t": "ВИТАЛИЙ ПУШНИЦКИЙ. ЗЕМЛЯ. 2026",
+     "p": "Marina Gisich Gallery",
+     "u": "https://www.gisich.com/ru/exhibitions"
+    }
+   ]
+  },
+  "Паша Безор": {
+   "count": 1,
+   "events": [
+    {
+     "t": "«Сервантное хранение», Паша Безор",
+     "p": "Sobo Gallery",
+     "u": "https://sobo.gallery/"
+    }
+   ]
+  },
+  "Марья Дмитриева": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Пик Неопределённости",
+     "p": "Anna Nova Gallery",
+     "u": "https://www.annanova-gallery.ru/exhibitions"
+    }
+   ]
+  },
+  "Елена Немкова": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Пик Неопределённости",
+     "p": "Anna Nova Gallery",
+     "u": "https://www.annanova-gallery.ru/exhibitions"
+    }
+   ]
+  },
+  "Димитрий Зойлян": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Димитрия Зойляна «Собака-меандр»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Владимир Савчук": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Владимира Савчука «Ландшафты ваших лиц на ладони»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  }
  }
 }
