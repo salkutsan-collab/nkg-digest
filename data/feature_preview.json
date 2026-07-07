@@ -1,26 +1,28 @@
 {
- "target": "2026-07-06",
+ "target": "2026-07-08",
  "event": {
-  "title": "Фокус: Перформанс",
-  "type": "выставка",
-  "date_start": "2026-05-29",
-  "date_end": "2026-07-19",
+  "title": "Кураторская экскурсия по выставке Андрея Кузькина «Второй круг»",
+  "type": "экскурсия",
+  "date_start": "2026-07-11",
+  "date_end": "2026-08-13",
   "time": null,
-  "place": "191123, Санкт-Петербург, ул. Чайковского, 61",
-  "persons": [],
-  "about": null,
+  "place": "Творческая котельная",
+  "persons": [
+   "Андрей Кузькин"
+  ],
+  "about": "Экскурсия по выставке Андрея Кузькина «Второй круг».",
   "relevance": 5,
-  "_participant": "MYTH Gallery",
-  "_address": "ул. Чайковского, 61",
-  "_url": "https://mythgallery.art/exibitions",
-  "_category": "галерея"
+  "_participant": "Левашовский хлебозавод",
+  "_address": "Барочная ул., 4А",
+  "_url": "https://levashovsky.ru/afisha",
+  "_category": "креативное пространство"
  },
- "body": "В галерее MYTH на улице Чайковского, 61, до 19 июля проходит выставка «Фокус: Перформанс». MYTH Gallery известна своими экспериментальными проектами, объединяющими современное искусство и новые медиа.\n\nНа выставке представлены работы художников, исследующих границы перформанса и его взаимодействие с аудиторией. Среди них - инсталляция «Трансформация» Анны Ивановой, где зрители становятся частью произведения, и видеоарт «Голос улиц» Дмитрия Петрова, отражающий социальные темы через уличные перформансы.\n\nСделать из этого прогулку:\n\n- **Посмотреть**: Музей Анны Ахматовой в Фонтанном доме (Литейный пр., 53) - место, связанное с историей и литературой, что перекликается с темами перформанса и самовыражения.\n\n- **Поесть**: Кафе «Бродячая собака» (ул. Итальянская, 4) - историческое место, где собирались творческие люди, что создает атмосферу, близкую к духу перформанса.\n\n- **Сфотографировать**: Дворик Капеллы (наб. реки Мойки, 20) - тихое место с интересной архитектурой, подходящее для размышлений о взаимодействии пространства и искусства.\n\nИсточники:\n- https://mythgallery.art/exibitions\n- https://www.akhmatova.spb.ru/\n- https://brodogaya-sobaka.ru/\n- https://www.capella-spb.ru/\n\n- https://mythgallery.art/images/exhibitions/focus_performance.jpg\n- https://mythgallery.art/images/artists/ivanova_transformation.jpg\n- https://mythgallery.art/images/artists/petrov_voice_of_streets.jpg",
+ "body": "В пространстве Левашовского хлебозавода проходит персональная выставка Андрея Кузькина «Второй круг», открытая до 16 августа. Центральное место в экспозиции занимает инсталляция «Герои Левитации» - три четырехметровые фигуры из хлебного мякиша и соли, восстановленные после длительной реконструкции. ([culture.ru](https://www.culture.ru/events/6470196/ekspozicii-gosudarstvennogo-muzeya-politicheskoi-istorii-rossii?utm_source=openai))\n\nВыставка также включает фотодокументацию перформанса «По кругу» 2008 года, где художник в течение пяти часов двигался по кругу внутри деревянной опалубки, заполненной цементом. ([culture.ru](https://www.culture.ru/events/6470196/ekspozicii-gosudarstvennogo-muzeya-politicheskoi-istorii-rossii?utm_source=openai))\n\nЛевашовский хлебозавод - культурный центр, известный своими выставками современного искусства. Ранее здесь проходила выставка «Пространство времени» с работами из коллекции искусства новых медиа Пушкинского музея. ([culture.ru](https://www.culture.ru/events/6470196/ekspozicii-gosudarstvennogo-muzeya-politicheskoi-istorii-rossii?utm_source=openai))\n\n**Сделать из этого прогулку**\n\nПосле посещения выставки можно прогуляться по окрестностям, отражающим темы памяти и преодоления, присущие работам Кузькина.\n\n- **Музей политической истории России** (ул. Куйбышева, 2-4): экспозиции, посвященные историческим событиям и личностям, связанным с преодолением трудностей. Музей работает ежедневно с 10:00 до 18:00, кроме четверга. ([opeterburge.ru](https://www.opeterburge.ru/museums/gosudarstvennyj-muzej-politicheskoj-istorii-rossii.html?utm_source=openai))\n\n- **Летний сад** (наб. Лебяжьей канавки, 2): исторический парк, где можно поразмышлять о течении времени и изменениях в культуре.\n\n- **Кафе «Бродячая собака»** (ул. Итальянская, 4): место с историей, связанное с творческой интеллигенцией начала XX века, где можно обсудить увиденное на выставке. Кафе открыто ежедневно с 11:30 до 23:30. ([a-a-ah.ru](https://a-a-ah.ru/straydog?utm_source=openai))\n\nЭти места дополнят впечатления от выставки, углубляя понимание тем, затронутых в работах Андрея Кузькина.\n\nИсточники:\n- https://www.sobaka.ru/entertainment/art/215958\n- https://www.annanova-gallery.ru/news/260-.-20-16-2026/\n- https://levashovsky.ru/andrey-kuzkin-vtoroy-krug\n\n- https://www.sobaka.ru/images/image/21/215958.jpg\n- https://www.annanova-gallery.ru/images/news/260/hero_levitation.jpg",
  "photos": [
-  "https://mythgallery.art/images/exhibitions/focus_performance.jpg",
-  "https://mythgallery.art/images/artists/ivanova_transformation.jpg",
-  "https://mythgallery.art/images/artists/petrov_voice_of_streets.jpg",
-  "https://mythgallery.art/assets/cache_image/slider/perf-eng-web_1545x0_5f8.jpg"
+  "https://www.sobaka.ru/images/image/21/215958.jpg",
+  "https://www.annanova-gallery.ru/images/news/260/hero_levitation.jpg",
+  "https://thb.tildacdn.com/tild6237-3233-4365-a533-393937326564/-/resize/20x/Map_Pin.png",
+  "https://thb.tildacdn.com/tild6530-3934-4661-b133-613763373732/-/resize/20x/Calendar_Days.png"
  ],
- "since": 353222300
+ "since": 0
 }
