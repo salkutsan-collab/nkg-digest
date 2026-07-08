@@ -1,28 +1,26 @@
 {
- "target": "2026-07-08",
+ "target": "2026-07-09",
  "event": {
-  "title": "Кураторская экскурсия по выставке Андрея Кузькина «Второй круг»",
-  "type": "экскурсия",
-  "date_start": "2026-07-11",
-  "date_end": "2026-08-13",
+  "title": "Летние концерты в Порту",
+  "type": "концерт",
+  "date_start": "2026-05-29",
+  "date_end": "2026-07-31",
   "time": null,
-  "place": "Творческая котельная",
-  "persons": [
-   "Андрей Кузькин"
-  ],
-  "about": "Экскурсия по выставке Андрея Кузькина «Второй круг».",
-  "relevance": 5,
-  "_participant": "Левашовский хлебозавод",
-  "_address": "Барочная ул., 4А",
-  "_url": "https://levashovsky.ru/afisha",
+  "place": "Севкабель Порт",
+  "persons": [],
+  "about": null,
+  "relevance": 2,
+  "_participant": "Севкабель Порт",
+  "_address": "Кожевенная линия, 40",
+  "_url": "https://sevcableport.ru/afisha",
   "_category": "креативное пространство"
  },
- "body": "В пространстве Левашовского хлебозавода проходит персональная выставка Андрея Кузькина «Второй круг», открытая до 16 августа. Центральное место в экспозиции занимает инсталляция «Герои Левитации» - три четырехметровые фигуры из хлебного мякиша и соли, восстановленные после длительной реконструкции. ([culture.ru](https://www.culture.ru/events/6470196/ekspozicii-gosudarstvennogo-muzeya-politicheskoi-istorii-rossii?utm_source=openai))\n\nВыставка также включает фотодокументацию перформанса «По кругу» 2008 года, где художник в течение пяти часов двигался по кругу внутри деревянной опалубки, заполненной цементом. ([culture.ru](https://www.culture.ru/events/6470196/ekspozicii-gosudarstvennogo-muzeya-politicheskoi-istorii-rossii?utm_source=openai))\n\nЛевашовский хлебозавод - культурный центр, известный своими выставками современного искусства. Ранее здесь проходила выставка «Пространство времени» с работами из коллекции искусства новых медиа Пушкинского музея. ([culture.ru](https://www.culture.ru/events/6470196/ekspozicii-gosudarstvennogo-muzeya-politicheskoi-istorii-rossii?utm_source=openai))\n\n**Сделать из этого прогулку**\n\nПосле посещения выставки можно прогуляться по окрестностям, отражающим темы памяти и преодоления, присущие работам Кузькина.\n\n- **Музей политической истории России** (ул. Куйбышева, 2-4): экспозиции, посвященные историческим событиям и личностям, связанным с преодолением трудностей. Музей работает ежедневно с 10:00 до 18:00, кроме четверга. ([opeterburge.ru](https://www.opeterburge.ru/museums/gosudarstvennyj-muzej-politicheskoj-istorii-rossii.html?utm_source=openai))\n\n- **Летний сад** (наб. Лебяжьей канавки, 2): исторический парк, где можно поразмышлять о течении времени и изменениях в культуре.\n\n- **Кафе «Бродячая собака»** (ул. Итальянская, 4): место с историей, связанное с творческой интеллигенцией начала XX века, где можно обсудить увиденное на выставке. Кафе открыто ежедневно с 11:30 до 23:30. ([a-a-ah.ru](https://a-a-ah.ru/straydog?utm_source=openai))\n\nЭти места дополнят впечатления от выставки, углубляя понимание тем, затронутых в работах Андрея Кузькина.\n\nИсточники:\n- https://www.sobaka.ru/entertainment/art/215958\n- https://www.annanova-gallery.ru/news/260-.-20-16-2026/\n- https://levashovsky.ru/andrey-kuzkin-vtoroy-krug\n\n- https://www.sobaka.ru/images/image/21/215958.jpg\n- https://www.annanova-gallery.ru/images/news/260/hero_levitation.jpg",
+ "body": "В Севкабель Порту на Кожевенной линии, 40, до 31 июля проходят летние концерты. Эта площадка известна своими мероприятиями на берегу Финского залива, где город встречается с морем. ([sevcableport.ru](https://sevcableport.ru/?utm_source=openai))\n\n31 июля в 20:00 состоится концерт «Легенды русского рока на виолончелях». На набережной прозвучат известные хиты русского рока в исполнении виолончелей, сочетая классические инструменты с энергией рок-музыки.\n\n**Сделать из этого прогулку**\n\n- **Посмотреть**: Выставка «Виктор Цой. Легенда» на территории Севкабель Порта. Погружение в атмосферу русского рока через артефакты и фотографии. ([sevcableport.ru](https://sevcableport.ru/afisha/viktor-coi-legenda/?utm_source=openai))\n\n- **Поесть**: Кафе «Petra» предлагает блюда греческой кухни, такие как мезе и мусака, в интерьере с элементами средиземноморского стиля. ([restoclub.ru](https://www.restoclub.ru/spb/place/petra?utm_source=openai))\n\n- **Сфотографировать**: Панорамный вид на Финский залив с набережной Севкабель Порта, особенно красивый на закате.\n\nИсточники:\n- https://sevcableport.ru/afisha/\n- https://www.afisha.ru/concert/koncert-u-morya-legendy-russkogo-roka-na-violonchelyah-6003004/\n- https://www.restorating.ru/spb/catalogue/petra\n\n- https://sevcableport.ru/wp-content/uploads/2026/07/legendy-roka-na-violonchelyah.jpg",
  "photos": [
-  "https://www.sobaka.ru/images/image/21/215958.jpg",
-  "https://www.annanova-gallery.ru/images/news/260/hero_levitation.jpg",
-  "https://thb.tildacdn.com/tild6237-3233-4365-a533-393937326564/-/resize/20x/Map_Pin.png",
-  "https://thb.tildacdn.com/tild6530-3934-4661-b133-613763373732/-/resize/20x/Calendar_Days.png"
+  "https://sevcableport.ru/wp-content/uploads/2026/07/legendy-roka-na-violonchelyah.jpg",
+  "https://sevcableport.ru/wp-content/uploads/2025/06/img_65-scaled.jpg",
+  "https://sevcableport.ru/wp-content/uploads/2025/06/f5490189e4a68a88cd6240c6548f510061a2048e-721x721-1.webp",
+  "https://sevcableport.ru/wp-content/uploads/2025/11/den-rezidenta-1.jpg"
  ],
  "since": 0
 }
