@@ -1,26 +1,26 @@
 {
- "target": "2026-07-09",
+ "target": "2026-07-10",
  "event": {
-  "title": "Летние концерты в Порту",
-  "type": "концерт",
-  "date_start": "2026-05-29",
-  "date_end": "2026-07-31",
+  "title": "Выставочный проект «Русский императив»",
+  "type": "выставка",
+  "date_start": "2026-05-08",
+  "date_end": "2026-07-12",
   "time": null,
-  "place": "Севкабель Порт",
+  "place": "Музейно-выставочный комплекс «Манеж», Санкт-Петербург, Исаакиевская площадь, 1",
   "persons": [],
-  "about": null,
-  "relevance": 2,
-  "_participant": "Севкабель Порт",
-  "_address": "Кожевенная линия, 40",
-  "_url": "https://sevcableport.ru/afisha",
-  "_category": "креативное пространство"
+  "about": "Выставка посвящена русскому искусству.",
+  "relevance": 5,
+  "_participant": "ЦВЗ Манеж",
+  "_address": "Исаакиевская пл., 1",
+  "_url": "https://manege.spb.ru/categories/events",
+  "_category": "музей"
  },
- "body": "В Севкабель Порту на Кожевенной линии, 40, до 31 июля проходят летние концерты. Эта площадка известна своими мероприятиями на берегу Финского залива, где город встречается с морем. ([sevcableport.ru](https://sevcableport.ru/?utm_source=openai))\n\n31 июля в 20:00 состоится концерт «Легенды русского рока на виолончелях». На набережной прозвучат известные хиты русского рока в исполнении виолончелей, сочетая классические инструменты с энергией рок-музыки.\n\n**Сделать из этого прогулку**\n\n- **Посмотреть**: Выставка «Виктор Цой. Легенда» на территории Севкабель Порта. Погружение в атмосферу русского рока через артефакты и фотографии. ([sevcableport.ru](https://sevcableport.ru/afisha/viktor-coi-legenda/?utm_source=openai))\n\n- **Поесть**: Кафе «Petra» предлагает блюда греческой кухни, такие как мезе и мусака, в интерьере с элементами средиземноморского стиля. ([restoclub.ru](https://www.restoclub.ru/spb/place/petra?utm_source=openai))\n\n- **Сфотографировать**: Панорамный вид на Финский залив с набережной Севкабель Порта, особенно красивый на закате.\n\nИсточники:\n- https://sevcableport.ru/afisha/\n- https://www.afisha.ru/concert/koncert-u-morya-legendy-russkogo-roka-na-violonchelyah-6003004/\n- https://www.restorating.ru/spb/catalogue/petra\n\n- https://sevcableport.ru/wp-content/uploads/2026/07/legendy-roka-na-violonchelyah.jpg",
+ "body": "В Центральном выставочном зале «Манеж» на Исаакиевской площади проходит выставка «Русский императив», продленная до 12 июля 2026 года. Экспозиция посвящена отражению военных событий в искусстве, охватывая период от становления Русского государства до наших дней.\n\nНа выставке представлены работы таких мастеров, как Василий Верещагин, Илья Репин, Кузьма Петров-Водкин, Василий Кандинский, Виктор Васнецов, Алексей Боголюбов и Александр Самохвалов. Эти произведения предоставлены крупнейшими музеями страны, включая Государственный Эрмитаж, Государственную Третьяковскую галерею и Государственный Русский музей.\n\n«Манеж» известен своими масштабными выставочными проектами, объединяющими произведения из различных музеев и частных коллекций. Его расположение в центре города делает его удобным для посещения.\n\n**Сделать из этого прогулку**\n\nПосле посещения выставки, посвященной военной тематике и национальной идентичности, можно продолжить прогулку по местам, связанным с историей и культурой России.\n\n- **Исаакиевский собор**: Расположен прямо напротив «Манежа». Величественный собор, символизирующий духовную силу России.\n\n- **Памятник Николаю I**: На Исаакиевской площади. Монумент, отражающий эпоху и историю страны.\n\n- **Кафе «Гарсон»**: Находится в самом «Манеже». Уютное место для обсуждения увиденного за чашкой кофе.\n\n- **Медный всадник**: В нескольких минутах ходьбы. Знаменитый памятник Петру I, основателю города.\n\n- **Английская набережная**: Прогулка вдоль Невы с видом на исторические здания и корабли.\n\nЭти места помогут глубже прочувствовать исторический контекст и культурное наследие, представленные на выставке.\n\nИсточники:\n- [manege.spb.ru](https://manege.spb.ru/events/vystavochnyj-proekt-russkij-imperativ-prodlevaetsya-do-12-iyulya-2026/?utm_source=openai)\n- [culture.ru](https://www.culture.ru/events/6863943/vystavochnyi-proekt-russkii-imperativ?institute=27387&utm_source=openai)\n- [manege.spb.ru](https://manege.spb.ru/events/tury-po-vystavke-russkij-imperativ/?utm_source=openai)\n\n- https://manege.spb.ru/wp-content/uploads/2026/06/russkij-imperativ-afisha.jpg",
  "photos": [
-  "https://sevcableport.ru/wp-content/uploads/2026/07/legendy-roka-na-violonchelyah.jpg",
-  "https://sevcableport.ru/wp-content/uploads/2025/06/img_65-scaled.jpg",
-  "https://sevcableport.ru/wp-content/uploads/2025/06/f5490189e4a68a88cd6240c6548f510061a2048e-721x721-1.webp",
-  "https://sevcableport.ru/wp-content/uploads/2025/11/den-rezidenta-1.jpg"
+  "https://manege.spb.ru/wp-content/uploads/2026/06/russkij-imperativ-afisha.jpg",
+  "https://manege.spb.ru/wp-content/themes/manegetheme/images/index.png",
+  "https://manege.spb.ru/wp-content/themes/manegetheme/images/vertline.png",
+  "https://manege.spb.ru/wp-content/themes/manegetheme/images/vertline_vdsw.png"
  ],
  "since": 0
 }
