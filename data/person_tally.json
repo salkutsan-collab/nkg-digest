@@ -886,5 +886,97 @@
     }
    ]
   }
+ },
+ "2026-W29": {
+  "Сергей Бугаев": {
+   "count": 1,
+   "events": [
+    {
+     "t": "«Африка. Сергей Бугаев»",
+     "p": "Музей искусства Санкт-Петербурга XX-XXI веков (МИСП)",
+     "u": "https://mispxx-xxi.ru/exhibitions"
+    }
+   ]
+  },
+  "Ахсарбек Ахполов": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка «Большая прогулка»",
+     "p": "Новый музей современного искусства",
+     "u": "https://www.novymuseum.ru/exch/"
+    }
+   ]
+  },
+  "Ульяна Гончарова": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка «Большая прогулка»",
+     "p": "Новый музей современного искусства",
+     "u": "https://www.novymuseum.ru/exch/"
+    }
+   ]
+  },
+  "Виталий Пушницкий": {
+   "count": 1,
+   "events": [
+    {
+     "t": "ВИТАЛИЙ ПУШНИЦКИЙ. ЗЕМЛЯ. 2026",
+     "p": "Marina Gisich Gallery",
+     "u": "https://www.gisich.com/ru/exhibitions"
+    }
+   ]
+  },
+  "Кирилл Шу": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Кирилла Шу «Из пустых вещей»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Олег Осколков": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Олега Осколкова «Гравитация хаоса»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Паша Безор": {
+   "count": 1,
+   "events": [
+    {
+     "t": "«Сервантное хранение», Паша Безор",
+     "p": "Sobo Gallery",
+     "u": "https://sobo.gallery/"
+    }
+   ]
+  },
+  "Марья Дмитриева": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Пик Неопределённости",
+     "p": "Anna Nova Gallery",
+     "u": "https://www.annanova-gallery.ru/exhibitions"
+    }
+   ]
+  },
+  "Елена Немкова": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Пик Неопределённости",
+     "p": "Anna Nova Gallery",
+     "u": "https://www.annanova-gallery.ru/exhibitions"
+    }
+   ]
+  }
  }
 }
