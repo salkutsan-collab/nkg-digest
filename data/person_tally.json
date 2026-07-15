@@ -977,6 +977,26 @@
      "u": "https://www.annanova-gallery.ru/exhibitions"
     }
    ]
+  },
+  "Наталья Масталерж": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Архитектура и пространство. NOWADAYS office",
+     "p": "Левашовский хлебозавод",
+     "u": "https://levashovsky.ru/afisha"
+    }
+   ]
+  },
+  "Вика Межуева": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Кураторская экскурсия по выставке Андрея Кузькина «Второй круг»",
+     "p": "Левашовский хлебозавод",
+     "u": "https://levashovsky.ru/afisha"
+    }
+   ]
   }
  }
 }
