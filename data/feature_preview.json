@@ -1,28 +1,26 @@
 {
- "target": "2026-07-15",
+ "target": "2026-07-16",
  "event": {
-  "title": "Архитектура и пространство. NOWADAYS office",
-  "type": "лекция",
-  "date_start": "2026-07-15",
+  "title": "Механика импровизации #5",
+  "type": "концерт",
+  "date_start": "2026-07-20",
   "date_end": null,
-  "time": "19:00",
-  "place": "Лекторий masters",
-  "persons": [
-   "Наталья Масталерж"
-  ],
-  "about": "Лекция об архитектурном бюро NOWADAYS office и его проектах.",
-  "relevance": 5,
-  "_participant": "Левашовский хлебозавод",
-  "_address": "Барочная ул., 4А",
-  "_url": "https://levashovsky.ru/afisha",
-  "_category": "креативное пространство"
+  "time": "20:00",
+  "place": "Средний пр. В.О. 93",
+  "persons": [],
+  "about": "Когда музыка рождается здесь и сейчас",
+  "relevance": 3,
+  "_participant": "Центр современного искусства им. Сергея Курехина",
+  "_address": "Средний просп. В. О., 93",
+  "_url": "https://www.kuryokhin.net/afisha",
+  "_category": "музей"
  },
- "body": "15 июля в 19:00 в культурном центре «Левашовский Хлебозавод» состоится лекция «Архитектура и пространство» от бюро NOWADAYS office.\n\nЛевашовский хлебозавод - памятник конструктивизма, построенный в 1933 году. Его круглое здание с кольцевым конвейером было новаторским для своего времени. В 2023 году после реконструкции завод стал культурным центром, где проходят выставки, концерты и лекции. ([levashovsky.ru](https://levashovsky.ru/history?utm_source=openai))\n\nNOWADAYS office, основанное Натальей Масталерж и Ната Татунашвили в 2013 году, специализируется на жилых и общественных проектах, интерьерах и реставрации. Бюро реализовало проекты в Москве, Сочи, Казани и других городах России, а также в ОАЭ и Индонезии. ([aindexproject.com](https://aindexproject.com/organisation/nowadays-office/?utm_source=openai))\n\n**Сделать из этого прогулку**\n\n- **Посмотреть**: Прогуляйтесь по Петроградской стороне, где сохранились образцы конструктивистской архитектуры, такие как Дом культуры имени Горького на Кронверкском проспекте.\n\n- **Поесть**: Загляните в ресторан Le Bistrot de la Ferm на Большой Пушкарской улице, 38 - уютное французское заведение с домашней атмосферой и современной классикой французской кухни. ([tomesto.ru](https://tomesto.ru/spb/places/le-bistrot-de-la-ferm))\n\n- **Сфотографировать**: Посетите сквер у Левашовского хлебозавода с его зелеными насаждениями и архитектурными элементами, создающими интересные композиции для фотографий. ([rbi.ru](https://www.rbi.ru/about/history/?utm_source=openai))\n\nИсточники:\n([levashovsky.ru](https://levashovsky.ru/history?utm_source=openai))",
+ "body": "20 июля в 20:00 в Центре современного искусства имени Сергея Курехина состоится пятый концерт серии «Механика импровизации». Эта серия посвящена живой импровизационной музыке, где каждое выступление уникально и создается в моменте.\n\nЦентр Курехина, расположенный по адресу Средний проспект В.О., 93, известен как площадка для междисциплинарных проектов, объединяющих музыку, театр, балет, кино и визуальное искусство. После реконструкции в 2025 году центр стал еще более технологически оснащенным, предоставляя артистам простор для экспериментов и новых форм творчества. ([kuryokhin.net](https://www.kuryokhin.net/aboutcenter?utm_source=openai))\n\nВ рамках серии «Механика импровизации» ранее выступали такие артисты, как Борис Шершенков с перформансом «Modiolus», где он использовал авторский инструмент Limacon и искусственные нейронные сети для создания уникального звукового опыта. ([afisha-gorodov.ru](https://afisha-gorodov.ru/saint_petersburg/events/tsentr-sovremennogo-iskusstva-im-sergeja-saint_petersburg/340012-modiolus/?event_date=622079&utm_source=openai))\n\n**Сделать из этого прогулку**\n\nПеред концертом можно посетить выставку «Корпорация счастья» Центра искусства и науки ИТМО, которая проходит в Центре Курехина с 27 июня по 28 июля. Выставка демонстрирует проекты выпускников магистратуры «Искусство и наука», отражая итоги двухлетней образовательной программы. ([kuryokhin.net](https://www.kuryokhin.net/korporatsiya_schastya))\n\nДля продолжения вечера в духе импровизации и современного искусства можно заглянуть в кафе музея Эрарта на 29-й линии В.О., 2. Это место известно своим современным интерьером и часто становится площадкой для творческих встреч и обсуждений. Кафе работает ежедневно, кроме вторника, с 11:00 до 23:00. ([erarta.com](https://www.erarta.com/ru/visit-erarta/))\n\nЗавершить прогулку можно на набережной Лейтенанта Шмидта, где открывается вид на исторический центр города и современные архитектурные объекты, что созвучно духу Центра Курехина.\n\nИсточники:\n- https://www.kuryokhin.net/afisha\n- https://www.kuryokhin.net/aboutcenter\n- https://www.kuryokhin.net/korporatsiya_schastya\n- https://afisha-gorodov.ru/saint_petersburg/events/tsentr-sovremennogo-iskusstva-im-sergeja-saint_petersburg/340012-modiolus/?event_date=622079\n- https://www.erarta.com/ru/visit-erarta/\n\n- https://www.kuryokhin.net/images/afisha/mechanika_improvizacii_5.jpg",
  "photos": [
-  "https://thb.tildacdn.com/tild6237-3233-4365-a533-393937326564/-/resize/20x/Map_Pin.png",
-  "https://thb.tildacdn.com/tild6530-3934-4661-b133-613763373732/-/resize/20x/Calendar_Days.png",
-  "https://thb.tildacdn.com/tild6533-6535-4237-a332-623839323137/-/resize/20x/Vector_4.png",
-  "https://thb.tildacdn.com/tild6664-3835-4466-b962-336633303666/-/resize/20x/btn.png"
+  "https://www.kuryokhin.net/images/afisha/mechanika_improvizacii_5.jpg",
+  "https://thb.tildacdn.com/tild6662-3935-4365-b538-346334376132/-/resize/20x/Frame_9.png",
+  "https://lidrekon.ru/images/special.png",
+  "https://static.tildacdn.com/tild3463-6364-4162-b131-303933393462/kuryokhin.png"
  ],
  "since": 0
 }
