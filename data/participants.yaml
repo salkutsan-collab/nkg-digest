@@ -437,7 +437,7 @@ participants:
     events_url: "https://www.koordinata.space/"
     sources:
       - {type: website, url: "https://www.koordinata.space/"}
-    status: dead
+    status: active
 
   # ---------- образование ----------
 
