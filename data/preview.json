@@ -1,23 +1,55 @@
 {
- "target": "2026-07-28",
- "day_key": "tuesday",
- "start": "2026-07-28",
- "end": "2026-08-04",
+ "target": "2026-07-29",
+ "day_key": "wednesday",
+ "start": "2026-07-29",
+ "end": "2026-08-05",
  "events": [
   {
-   "title": "Марк глазами Софии",
-   "type": "кино",
-   "date_start": "2026-07-28",
+   "title": "СВЕТОТЕНЬ",
+   "type": "мастер-класс",
+   "date_start": "2026-08-02",
    "date_end": null,
-   "time": "15:00",
-   "place": null,
+   "time": "11:30, 14:00",
+   "place": "Ул. Ломоносова, 14",
    "persons": [],
-   "about": "Документальный фильм.",
+   "about": null,
    "relevance": 3,
-   "_participant": "Киноцентр «Родина»",
-   "_address": "Караванная ул., 12",
-   "_url": "https://rodinakino.ru/?facility=rodina",
-   "_category": "кино"
+   "_participant": "Театр Karlsson Haus",
+   "_address": "Фурштатская ул., 30",
+   "_url": "https://www.karlssonhaus.ru/",
+   "_category": "театр"
+  },
+  {
+   "title": "ЧетыреАчетыре",
+   "type": "мастер-класс",
+   "date_start": "2026-08-02",
+   "date_end": null,
+   "time": "17:00",
+   "place": "Ул. Ломоносова, 14",
+   "persons": [],
+   "about": null,
+   "relevance": 3,
+   "_participant": "Театр Karlsson Haus",
+   "_address": "Фурштатская ул., 30",
+   "_url": "https://www.karlssonhaus.ru/",
+   "_category": "театр"
+  },
+  {
+   "title": "Телесные двойники слов. Пушкин. Евгений Онегин.",
+   "type": "лекция",
+   "date_start": "2026-08-05",
+   "date_end": null,
+   "time": "19:00",
+   "place": "Лекторий masters",
+   "persons": [
+    "Татьяна Боборыкина"
+   ],
+   "about": "Лекция о воплощении текстов русской классической литературы на балетной сцене.",
+   "relevance": 3,
+   "_participant": "Левашовский хлебозавод",
+   "_address": "Барочная ул., 4А",
+   "_url": "https://levashovsky.ru/afisha",
+   "_category": "креативное пространство"
   }
  ],
  "since": 0
