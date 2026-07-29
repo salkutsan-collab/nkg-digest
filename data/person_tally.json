@@ -989,6 +989,16 @@
      "u": "https://www.artmuza.spb.ru/events/novosti"
     }
    ]
+  },
+  "Татьяна Боборыкина": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Телесные двойники слов. Пушкин. Евгений Онегин.",
+     "p": "Левашовский хлебозавод",
+     "u": "https://levashovsky.ru/afisha"
+    }
+   ]
   }
  }
 }
