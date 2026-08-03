@@ -1,246 +1,4 @@
 {
- "2026-W26": {
-  "Ахсарбек Ахполов": {
-   "count": 2,
-   "events": [
-    {
-     "t": "Выставка «Большая прогулка»",
-     "p": "Новый музей современного искусства",
-     "u": "https://www.novymuseum.ru/exch/"
-    }
-   ]
-  },
-  "Ульяна Гончарова": {
-   "count": 2,
-   "events": [
-    {
-     "t": "Выставка «Большая прогулка»",
-     "p": "Новый музей современного искусства",
-     "u": "https://www.novymuseum.ru/exch/"
-    }
-   ]
-  },
-  "Алексей Го": {
-   "count": 1,
-   "events": [
-    {
-     "t": "Групповая выставка ART.NEXT",
-     "p": "Артмуза",
-     "u": "https://www.artmuza.spb.ru/events/novosti"
-    }
-   ]
-  },
-  "Анна Кириллова": {
-   "count": 1,
-   "events": [
-    {
-     "t": "Групповая выставка ART.NEXT",
-     "p": "Артмуза",
-     "u": "https://www.artmuza.spb.ru/events/novosti"
-    }
-   ]
-  },
-  "Елизавета Михалева": {
-   "count": 1,
-   "events": [
-    {
-     "t": "Групповая выставка ART.NEXT",
-     "p": "Артмуза",
-     "u": "https://www.artmuza.spb.ru/events/novosti"
-    }
-   ]
-  },
-  "Олег Олейник": {
-   "count": 1,
-   "events": [
-    {
-     "t": "Групповая выставка ART.NEXT",
-     "p": "Артмуза",
-     "u": "https://www.artmuza.spb.ru/events/novosti"
-    }
-   ]
-  },
-  "Яна Ракитина": {
-   "count": 1,
-   "events": [
-    {
-     "t": "Групповая выставка ART.NEXT",
-     "p": "Артмуза",
-     "u": "https://www.artmuza.spb.ru/events/novosti"
-    }
-   ]
-  },
-  "Влада Коллапс": {
-   "count": 1,
-   "events": [
-    {
-     "t": "Групповая выставка ART.NEXT",
-     "p": "Артмуза",
-     "u": "https://www.artmuza.spb.ru/events/novosti"
-    }
-   ]
-  },
-  "Димитрий Зойлян": {
-   "count": 3,
-   "events": [
-    {
-     "t": "Выставка Димитрия Зойляна «Собака-меандр»",
-     "p": "Артмуза",
-     "u": "https://www.artmuza.spb.ru/events/novosti"
-    }
-   ]
-  },
-  "Владимир Савчук": {
-   "count": 3,
-   "events": [
-    {
-     "t": "Выставка Владимира Савчука «Ландшафты ваших лиц на ладони»",
-     "p": "Артмуза",
-     "u": "https://www.artmuza.spb.ru/events/novosti"
-    }
-   ]
-  },
-  "Екатерина Кузьмина": {
-   "count": 2,
-   "events": [
-    {
-     "t": "Выставка Екатерины Кузьминой «Во сне они превращались в марионеток»",
-     "p": "Артмуза",
-     "u": "https://www.artmuza.spb.ru/events/novosti"
-    }
-   ]
-  },
-  "Максим Има": {
-   "count": 2,
-   "events": [
-    {
-     "t": "МАКСИМ ИМА. ЗАЩИТА ДЕВЕЛОПЕРСКОГО ПРОЕКТА. 2026",
-     "p": "Marina Gisich Gallery",
-     "u": "https://www.gisich.com/ru/exhibitions"
-    }
-   ]
-  },
-  "Анна Сирро": {
-   "count": 1,
-   "events": [
-    {
-     "t": "Кабинет редкостей и точный расчёт. Архитектура Голландии",
-     "p": "Левашовский хлебозавод",
-     "u": "https://levashovsky.ru/afisha"
-    }
-   ]
-  },
-  "Ольга Хорошилова": {
-   "count": 1,
-   "events": [
-    {
-     "t": "Большая кухня малых голландцев",
-     "p": "Левашовский хлебозавод",
-     "u": "https://levashovsky.ru/afisha"
-    }
-   ]
-  },
-  "Теодор Курентзис": {
-   "count": 2,
-   "events": [
-    {
-     "t": "TheatreHD: Курентзис: Реквием. Верди",
-     "p": "Киноцентр «Родина»",
-     "u": "https://rodinakino.ru/?facility=rodina"
-    }
-   ]
-  },
-  "Дмитрий Петухов": {
-   "count": 1,
-   "events": [
-    {
-     "t": "ТЕПЕРЬ Я СТАВЛЮ ШКАФ НА МЕСТО",
-     "p": "Арт-центр Пушкинская-10",
-     "u": "https://p-10.ru/season/actual"
-    }
-   ]
-  },
-  "Иван Осипов": {
-   "count": 1,
-   "events": [
-    {
-     "t": "ТЕПЕРЬ Я СТАВЛЮ ШКАФ НА МЕСТО",
-     "p": "Арт-центр Пушкинская-10",
-     "u": "https://p-10.ru/season/actual"
-    }
-   ]
-  },
-  "Сергей Бугаев": {
-   "count": 2,
-   "events": [
-    {
-     "t": "АФРИКА. СЕРГЕЙ БУГАЕВ",
-     "p": "Музей искусства Санкт-Петербурга XX-XXI веков (МИСП)",
-     "u": "https://mispxx-xxi.ru/exhibitions"
-    }
-   ]
-  },
-  "Виталий Пушницкий": {
-   "count": 2,
-   "events": [
-    {
-     "t": "ВИТАЛИЙ ПУШНИЦКИЙ. ЗЕМЛЯ. 2026",
-     "p": "Marina Gisich Gallery",
-     "u": "https://www.gisich.com/ru/exhibitions"
-    }
-   ]
-  },
-  "Марья Дмитриева": {
-   "count": 2,
-   "events": [
-    {
-     "t": "Пик Неопределённости",
-     "p": "Anna Nova Gallery",
-     "u": "https://www.annanova-gallery.ru/exhibitions"
-    }
-   ]
-  },
-  "Елена Немкова": {
-   "count": 2,
-   "events": [
-    {
-     "t": "Пик Неопределённости",
-     "p": "Anna Nova Gallery",
-     "u": "https://www.annanova-gallery.ru/exhibitions"
-    }
-   ]
-  },
-  "Владимир Духовлинов": {
-   "count": 1,
-   "events": [
-    {
-     "t": "«Д – Т – Д»",
-     "p": "Арт-центр Пушкинская-10",
-     "u": "https://p-10.ru/season/actual"
-    }
-   ]
-  },
-  "Илья Духовлинов": {
-   "count": 1,
-   "events": [
-    {
-     "t": "«Д – Т – Д»",
-     "p": "Арт-центр Пушкинская-10",
-     "u": "https://p-10.ru/season/actual"
-    }
-   ]
-  },
-  "Николай Акимов": {
-   "count": 1,
-   "events": [
-    {
-     "t": "Николай Акимов и ученики",
-     "p": "Музей искусства Санкт-Петербурга XX-XXI веков (МИСП)",
-     "u": "https://mispxx-xxi.ru/exhibitions"
-    }
-   ]
-  }
- },
  "2026-W27": {
   "Сергей Бугаев": {
    "count": 2,
@@ -1077,6 +835,88 @@
      "t": "Скульптура «Под фундаментом» Роммуло Виейра Консейсана",
      "p": "ЦВЗ Манеж",
      "u": "https://manege.spb.ru/categories/events"
+    }
+   ]
+  }
+ },
+ "2026-W32": {
+  "Виталий Пушницкий": {
+   "count": 1,
+   "events": [
+    {
+     "t": "ВИТАЛИЙ ПУШНИЦКИЙ. ЗЕМЛЯ. 2026",
+     "p": "Marina Gisich Gallery",
+     "u": "https://www.gisich.com/ru/exhibitions"
+    }
+   ]
+  },
+  "Марья Дмитриева": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Пик Неопределённости",
+     "p": "Anna Nova Gallery",
+     "u": "https://www.annanova-gallery.ru/exhibitions"
+    }
+   ]
+  },
+  "Елена Немкова": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Пик Неопределённости",
+     "p": "Anna Nova Gallery",
+     "u": "https://www.annanova-gallery.ru/exhibitions"
+    }
+   ]
+  },
+  "Димитрий Зойлян": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Димитрия Зойляна «Собака-меандр»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Владимир Савчук": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Владимира Савчука «Ландшафты ваших лиц на ладони»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Екатерина Кузьмина": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Екатерины Кузьминой «Во сне они превращались в марионеток»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Владимир Духовлинов": {
+   "count": 1,
+   "events": [
+    {
+     "t": "«Д – Т – Д»",
+     "p": "Арт-центр Пушкинская-10",
+     "u": "https://p-10.ru/season/actual"
+    }
+   ]
+  },
+  "Илья Духовлинов": {
+   "count": 1,
+   "events": [
+    {
+     "t": "«Д – Т – Д»",
+     "p": "Арт-центр Пушкинская-10",
+     "u": "https://p-10.ru/season/actual"
     }
    ]
   }
