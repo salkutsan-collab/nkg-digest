@@ -1,8 +1,74 @@
 {
- "target": "2026-08-04",
- "day_key": "tuesday",
- "start": "2026-08-04",
- "end": "2026-08-11",
- "events": [],
+ "target": "2026-08-05",
+ "day_key": "wednesday",
+ "start": "2026-08-05",
+ "end": "2026-08-12",
+ "events": [
+  {
+   "title": "Мастер-классы по керамике в Керамиста",
+   "type": "мастер-класс",
+   "date_start": "2026-08-01",
+   "date_end": "2026-08-31",
+   "time": null,
+   "place": "Севкабель Порт",
+   "persons": [],
+   "about": null,
+   "relevance": 4,
+   "_participant": "Севкабель Порт",
+   "_address": "Кожевенная линия, 40",
+   "_url": "https://sevcableport.ru/afisha",
+   "_category": "креативное пространство"
+  },
+  {
+   "title": "Стеклодувные мастер-классы в Артиста",
+   "type": "мастер-класс",
+   "date_start": "2026-08-01",
+   "date_end": "2026-08-31",
+   "time": null,
+   "place": "Севкабель Порт",
+   "persons": [],
+   "about": null,
+   "relevance": 4,
+   "_participant": "Севкабель Порт",
+   "_address": "Кожевенная линия, 40",
+   "_url": "https://sevcableport.ru/afisha",
+   "_category": "креативное пространство"
+  },
+  {
+   "title": "Телесные двойники слов. Пушкин. Евгений Онегин.",
+   "type": "лекция",
+   "date_start": "2026-08-05",
+   "date_end": null,
+   "time": "19:00",
+   "place": "Лекторий masters",
+   "persons": [
+    "Татьяна Боборыкина"
+   ],
+   "about": "Лекция о воплощении текстов русской классической литературы на балетной сцене.",
+   "relevance": 3,
+   "_participant": "Левашовский хлебозавод",
+   "_address": "Барочная ул., 4А",
+   "_url": "https://levashovsky.ru/afisha",
+   "_category": "креативное пространство"
+  },
+  {
+   "title": "Кукловедение",
+   "type": "мастер-класс",
+   "date_start": "2026-08-09",
+   "date_end": null,
+   "time": [
+    "11:30",
+    "14:00"
+   ],
+   "place": "Ул. Ломоносова, 14 (во дворе)",
+   "persons": [],
+   "about": null,
+   "relevance": 3,
+   "_participant": "Театр Karlsson Haus",
+   "_address": "Фурштатская ул., 30",
+   "_url": "https://www.karlssonhaus.ru/",
+   "_category": "театр"
+  }
+ ],
  "since": 0
 }

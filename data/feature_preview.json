@@ -1,26 +1,26 @@
 {
- "target": "2026-08-03",
+ "target": "2026-08-05",
  "event": {
-  "title": "Константин и Владимир Маковские. Любовь земная и любовь небесная",
-  "type": "выставка",
-  "date_start": "2026-06-03",
-  "date_end": "2026-09-13",
+  "title": "Мастер-классы по керамике в Керамиста",
+  "type": "мастер-класс",
+  "date_start": "2026-08-01",
+  "date_end": "2026-08-31",
   "time": null,
-  "place": "Музей Фаберже, Санкт-Петербург",
+  "place": "Севкабель Порт",
   "persons": [],
-  "about": "Выставка, посвященная художественному наследию братьев Маковских, приурочена к 180-летию Владимира Маковского.",
-  "relevance": 5,
-  "_participant": "Музей Фаберже",
-  "_address": "наб. реки Фонтанки, 21",
-  "_url": "https://fabergemuseum.ru/sobyitiya/vyistavki/",
-  "_category": "музей"
+  "about": null,
+  "relevance": 4,
+  "_participant": "Севкабель Порт",
+  "_address": "Кожевенная линия, 40",
+  "_url": "https://sevcableport.ru/afisha",
+  "_category": "креативное пространство"
  },
- "body": "В Музее Фаберже проходит выставка «Константин и Владимир Маковские. Любовь земная и любовь небесная», посвященная творчеству двух выдающихся русских художников XIX века. Музей, расположенный в Шуваловском дворце на набережной Фонтанки, 21, известен своей обширной коллекцией произведений Карла Фаберже и других ювелиров.\n\nКонстантин Маковский прославился своими жанровыми картинами, изображающими сцены из русской истории и быта. Среди его известных работ - «Боярский свадебный пир» и «Дети, бегущие от грозы». Владимир Маковский, младший брат Константина, специализировался на жанровой живописи, отражая сцены из жизни простых людей. Его работы, такие как «На бульваре» и «Посещение бедных», демонстрируют глубокий интерес к социальным темам.\n\nСделать из этого прогулку:\n\n- **Посмотреть**: Прогуляйтесь по набережной Фонтанки, чтобы насладиться видами исторических зданий и мостов, отражающих атмосферу XIX века, близкую к работам братьев Маковских.\n\n- **Поесть**: Загляните в кафе «Пироговый Дворик» на Невском проспекте, 184, где подают традиционные русские пироги, соответствующие духу времени, изображенного на картинах.\n\n- **Сфотографировать**: Посетите Летний сад, расположенный неподалеку, с его классическими скульптурами и аллеями, напоминающими сцены из работ Владимира Маковского.\n\nИсточники:\n- https://fabergemuseum.ru/sobyitiya/vyistavki/\n- https://ru.wikipedia.org/wiki/Константин_Егорович_Маковский\n- https://ru.wikipedia.org/wiki/Владимир_Егорович_Маковский\n\n- https://upload.wikimedia.org/wikipedia/commons/3/3a/Konstantin_Makovsky_-_Boyar_wedding_feast.jpg\n- https://upload.wikimedia.org/wikipedia/commons/5/5a/Vladimir_Makovsky_-_On_the_Boulevard.jpg",
+ "body": "В августе студия керамики «Керамиста» в Севкабель Порту проводит ежедневные мастер-классы по ручной лепке и работе за гончарным кругом. Занятия подходят для всех уровней подготовки и позволяют создать собственные керамические изделия. ([sevcableport.ru](https://sevcableport.ru/afisha/master-klassy-po-keramike-v-ceramista/?utm_source=openai))\n\nСевкабель Порт - это современное пространство на Васильевском острове, объединяющее творческие мастерские, галереи и гастрономические проекты. Расположенный по адресу Кожевенная линия, 40, он стал популярным местом для культурного отдыха и творчества. ([sevcableport.ru](https://sevcableport.ru/resident/ceramista/?utm_source=openai))\n\nСтудия «Керамиста» предлагает разнообразные мастер-классы, включая создание декоративных тарелок, ваз и кружек. Например, в июле проводились занятия «Послание миру», где участники лепили тарелки с индивидуальными надписями. ([sevcableport.ru](https://sevcableport.ru/afisha/master-klassy-po-keramike-v-ceramista/?utm_source=openai))\n\n**Сделать из этого прогулку**\n\nПосле мастер-класса можно прогуляться по территории Севкабель Порта, где расположены различные арт-пространства и кафе. Рекомендуем посетить студию «Зорка», известную своей нарядной керамикой с наивными рисунками, напоминающими детские работы. ([sevcableport.ru](https://sevcableport.ru/resident/zorca/?utm_source=openai))\n\nДля перекуса загляните в одно из кафе на территории порта, предлагающих разнообразные блюда в уютной атмосфере.\n\nНе забудьте сделать фотографии на фоне морского пейзажа и индустриальной архитектуры порта, которые придают месту особый шарм.\n\nИсточники:\n- https://sevcableport.ru/afisha/master-klassy-po-keramike-v-ceramista/\n- https://sevcableport.ru/resident/ceramista/\n- https://sevcableport.ru/resident/zorca/\n\n- https://sevcableport.ru/upload/iblock/1a1/1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a.jpg",
  "photos": [
-  "https://upload.wikimedia.org/wikipedia/commons/3/3a/Konstantin_Makovsky_-_Boyar_wedding_feast.jpg",
-  "https://upload.wikimedia.org/wikipedia/commons/5/5a/Vladimir_Makovsky_-_On_the_Boulevard.jpg",
-  "https://fabergemuseum.ru/assets/components/phpthumbof/cache/60dbb22bb43bd02966e6886e00cf01ff.dd2942a796cfad968f4c6521655665b0.jpg",
-  "https://fabergemuseum.ru/assets/components/phpthumbof/cache/34d02a3e8374f47e47acc9ec475127bd.dd2942a796cfad968f4c6521655665b0.jpg"
+  "https://sevcableport.ru/upload/iblock/1a1/1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a.jpg",
+  "https://sevcableport.ru/wp-content/uploads/2025/06/img_65-scaled.jpg",
+  "https://sevcableport.ru/wp-content/uploads/2025/06/f5490189e4a68a88cd6240c6548f510061a2048e-721x721-1.webp",
+  "https://sevcableport.ru/wp-content/uploads/2025/11/den-rezidenta-1.jpg"
  ],
  "since": 0
 }
