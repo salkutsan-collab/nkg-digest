@@ -1,146 +1,4 @@
 {
- "2026-W27": {
-  "Сергей Бугаев": {
-   "count": 2,
-   "events": [
-    {
-     "t": "АФРИКА. СЕРГЕЙ БУГАЕВ",
-     "p": "Музей искусства Санкт-Петербурга XX-XXI веков (МИСП)",
-     "u": "https://mispxx-xxi.ru/exhibitions"
-    }
-   ]
-  },
-  "Ахсарбек Ахполов": {
-   "count": 1,
-   "events": [
-    {
-     "t": "Выставка «Большая прогулка»",
-     "p": "Новый музей современного искусства",
-     "u": "https://www.novymuseum.ru/exch/"
-    }
-   ]
-  },
-  "Ульяна Гончарова": {
-   "count": 1,
-   "events": [
-    {
-     "t": "Выставка «Большая прогулка»",
-     "p": "Новый музей современного искусства",
-     "u": "https://www.novymuseum.ru/exch/"
-    }
-   ]
-  },
-  "Виталий Пушницкий": {
-   "count": 2,
-   "events": [
-    {
-     "t": "ВИТАЛИЙ ПУШНИЦКИЙ. ЗЕМЛЯ. 2026",
-     "p": "Marina Gisich Gallery",
-     "u": "https://www.gisich.com/ru/exhibitions"
-    }
-   ]
-  },
-  "Марья Дмитриева": {
-   "count": 2,
-   "events": [
-    {
-     "t": "Пик Неопределённости",
-     "p": "Anna Nova Gallery",
-     "u": "https://www.annanova-gallery.ru/exhibitions"
-    }
-   ]
-  },
-  "Елена Немкова": {
-   "count": 2,
-   "events": [
-    {
-     "t": "Пик Неопределённости",
-     "p": "Anna Nova Gallery",
-     "u": "https://www.annanova-gallery.ru/exhibitions"
-    }
-   ]
-  },
-  "Димитрий Зойлян": {
-   "count": 2,
-   "events": [
-    {
-     "t": "Выставка Димитрия Зойляна «Собака-меандр»",
-     "p": "Артмуза",
-     "u": "https://www.artmuza.spb.ru/events/novosti"
-    }
-   ]
-  },
-  "Владимир Савчук": {
-   "count": 3,
-   "events": [
-    {
-     "t": "Выставка Владимира Савчука «Ландшафты ваших лиц на ладони»",
-     "p": "Артмуза",
-     "u": "https://www.artmuza.spb.ru/events/novosti"
-    }
-   ]
-  },
-  "Екатерина Кузьмина": {
-   "count": 3,
-   "events": [
-    {
-     "t": "Выставка Екатерины Кузьминой «Во сне они превращались в марионеток»",
-     "p": "Артмуза",
-     "u": "https://www.artmuza.spb.ru/events/novosti"
-    }
-   ]
-  },
-  "Ноймайер": {
-   "count": 1,
-   "events": [
-    {
-     "t": "TheatreHD: Ноймайер: Стеклянный зверинец. Спектакль в кинотеатре",
-     "p": "Киноцентр «Родина»",
-     "u": "https://rodinakino.ru/?facility=rodina"
-    }
-   ]
-  },
-  "Теодор Курентзис": {
-   "count": 1,
-   "events": [
-    {
-     "t": "TheatreHD: Курентзис: Реквием. Верди",
-     "p": "Киноцентр «Родина»",
-     "u": "https://rodinakino.ru/?facility=rodina"
-    }
-   ]
-  },
-  "Платон Петров": {
-   "count": 1,
-   "events": [
-    {
-     "t": "Ленинград Саши Окуня. Начало (Из частных коллекций Петербурга)",
-     "p": "Арт-центр Пушкинская-10",
-     "u": "https://p-10.ru/season/actual"
-    }
-   ]
-  },
-  "Паша Безор": {
-   "count": 1,
-   "events": [
-    {
-     "t": "«Сервантное хранение», Паша Безор",
-     "p": "Sobo Gallery",
-     "u": "https://sobo.gallery/"
-    }
-   ]
-  },
-  "Максим Костыря": {
-   "count": 1,
-   "events": [
-    {
-     "t": "Живопись «Золотого века»",
-     "p": "Левашовский хлебозавод",
-     "u": "https://levashovsky.ru/afisha"
-    }
-   ]
-  }
- },
  "2026-W28": {
   "Платон Петров": {
    "count": 2,
@@ -997,6 +855,88 @@
      "t": "Фрида Кало. Да здравствует жизнь!",
      "p": "Лофт Проект Этажи",
      "u": "https://www.loftprojectetagi.ru/visitors/mesta-vystavok-i-festivaley"
+    }
+   ]
+  }
+ },
+ "2026-W33": {
+  "Виталий Пушницкий": {
+   "count": 1,
+   "events": [
+    {
+     "t": "ВИТАЛИЙ ПУШНИЦКИЙ. ЗЕМЛЯ. 2026",
+     "p": "Marina Gisich Gallery",
+     "u": "https://www.gisich.com/ru/exhibitions"
+    }
+   ]
+  },
+  "Кирилл Шу": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Кирилла Шу «Из пустых вещей»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Олег Осколков": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Олега Осколкова «Гравитация хаоса»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Марья Дмитриева": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Пик Неопределённости",
+     "p": "Anna Nova Gallery",
+     "u": "https://www.annanova-gallery.ru/exhibitions"
+    }
+   ]
+  },
+  "Елена Немкова": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Пик Неопределённости",
+     "p": "Anna Nova Gallery",
+     "u": "https://www.annanova-gallery.ru/exhibitions"
+    }
+   ]
+  },
+  "Димитрий Зойлян": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Димитрия Зойляна «Собака-меандр»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Владимир Савчук": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Владимира Савчука «Ландшафты ваших лиц на ладони»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
+    }
+   ]
+  },
+  "Екатерина Кузьмина": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Выставка Екатерины Кузьминой «Во сне они превращались в марионеток»",
+     "p": "Артмуза",
+     "u": "https://www.artmuza.spb.ru/events/novosti"
     }
    ]
   }
