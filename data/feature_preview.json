@@ -1,24 +1,26 @@
 {
- "target": "2026-08-12",
+ "target": "2026-08-13",
  "event": {
-  "title": "АРТ-ЛЕКТОРИЙ: Тайная жизнь Уффици",
-  "type": "лекция",
-  "date_start": "2026-08-18",
-  "date_end": null,
-  "time": "19:00",
-  "place": null,
+  "title": "Вечерние упражнения. Экспромт двух дуэтов",
+  "type": "концерт",
+  "date_start": "2026-08-13",
+  "date_end": "2026-08-13",
+  "time": "20:00",
+  "place": "Средний пр. В.О. 93",
   "persons": [],
-  "about": "Документальный, Искусство",
-  "relevance": 5,
-  "_participant": "Киноцентр «Родина»",
-  "_address": "Караванная ул., 12",
-  "_url": "https://rodinakino.ru/?facility=rodina",
-  "_category": "кино"
+  "about": "Концерт-импровизация.",
+  "relevance": 3,
+  "_participant": "Центр современного искусства им. Сергея Курехина",
+  "_address": "Средний просп. В. О., 93",
+  "_url": "https://www.kuryokhin.net/afisha",
+  "_category": "музей"
  },
- "body": "18 августа в 19:00 в киноцентре «Родина» состоится показ фильма «Тайная жизнь Уффици» в рамках проекта «АРТ-ЛЕКТОРИЙ». Киноцентр «Родина» - старейший кинотеатр Санкт-Петербурга, известный своим репертуаром авторского и артхаусного кино.\n\nФильм «Тайная жизнь Уффици» рассказывает о закулисной жизни одного из самых известных музеев мира - галереи Уффици во Флоренции. Зрители узнают о работе сотрудников музея, реставрации произведений искусства и организации выставок. В фильме представлены шедевры таких мастеров, как Леонардо да Винчи, Микеланджело и Боттичелли.\n\n**Сделать из этого прогулку**\n\n- **Посмотреть**: Музей-квартира Исаака Бродского (Площадь Искусств, 3) - дом-музей художника, где можно увидеть его работы и интерьеры начала XX века. ([artsacademymuseum.org](https://artsacademymuseum.org/posetitelyam/dostupnost-i-inkluzia/muzei-kvartira-i-i-brodskogo/?utm_source=openai))\n\n- **Поесть**: Кафе «Север-Метрополь» (Невский проспект, 44) - историческая кондитерская с классическими десертами, отражающими атмосферу старого Петербурга. ([sever-metropol.ru](https://sever-metropol.ru/shop/40/g-sankt-peterburg-nevskiy-pr-t-44/?utm_source=openai))\n\n- **Сфотографировать**: Итальянский дворик Государственного Эрмитажа (Дворцовая площадь, 2) - архитектурный ансамбль, напоминающий флорентийские палаццо, что перекликается с темой фильма.\n\nИсточники:\n- https://rodinakino.ru/?facility=rodina\n- https://www.hermitagemuseum.org/wps/portal/hermitage/explore/buildings/locations/location/!ut/p/z1/jZDBDoIwDIafpQeO0XbX0gYQFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0QFQ0Q",
+ "body": "13 августа в 20:00 в Центре современного искусства имени Сергея Курехина состоится мероприятие «Вечерние упражнения. Экспромт двух дуэтов». Центр, расположенный по адресу Средний проспект В.О., 93, известен как площадка для смелых проектов на стыке музыки, театра, кино и актуального искусства. ([kuryokhin.net](https://www.kuryokhin.net/?utm_source=openai))\n\nК сожалению, подробной информации о предстоящем событии и его участниках в открытых источниках не найдено.\n\n**Сделать из этого прогулку**\n\nУчитывая экспериментальный характер мероприятий Центра Курехина, предлагаем посетить места с авангардной и современной атмосферой в окрестностях:\n\n- **Музей современного искусства «Эрарта»**: Расположен по адресу 29-я линия В.О., 2. Это крупнейший частный музей современного искусства в России, где представлены работы современных художников. Музей открыт ежедневно, кроме вторника, с 11:00 до 23:00. ([erarta.com](https://www.erarta.com/?utm_source=openai))\n\n- **Кафе «Эрарта»**: Находится в здании музея «Эрарта» по тому же адресу. Здесь можно насладиться блюдами в окружении современного искусства.\n\n- **Сквер на 6-й линии В.О.**: Уютное место для прогулки, где можно отдохнуть после посещения выставки.\n\nВсе эти места находятся в пешей доступности от Центра Курехина и работают в настоящее время.\n\nИсточники:\n([kuryokhin.net](https://www.kuryokhin.net/?utm_source=openai))",
  "photos": [
-  "https://ic.p24.st/unsafe/200x/api.p24.app/files/35eb111f-0a8e-41de-8069-71d82a93d909.png",
-  "https://rodinakino.ru/static/img/default-skin.png"
+  "https://thb.tildacdn.com/tild6662-3935-4365-b538-346334376132/-/resize/20x/Frame_9.png",
+  "https://lidrekon.ru/images/special.png",
+  "https://static.tildacdn.com/tild3463-6364-4162-b131-303933393462/kuryokhin.png",
+  "https://thb.tildacdn.com/tild6463-3362-4166-a163-386634353465/-/empty/kuryokhin.png"
  ],
  "since": 0
 }
