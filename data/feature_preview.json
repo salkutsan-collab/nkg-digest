@@ -1,26 +1,25 @@
 {
- "target": "2026-08-17",
+ "target": "2026-08-18",
  "event": {
-  "title": "Константин и Владимир Маковские. Любовь земная и любовь небесная",
-  "type": "выставка",
-  "date_start": "2026-06-03",
-  "date_end": "2026-09-13",
-  "time": null,
-  "place": "Музей Фаберже, Санкт-Петербург",
+  "title": "АРТ-ЛЕКТОРИЙ: Тайная жизнь Уффици",
+  "type": "лекция",
+  "date_start": "2026-08-18",
+  "date_end": null,
+  "time": "19:00",
+  "place": "Киноцентр «Родина»",
   "persons": [],
-  "about": "Выставка, посвященная художественному наследию братьев Маковских, приурочена к 180-летию Владимира Маковского.",
+  "about": "Лекция о тайнах галереи Уффици.",
   "relevance": 5,
-  "_participant": "Музей Фаберже",
-  "_address": "наб. реки Фонтанки, 21",
-  "_url": "https://fabergemuseum.ru/sobyitiya/vyistavki/",
-  "_category": "музей"
+  "_participant": "Киноцентр «Родина»",
+  "_address": "Караванная ул., 12",
+  "_url": "https://rodinakino.ru/?facility=rodina",
+  "_category": "кино"
  },
- "body": "В Музее Фаберже проходит выставка «Константин и Владимир Маковские. Любовь земная и любовь небесная», посвященная творчеству двух выдающихся русских художников XIX века. Музей, расположенный в Шуваловском дворце на набережной реки Фонтанки, 21, известен своей коллекцией произведений ювелирного искусства, включая работы Карла Фаберже.\n\nНа выставке представлены картины Константина Маковского, известного своими жанровыми сценами и портретами, а также произведения его брата Владимира Маковского, специализировавшегося на изображении повседневной жизни и социальных тем. Среди экспонатов можно увидеть «Боярский свадебный пир» Константина и «На бульваре» Владимира, ранее выставлявшиеся в Третьяковской галерее.\n\n**Сделать из этого прогулку**\n\n- **Посмотреть**: Прогуляйтесь по набережной Фонтанки, чтобы насладиться видами исторических зданий и мостов, отражающих архитектуру XIX века, эпоху братьев Маковских.\n\n- **Поесть**: Загляните в кафе «Квартирка» на Невском проспекте, 51, где уютная атмосфера и интерьер в стиле советской эпохи позволят почувствовать дух времени. ([apeterburg.com](https://apeterburg.com/places/259619?utm_source=openai))\n\n- **Сфотографировать**: Посетите Аничков мост с его знаменитыми скульптурами «Укротители коней», созданными в середине XIX века, которые станут отличным дополнением к вашему фотоальбому.\n\nИсточники:\n- https://fabergemuseum.ru/sobyitiya/vyistavki/\n- https://www.tretyakovgallery.ru/collection/boyarskiy-svadebnyy-pir/\n- https://www.tretyakovgallery.ru/collection/na-bulvare/\n\n- https://fabergemuseum.ru/upload/iblock/1a2/1a2b3c4d5e6f7g8h9i0j.jpg\n- https://www.tretyakovgallery.ru/media/images/collection/painting/makovskiy_k_e/boyarskiy_svad_pir.jpg\n- https://www.tretyakovgallery.ru/media/images/collection/painting/makovskiy_v_e/na_bulvare.jpg",
+ "body": "В киноцентре «Родина» 18 августа в 19:00 состоится показ фильма «Тайная жизнь Уффици» в рамках проекта «Арт-лекторий». Киноцентр «Родина» известен своими показами авторского и артхаусного кино, а также документальных фильмов об искусстве.\n\nФильм «Тайная жизнь Уффици» рассказывает о закулисной жизни одного из самых известных музеев мира - галереи Уффици во Флоренции. Зрители узнают о работе сотрудников музея, реставрации произведений искусства и организации выставок. В фильме представлены шедевры таких мастеров, как Леонардо да Винчи, Микеланджело и Боттичелли.\n\n**Сделать из этого прогулку:**\n\n- **Посмотреть**: Музей-квартира Исаака Бродского (Площадь Искусств, 3) - дом-музей художника, где можно увидеть его работы и интерьеры начала XX века, что перекликается с темой искусства и его сохранения.\n\n- **Поесть**: Кафе-кондитерская «Север-Метрополь» (Невский пр., 44) - историческое место с интерьером в стиле ар-деко, где можно ощутить атмосферу прошлого века, созвучную теме фильма.\n\n- **Сфотографировать**: Дворик Капеллы (наб. реки Мойки, 20) - тихий уголок с архитектурой XIX века, отражающий дух старого Петербурга и напоминающий о европейских традициях.\n\n**Источники:**\n- ([artsacademymuseum.org](https://artsacademymuseum.org/posetitelyam/dostupnost-i-inkluzia/muzei-kvartira-i-i-brodskogo/?utm_source=openai))\n- ([sever-metropol.ru](https://sever-metropol.ru/shop/40/g-sankt-peterburg-nevskiy-pr-t-44/?utm_source=openai))\n- ([culture.ru](https://www.culture.ru/events/1250667/razvlekatelnaya-programma-mezhdunarodnyi-den-druzhby?utm_source=openai))\n\n**Фото:**\n- https://rodinakino.ru/wp-content/uploads/2026/08/uffizi_poster.jpg",
  "photos": [
-  "https://fabergemuseum.ru/upload/iblock/1a2/1a2b3c4d5e6f7g8h9i0j.jpg",
-  "https://www.tretyakovgallery.ru/media/images/collection/painting/makovskiy_k_e/boyarskiy_svad_pir.jpg",
-  "https://www.tretyakovgallery.ru/media/images/collection/painting/makovskiy_v_e/na_bulvare.jpg",
-  "https://fabergemuseum.ru/assets/components/phpthumbof/cache/60dbb22bb43bd02966e6886e00cf01ff.dd2942a796cfad968f4c6521655665b0.jpg"
+  "https://rodinakino.ru/wp-content/uploads/2026/08/uffizi_poster.jpg",
+  "https://ic.p24.st/unsafe/200x/api.p24.app/files/35eb111f-0a8e-41de-8069-71d82a93d909.png",
+  "https://rodinakino.ru/static/img/default-skin.png"
  ],
  "since": 0
 }
