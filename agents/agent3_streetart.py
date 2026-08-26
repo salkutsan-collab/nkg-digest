@@ -128,11 +128,17 @@ def gather(sources, days, workers=6):
     def work(ch):
         posts = fetch_posts(ch["handle"])
         out = []
+        artist = ch.get("kind") == "artist"
         for p in posts:
             if p["date"] and p["date"] < start:
                 continue
-            if not has_keyword(p["text"], keywords):
+            by_keyword = has_keyword(p["text"], keywords)
+            # канал художника - это лента его работ, и слова-признаки там часто
+            # не нужны («Ну, Кот! Адрес: Светлановский проспект, 6»), поэтому
+            # такие посты пропускаем к модели без фильтра по словам
+            if not by_keyword and not artist:
                 continue
+            p["_by_keyword"] = by_keyword
             # для каналов "вся Россия" требуем явного намека на Петербург
             if ch.get("scope") == "ru" and not looks_spb(p["text"]):
                 continue
@@ -187,6 +193,23 @@ def judge(post):
         return json.loads(m.group(0))
     except Exception:
         return None
+
+
+def dedupe(items):
+    """Убрать повторы: художник нередко пишет об одной работе дважды (эскиз,
+    потом готовое), и в подборку попадали две строки про одно и то же."""
+    out, seen = [], set()
+    for it in items:
+        text = (it.get("summary") or it.get("text") or "").lower().replace("ё", "е")
+        words = re.findall(r"[а-яa-z0-9]{4,}", text)
+        key = (str(it.get("place") or "").lower().strip(), " ".join(sorted(words)[:6]))
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(it)
+    if len(out) < len(items):
+        print(f"  повторов про одну работу убрано: {len(items) - len(out)}")
+    return out
 
 
 # ---------- сборка текста ----------
@@ -245,8 +268,12 @@ def run(days, use_llm, do_send, save):
             print("Ключ модели не найден - отбираю только по словам (--no-llm).")
         for c in fresh:
             seen[c["url"]] = today_iso
-            items.append(c)
+            # без модели отбираем только по словам-признакам, иначе в подборку
+            # попадет вся лента художника целиком
+            if c.get("_by_keyword"):
+                items.append(c)
 
+    items = dedupe(items)
     md = build_markdown(items, days)
     os.makedirs(DIGEST_DIR, exist_ok=True)
     out = os.path.join(DIGEST_DIR, f"{today_iso}-streetart.md")
