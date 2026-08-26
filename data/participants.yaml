@@ -18,7 +18,7 @@
 
 meta:
   version: 2
-  updated: 2026-07-03
+  updated: 2026-08-26
   city: Санкт-Петербург
   topics: [дизайн, современное искусство, стрит-арт, креативные индустрии]
   source_report: Новая культурная география Санкт-Петербурга (2021)
@@ -151,6 +151,27 @@ participants:
       - {type: website, url: "https://lpmtech.ru/"}
     status: active
 
+  - id: dom-radio
+    name: Дом Радио
+    category: креативное пространство
+    address: "Невский пр., 62"
+    tags: [перформансы, выставки, концерты, лекции]
+    events_url: "https://dom.radio#events"
+    sources:
+      - {type: website, url: "https://dom.radio/"}
+      - {type: telegram, url: "https://t.me/domradio_online"}
+      - {type: timepad, url: "https://domradio.timepad.ru/"}
+    status: needs_verification
+  - id: annenkirche
+    name: Анненкирхе
+    category: креативное пространство
+    address: "Кирочная ул., 8В"
+    tags: [выставки, инсталляции, концерты]
+    events_url: "https://www.annenkirche.com/events"
+    sources:
+      - {type: website, url: "https://annenkirche.com/"}
+    status: needs_verification
+
   # ---------- музей ----------
 
   - id: artmuza
@@ -243,6 +264,79 @@ participants:
       - {type: website, url: "https://www.kuryokhin.net/"}
       - {type: vk, url: "https://vk.com/kuryokhincenter"}
     status: active
+
+  - id: hermitage
+    name: Государственный Эрмитаж (включая Главный штаб)
+    category: музей
+    address: "Дворцовая пл., 2; Главный штаб - Дворцовая пл., 6-8"
+    tags: [выставки, современное искусство, лекции]
+    events_url: "https://www.hermitagemuseum.org/wps/portal/hermitage/what-s-on/"
+    sources:
+      - {type: website, url: "https://www.hermitagemuseum.org/", verify: true}
+    status: needs_verification
+  - id: russian-museum
+    name: Русский музей
+    category: музей
+    address: "Инженерная ул., 4; Мраморный и Строгановский дворцы, Михайловский замок"
+    tags: [выставки, лекции]
+    events_url: "https://rusmuseum.ru/exhibitions/"
+    sources:
+      - {type: website, url: "https://rusmuseum.ru/"}
+    status: needs_verification
+  - id: arts-academy-museum
+    name: Музей Академии художеств
+    category: музей
+    address: "Университетская наб., 17"
+    tags: [выставки, академическая школа]
+    events_url: "https://artsacademymuseum.org/exhibitions/exhibitions/"
+    sources:
+      - {type: website, url: "https://artsacademymuseum.org/"}
+    status: needs_verification
+  - id: akhmatova-museum
+    name: Музей Анны Ахматовой в Фонтанном доме
+    category: музей
+    address: "Литейный пр., 53"
+    tags: [выставки, лекции, литература]
+    events_url: "https://akhmatova.spb.ru/afisha"
+    sources:
+      - {type: website, url: "https://akhmatova.spb.ru/"}
+    status: needs_verification
+  - id: kunstkamera
+    name: Кунсткамера
+    category: музей
+    address: "Университетская наб., 3"
+    tags: [выставки, лекции]
+    events_url: "https://www.kunstkamera.ru/events-calendar/"
+    sources:
+      - {type: website, url: "https://www.kunstkamera.ru/"}
+    status: needs_verification
+  - id: spb-history-museum
+    name: Музей истории Санкт-Петербурга (Петропавловская крепость)
+    category: музей
+    address: "Петропавловская крепость, 3; Особняк Румянцева"
+    tags: [выставки, фестивали, лекции]
+    events_url: "https://www.spbmuseum.ru/events/events/"
+    sources:
+      - {type: website, url: "https://www.spbmuseum.ru/"}
+    status: needs_verification
+  - id: anikushin-studio
+    name: Мастерская Аникушина (Музей городской скульптуры)
+    category: музей
+    address: "Вяземский пер., 8"
+    tags: [скульптура, выставки, лекции]
+    events_url: "https://gmgs.ru/sculptorstudio"
+    sources:
+      - {type: website, url: "https://gmgs.ru/", verify: true}
+    status: needs_verification
+  - id: planetary-spb
+    name: Петербургский планетарий
+    category: музей
+    address: "Александровский парк, 4"
+    tags: [выставки, лекции, наука]
+    events_url: "https://www.planetary-spb.ru/afisha/schedule/"
+    sources:
+      - {type: website, url: "https://www.planetary-spb.ru/"}
+    status: needs_verification
 
   # ---------- галерея ----------
 
@@ -465,6 +559,34 @@ participants:
       - {type: telegram, url: "https://t.me/hsedesignspb"}
     status: needs_verification
 
+  - id: masters-school
+    name: Школа Masters
+    category: образование
+    address: "Барочная ул."
+    tags: [лекции, курсы, современное искусство]
+    events_url: "https://masters-project.ru/catalog/events/"
+    sources:
+      - {type: website, url: "https://masters-project.ru/"}
+    status: needs_verification
+  - id: dk-lurie
+    name: Дом культуры Льва Лурье
+    category: образование
+    address: ""
+    tags: [лекции, экскурсии, история города]
+    events_url: "https://dklurie.ru/afisha/"
+    sources:
+      - {type: website, url: "https://dklurie.ru/"}
+    status: needs_verification
+  - id: wordorder
+    name: Книжный магазин «Порядок слов»
+    category: образование
+    address: "наб. реки Фонтанки, 15"
+    tags: [лекции, встречи, кино]
+    events_url: "https://wordorder.ru/index.php?dispatch=event_calendar.view"
+    sources:
+      - {type: website, url: "https://wordorder.ru/"}
+    status: needs_verification
+
   # ---------- театр ----------
 
   - id: alexandrinsky-new-stage
@@ -534,6 +656,15 @@ participants:
       - {type: website, url: "https://rodinakino.ru/", verify: true}
       - {type: vk, url: "https://vk.com/kinorodinasp"}
       - {type: telegram, url: "https://t.me/rodinakino_spb"}
+    status: needs_verification
+
+  - id: lenfilm
+    name: Киностудия «Ленфильм»
+    category: кино
+    address: "Каменноостровский пр., 10"
+    tags: [показы, выставки, инсталляции]
+    sources:
+      - {type: website, url: "https://lenfilm.ru/", verify: true}
     status: needs_verification
 
   # ---------- гастрономия ----------
