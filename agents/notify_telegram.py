@@ -26,6 +26,29 @@ _load_dotenv()
 API = "https://api.telegram.org/bot{token}/{method}"
 LIMIT = 3800  # с запасом до телеграмного лимита 4096
 
+# id последних отправленных сообщений - их забирает журнал публикаций (postlog).
+# Список наполняют функции отправки, а обнуляет зовущий слой (broadcast).
+_LAST_IDS = []
+
+
+def reset_ids():
+    """Забыть id прошлой отправки - зовется перед новым постом."""
+    del _LAST_IDS[:]
+
+
+def last_message_ids():
+    """id сообщений, отправленных с последнего reset_ids()."""
+    return list(_LAST_IDS)
+
+
+def _remember_ids(data):
+    """Запомнить id из ответа Telegram (одно сообщение или альбом)."""
+    res = (data or {}).get("result")
+    items = res if isinstance(res, list) else [res]
+    for m in items:
+        if isinstance(m, dict) and m.get("message_id"):
+            _LAST_IDS.append(m["message_id"])
+
 
 def _cfg():
     token = os.environ.get("TELEGRAM_BOT_TOKEN")
@@ -82,7 +105,23 @@ def send_text(text, parse_mode="HTML", chat=None):
     data = r.json()
     if not data.get("ok"):
         raise SystemExit(f"Ошибка Telegram: {data}")
+    _remember_ids(data)
     return data
+
+
+def member_count(chat=None):
+    """Сколько подписчиков в канале (getChatMemberCount).
+    None - если канал не задан; исключение - если Telegram ответил ошибкой."""
+    token, default_chat = _cfg()
+    chat = chat or default_chat
+    if not chat:
+        return None
+    r = requests.post(API.format(token=token, method="getChatMemberCount"),
+                      json={"chat_id": chat}, timeout=30)
+    data = r.json()
+    if not data.get("ok"):
+        raise RuntimeError(f"Telegram getChatMemberCount: {data}")
+    return int(data.get("result") or 0)
 
 
 def owner_chat():
@@ -169,7 +208,9 @@ def send_photos(image_urls, caption=None, chat=None):
                 data.update({"caption": caption[:1024], "parse_mode": "HTML"})
             r = requests.post(API.format(token=token, method="sendPhoto"),
                               data=data, files={"photo": blobs[0]}, timeout=120)
-            return bool(r.json().get("ok"))
+            answer = r.json()
+            _remember_ids(answer)
+            return bool(answer.get("ok"))
         media, files = [], {}
         for i, blob in enumerate(blobs):
             key = f"photo{i}"
@@ -181,7 +222,9 @@ def send_photos(image_urls, caption=None, chat=None):
         r = requests.post(API.format(token=token, method="sendMediaGroup"),
                           data={"chat_id": chat, "media": json.dumps(media)},
                           files=files, timeout=120)
-        return bool(r.json().get("ok"))
+        answer = r.json()
+        _remember_ids(answer)
+        return bool(answer.get("ok"))
     except Exception:
         return False
 

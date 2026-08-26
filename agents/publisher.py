@@ -595,7 +595,8 @@ def recommend(events, theme, use_llm, today, day_key, send):
         return
     import broadcast
     # в каждый мессенджер: фото с подписью, а если фото не доставить - текстом
-    broadcast.send_photo_or_text([img] if img else [], photo_caption, text_caption)
+    broadcast.send_photo_or_text([img] if img else [], photo_caption, text_caption,
+                                 kind="recommend")
 
 
 # ---------- самопроверка ----------
@@ -695,7 +696,8 @@ def main():
         else:
             try:
                 import broadcast
-                broadcast.send_markdown(md)
+                broadcast.send_markdown(md, kind="digest",
+                                        extra={"theme": theme.get("label") or theme.get("title")})
             except SystemExit as e:
                 print(f"Отправка не удалась: {e}")
             except Exception as e:

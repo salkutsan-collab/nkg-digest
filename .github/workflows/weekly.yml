@@ -36,5 +36,8 @@ jobs:
           git config user.name "nkg-bot"
           git config user.email "nkg-bot@users.noreply.github.com"
           git add data/participants.yaml
+          for f in data/posts.jsonl data/subscribers.jsonl; do
+            [ -f "$f" ] && git add "$f"
+          done
           git diff --staged --quiet || git commit -m "Авто-обновление базы участников (агент 1)"
           git push

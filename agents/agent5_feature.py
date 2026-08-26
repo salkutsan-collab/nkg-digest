@@ -415,11 +415,11 @@ def _send_to_channels(cap, bhtml, imgs):
     import broadcast
     if imgs:
         try:
-            broadcast.send_photos(imgs)
+            broadcast.send_photos(imgs, kind="feature")
         except Exception as e:
             print(f"  (фото не ушли: {str(e)[:100]})")
     try:
-        broadcast.send_text(cap + "\n\n" + bhtml)
+        broadcast.send_text(cap + "\n\n" + bhtml, kind="feature")
         print("Разбор дня опубликован.")
     except Exception as e:
         print(f"Отправка не удалась: {str(e)[:160]}")

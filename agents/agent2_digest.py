@@ -369,7 +369,7 @@ def main():
 def _send(md):
     try:
         import broadcast
-        broadcast.send_markdown(md)
+        broadcast.send_markdown(md, kind="digest")
     except SystemExit as e:
         print(f"Отправка не удалась: {e}")
     except Exception as e:

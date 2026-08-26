@@ -8,7 +8,7 @@ on:
   workflow_dispatch:   # запуск только извне (cron-job.org), без капризного schedule
 
 permissions:
-  contents: read
+  contents: write   # публикатор пишет журнал публикаций (data/posts.jsonl)
 
 jobs:
   feature:
@@ -41,3 +41,17 @@ jobs:
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
           MAX_CHAT_ID: ${{ secrets.MAX_CHAT_ID }}
         run: python agents/agent5_feature.py --send
+
+      - name: Сохранить журнал публикаций
+        run: |
+          git config user.name "nkg-bot"
+          git config user.email "nkg-bot@users.noreply.github.com"
+          for f in data/posts.jsonl data/subscribers.jsonl; do
+            [ -f "$f" ] && git add "$f"
+          done
+          if git diff --cached --quiet; then
+            echo "Журнал не менялся - коммит не нужен."
+          else
+            git commit -m "Авто: журнал публикаций"
+            git push
+          fi

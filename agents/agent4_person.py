@@ -265,10 +265,11 @@ def publish(use_llm=True, send=False):
         urls = _photo_urls(imgs)
         sent = False
         if urls:
-            sent = broadcast.send_photos(urls, caption=f"<b>Персона недели: {name}</b>")
+            sent = broadcast.send_photos(urls, caption=f"<b>Персона недели: {name}</b>",
+                                         kind="person")
         # текст: с заголовком, если фото не ушли; иначе только тело + примечание
         text_md = full_md if not sent else f"{body}{note}"
-        broadcast.send_markdown(text_md)
+        broadcast.send_markdown(text_md, kind="person")
     return full_md
 
 
@@ -279,7 +280,7 @@ def _publish_text(md, today, send):
         fh.write(md + "\n")
     if send:
         import broadcast
-        broadcast.send_markdown(md)
+        broadcast.send_markdown(md, kind="person")
     return md
 
 

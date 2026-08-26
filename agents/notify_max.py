@@ -32,6 +32,29 @@ from notify_telegram import md_to_tg, split_chunks, LIMIT
 
 API = "https://botapi.max.ru/{method}"
 
+# id последних отправленных сообщений - их забирает журнал публикаций (postlog).
+_LAST_IDS = []
+
+
+def reset_ids():
+    """Забыть id прошлой отправки - зовется перед новым постом."""
+    del _LAST_IDS[:]
+
+
+def last_message_ids():
+    """id сообщений, отправленных с последнего reset_ids()."""
+    return list(_LAST_IDS)
+
+
+def _remember_ids(data):
+    """Запомнить id сообщения из ответа Max (message.body.mid)."""
+    try:
+        mid = ((data or {}).get("message") or {}).get("body", {}).get("mid")
+        if mid:
+            _LAST_IDS.append(mid)
+    except Exception:
+        pass
+
 
 def _cfg():
     token = os.environ.get("MAX_BOT_TOKEN")
@@ -75,9 +98,37 @@ def send_text(text, chat=None):
     chat = chat or default_chat
     if not chat:
         raise SystemExit("Не задан MAX_CHAT_ID.")
-    return _post("messages", params={"chat_id": chat},
+    data = _post("messages", params={"chat_id": chat},
                  json={"text": text, "format": "html",
                        "notify": True, "disable_link_preview": True})
+    _remember_ids(data)
+    return data
+
+
+def member_count(chat=None):
+    """Сколько подписчиков в канале Max. None - если число не отдают."""
+    token, default_chat = _cfg()
+    chat = chat or default_chat
+    if not chat:
+        return None
+    keys = ("participants_count", "members_count", "participant_count")
+    try:
+        data = _get(f"chats/{chat}")
+        for k in keys:
+            if isinstance(data.get(k), int):
+                return data[k]
+    except Exception:
+        pass
+    # запасной путь: найти свой канал в общем списке чатов бота
+    try:
+        for c in (_get("chats").get("chats") or []):
+            if str(c.get("chat_id")) == str(chat):
+                for k in keys:
+                    if isinstance(c.get(k), int):
+                        return c[k]
+    except Exception:
+        pass
+    return None
 
 
 def dm_recipients():
@@ -144,7 +195,7 @@ def send_photos(image_urls, caption=None, chat=None):
     # Max обрабатывает картинку асинхронно - возможна ошибка "не готово", повторяем
     for _ in range(5):
         try:
-            _post("messages", params={"chat_id": chat}, json=body)
+            _remember_ids(_post("messages", params={"chat_id": chat}, json=body))
             return True
         except RuntimeError as e:
             if "not.ready" in str(e) or "attachment" in str(e):
