@@ -160,6 +160,99 @@ def fetch_posts(domain, limit=30):
     return out
 
 
+# ---------- поиск по всему ВК ----------
+
+_city_cache = {}
+
+
+def _owner_city(owner_ids):
+    """Город сообществ и людей по их id. Нужно, чтобы отсечь чужие города:
+    в поиске ВК полно постов из Перми и Красноярска, где Петербург просто
+    упомянут в перечислении."""
+    todo = [o for o in set(owner_ids) if o not in _city_cache]
+    groups = [str(-o) for o in todo if o < 0]
+    users = [str(o) for o in todo if o > 0]
+    for i in range(0, len(groups), 100):
+        try:
+            resp = api("groups.getById", group_ids=",".join(groups[i:i + 100]),
+                       fields="city,members_count")
+        except VkError as e:
+            print(f"  ({e})")
+            continue
+        items = resp.get("groups") if isinstance(resp, dict) else resp
+        for g in items or []:
+            _city_cache[-g["id"]] = ((g.get("city") or {}).get("title"), g.get("name"))
+    for i in range(0, len(users), 100):
+        try:
+            resp = api("users.get", user_ids=",".join(users[i:i + 100]), fields="city")
+        except VkError as e:
+            print(f"  ({e})")
+            continue
+        for u in resp or []:
+            name = " ".join(x for x in (u.get("first_name"), u.get("last_name")) if x)
+            _city_cache[u["id"]] = ((u.get("city") or {}).get("title"), name)
+    for o in todo:
+        _city_cache.setdefault(o, (None, None))
+    return _city_cache
+
+
+def search_posts(queries, days=14, limit=60, keywords=(), deny=(), spb_hints=()):
+    """Поиск свежих постов по всему ВК с отбором.
+
+    Порядок отбора: слово нашей темы -> признак Петербурга -> стоп-слова
+    (реклама, закупки, детские конкурсы) -> склейка повторов (один пост часто
+    размножен по десяти группам) -> город автора должен быть Петербург.
+    Возвращает посты в том же виде, что и остальные источники."""
+    since = int(time.time()) - days * 86400
+    kw = [w.lower() for w in keywords]
+    dn = [w.lower() for w in deny]
+    hints = [h.lower() for h in spb_hints]
+    found = {}
+    for q in queries:
+        try:
+            resp = api("newsfeed.search", q=q, count=100, start_time=since, extended=1)
+        except VkError as e:
+            print(f"  (ВК поиск «{q}»: {e})")
+            continue
+        for p in (resp or {}).get("items", []):
+            text = _post_text(p)
+            low = text.lower()
+            if kw and not any(w in low for w in kw):
+                continue
+            if hints and not any(h in low for h in hints):
+                continue
+            if any(w in low for w in dn):
+                continue
+            key = re.sub(r"\W+", "", low)[:120]
+            if key in found:
+                continue
+            found[key] = p
+    if not found:
+        return []
+    cities = _owner_city([p.get("owner_id") for p in found.values()])
+    out = []
+    for p in found.values():
+        owner = p.get("owner_id")
+        town, who = cities.get(owner, (None, None))
+        text = _post_text(p)
+        if town and "петербург" not in town.lower():
+            continue
+        if not town and not any(h in text[:200].lower() for h in hints):
+            continue        # город не указан - требуем Петербург в начале поста
+        day = None
+        if p.get("date"):
+            try:
+                day = dt.datetime.fromtimestamp(p["date"]).date()
+            except Exception:
+                day = None
+        out.append({"text": text,
+                    "url": f"https://vk.com/wall{owner}_{p.get('id')}",
+                    "date": day,
+                    "_author": who or f"id{owner}"})
+    out.sort(key=lambda p: p["date"] or dt.date.min, reverse=True)
+    return out[:limit]
+
+
 # ---------- проверка руками ----------
 
 def _keywords():

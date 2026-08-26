@@ -179,7 +179,42 @@ def gather(sources, days, workers=6):
         ch, out = work(dict(g, _source="vk"))
         print(f"  ВК {ch.get('name') or ch.get('domain')}: кандидатов {len(out)}")
         found.extend(out)
+    found.extend(vk_found_by_search(sources, days))
     return found
+
+
+def vk_found_by_search(sources, days):
+    """Поиск по всему ВК: находки не привязаны к списку групп. Отбор внутри
+    vk_source (тема, Петербург, стоп-слова, повторы, город автора)."""
+    cfg = sources.get("vk_search") or {}
+    queries = cfg.get("queries") or []
+    if not queries:
+        return []
+    try:
+        import vk_source
+    except Exception as e:
+        print(f"  (ВК поиск не подключился: {str(e)[:80]})")
+        return []
+    if not vk_source.configured():
+        return []
+    posts = vk_source.search_posts(
+        queries,
+        days=min(int(cfg.get("days") or days), max(days, 1)),
+        limit=int(cfg.get("limit") or 40),
+        keywords=sources.get("keywords") or [],
+        deny=cfg.get("deny_words") or [],
+        spb_hints=SPB_HINTS)
+    start = dt.date.today() - dt.timedelta(days=days)
+    out = []
+    for p in posts:
+        if p.get("date") and p["date"] < start:
+            continue
+        p["_channel"] = f"ВК: {p.get('_author') or 'поиск'}"
+        p["_handle"] = "vk-search"
+        p["_by_keyword"] = True      # слово темы проверено при поиске
+        out.append(p)
+    print(f"  ВК поиск по {len(queries)} запросам: кандидатов {len(out)}")
+    return out
 
 
 # ---------- описание моделью ----------
@@ -222,21 +257,46 @@ def judge(post):
         return None
 
 
+def _words(text):
+    return set(re.findall(r"[а-яa-z0-9]{4,}",
+                          str(text or "").lower().replace("ё", "е")))
+
+
 def dedupe(items):
-    """Убрать повторы: художник нередко пишет об одной работе дважды (эскиз,
-    потом готовое), и в подборку попадали две строки про одно и то же."""
-    out, seen = [], set()
+    """Убрать повторы про одну и ту же работу. Их два вида: художник пишет
+    дважды (эскиз, потом готовое) и одну новость публикуют разные сообщества
+    своими словами. Поэтому сверяем не строку, а совпадение значимых слов."""
+    out = []
     for it in items:
-        text = (it.get("summary") or it.get("text") or "").lower().replace("ё", "е")
-        words = re.findall(r"[а-яa-z0-9]{4,}", text)
-        key = (str(it.get("place") or "").lower().strip(), " ".join(sorted(words)[:6]))
-        if key in seen:
-            continue
-        seen.add(key)
-        out.append(it)
+        words = _words(it.get("summary") or it.get("text"))
+        place = str(_as_text(it.get("place"))).lower().strip()
+        double = False
+        for kept in out:
+            kw = _words(kept.get("summary") or kept.get("text"))
+            if not words or not kw:
+                continue
+            common = len(words & kw) / len(words | kw)
+            same_place = place and place == str(_as_text(kept.get("place"))).lower().strip()
+            if common >= 0.6 or (same_place and common >= 0.35):
+                double = True
+                break
+        if not double:
+            out.append(it)
     if len(out) < len(items):
         print(f"  повторов про одну работу убрано: {len(items) - len(out)}")
     return out
+
+
+def _as_text(value):
+    """Привести ответ модели к строке: место или описание иногда приходит
+    списком («["Фонтанка", "90"]») или числом, а дальше ждут строку."""
+    if value is None or isinstance(value, bool):
+        return ""
+    if isinstance(value, (list, tuple, set)):
+        return ", ".join(_as_text(v) for v in value if v not in (None, "", True, False))
+    if isinstance(value, dict):
+        return ", ".join(_as_text(v) for v in value.values())
+    return str(value).strip()
 
 
 # ---------- сборка текста ----------
@@ -257,8 +317,8 @@ def build_markdown(items, days):
         return "\n".join(lines)
     lines += [f"Свежих находок: {len(items)}.", ""]
     for it in items:
-        place = it.get("place")
-        summary = it.get("summary") or first_sentence(it["text"])
+        place = _as_text(it.get("place"))
+        summary = _as_text(it.get("summary")) or first_sentence(it["text"])
         line = f"- {summary}"
         if place and place.lower() not in summary.lower():
             line += f" ({place})"

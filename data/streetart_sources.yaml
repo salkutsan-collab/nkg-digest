@@ -55,30 +55,42 @@ channels:
   - {handle: maximima,      name: "Максим Има",                  scope: spb, kind: artist}
 
 # Паблики ВКонтакте. Читаются через API по ключу VK_TOKEN (см. начало файла
-# agents/vk_source.py: как получить и куда положить). Без ключа радар их молча
-# пропускает - телеграм при этом работает как раньше.
+# agents/vk_source.py). Без ключа радар их молча пропускает.
 #
-# ВНИМАНИЕ: эти адреса существуют (страницы отвечают), но чем именно живут эти
-# сообщества, без ключа не видно - ВК не отдает анонимно ни постов, ни названия.
-# Как только ключ появится, проверить одной командой и убрать лишнее:
-#   py agents/vk_source.py --groups lenstreet,streetartstorage,streetartspb,streetart_spb,iskusstvo_ulic,muralspb,zaborvspb,cultbalagan,maximima,partizaning,streetartrussia
+# Список короткий не случайно: 2026-08-26 проверены одиннадцать адресов-кандидатов,
+# и почти все оказались мимо - музыкальная группа LENIN STREET, продажа заборов,
+# агентство маркетинга, коммерческая роспись стен, брошенные сообщества 2011 и
+# 2017 годов, одно закрытое. Годится только одно сообщество.
 vk_groups:
-  - {domain: lenstreet,        name: "ЛЕНСТРИТ (ВК)",           scope: spb}
   - {domain: streetartstorage, name: "Стрит-арт хранение (ВК)", scope: spb}
-  - {domain: streetartspb,     name: "streetartspb (ВК)",       scope: spb}
-  - {domain: streetart_spb,    name: "streetart_spb (ВК)",      scope: spb}
-  - {domain: iskusstvo_ulic,   name: "Искусство улиц (ВК)",     scope: spb}
-  - {domain: muralspb,         name: "muralspb (ВК)",           scope: spb}
-  - {domain: zaborvspb,        name: "zaborvspb (ВК)",          scope: spb}
-  - {domain: cultbalagan,      name: "БАЛАГАН (ВК)",            scope: spb}
-  - {domain: maximima,         name: "Максим Има (ВК)",         scope: spb, kind: artist}
-  - {domain: partizaning,      name: "Партизанинг (ВК)",        scope: ru}
-  - {domain: streetartrussia,  name: "Стрит-арт Россия (ВК)",   scope: ru}
 
-# Адреса, которых в ВК нет вовсе (проверено 2026-08-26): streetartkeeper, sah_spb,
-# kvadrat_spb, vandalizm_spb, spb_murals, urbanart_spb, numbtrueulya.
-# Пропущены намеренно: graffitispb, spbgraffiti - это граффити, а его правило
-# проекта не берет.
+# Поиск по всему ВК - основной способ добывать находки из ВК вместо списка групп.
+# Отбор: слово темы -> признак Петербурга -> стоп-слова -> склейка повторов ->
+# город автора должен быть Петербург (в поиске полно постов из других городов,
+# где Петербург просто упомянут в перечислении).
+vk_search:
+  days: 14
+  limit: 40
+  queries:
+    - мурал Петербург
+    - стрит-арт Петербург
+    - паблик-арт Петербург
+    - новый арт-объект Петербург
+    - уличное искусство Петербург
+  deny_words:
+    - заказать
+    - услуг
+    - прайс
+    - портфолио
+    - под ключ
+    - стоимость
+    - скидк
+    - менеджер
+    - вакансия
+    - резюме
+    - внешкольн
+    - госзакуп
+    - тендер
 
 # Проверенные каналы художников, которые пока не подключены (мало постов про
 # новые работы на улице - в основном ярмарки, тираж, мерч). Держим на виду:
