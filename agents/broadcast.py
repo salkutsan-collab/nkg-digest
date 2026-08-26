@@ -103,11 +103,14 @@ def send_markdown(md, kind="?", extra=None):
 
 
 def send_text(text, kind="?", extra=None):
-    """Отправить готовый HTML-текст в канал во всех мессенджерах."""
+    """Отправить готовый HTML-текст в канал во всех мессенджерах.
+    Возвращает True, если сообщение приняли ХОТЯ БЫ в одном мессенджере."""
     chars = len(text or "")
+    ok = False
     _reset(notify_telegram)
     try:
         notify_telegram.send_text(text)
+        ok = True
         _log("telegram", kind, True, notify_telegram, parts=1, chars=chars, extra=extra)
     except _ERRORS as e:
         print(f"  (Telegram: сообщение не ушло: {str(e)[:120]})")
@@ -117,11 +120,13 @@ def send_text(text, kind="?", extra=None):
         _reset(m)
         try:
             m.send_text(text)
+            ok = True
             _log("max", kind, True, m, parts=1, chars=chars, extra=extra)
         except _ERRORS as e:
             print(f"  (Max: сообщение не ушло: {str(e)[:120]})")
             _log("max", kind, False, chars=chars, error=e, extra=extra)
     _count_subscribers()
+    return ok
 
 
 def send_photos(image_urls, caption=None, kind="?", extra=None):

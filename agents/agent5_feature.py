@@ -33,6 +33,80 @@ import llm
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIGEST_DIR = os.path.join(ROOT, "digests")
 STATE_PATH = os.path.join(ROOT, "data", "feature_preview.json")  # черновик на согласование
+SEEN_PATH = os.path.join(ROOT, "data", "feature_seen.json")      # что уже разбирали
+
+# сколько разобранных событий держим в памяти (дальше - самые старые забываются)
+SEEN_LIMIT = 500
+
+
+# ---------- правило: событие попадает в «Разбор дня» только один раз ----------
+
+def _norm(s):
+    """Привести строку к сравнимому виду: без кавычек, знаков и лишних пробелов."""
+    s = str(s or "").lower().replace("ё", "е")
+    s = re.sub(r"[«»\"'’„“]", " ", s)
+    s = re.sub(r"[^\w\s]", " ", s, flags=re.UNICODE)
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def _seen_key(event):
+    """Ключ события для правила «без повторов»: название плюс площадка.
+    Даты в ключ НЕ входят - длинная выставка не должна вернуться в разбор
+    только потому, что у нее сдвинулись сроки."""
+    return f"{_norm(event.get('title'))}|{_norm(event.get('_participant'))}"
+
+
+def _same_event(title_a, venue_a, title_b, venue_b):
+    """Одно ли это событие. Площадка должна совпасть, а название - совпасть либо
+    оказаться началом другого: «Стеклянный зверинец» и «Стеклянный зверинец.
+    Спектакль в кинотеатре» - один и тот же показ, а не два разных."""
+    if not venue_a or venue_a != venue_b:
+        return False
+    if title_a == title_b:
+        return True
+    short, long_ = sorted((title_a, title_b), key=len)
+    return len(short) >= 12 and long_.startswith(short)
+
+
+def seen_records():
+    """Что уже было в «Разборе дня»."""
+    data = pub._load_json(SEEN_PATH) or {}
+    return data.get("events") or []
+
+
+def is_seen(event, records=None):
+    """Разбирали ли это событие раньше."""
+    rows = seen_records() if records is None else records
+    t, v = _norm(event.get("title")), _norm(event.get("_participant"))
+    for r in rows:
+        if _same_event(t, v, _norm(r.get("title")), _norm(r.get("participant"))):
+            return True
+    return False
+
+
+def mark_seen(event, source=""):
+    """Запомнить разобранное событие, чтобы оно больше не попало в «Разбор дня»."""
+    if not event:
+        return
+    data = pub._load_json(SEEN_PATH) or {}
+    rows = data.get("events") or []
+    if is_seen(event, rows):
+        return
+    rec = {"key": _seen_key(event),
+           "title": event.get("title"),
+           "participant": event.get("_participant"),
+           "date_start": event.get("date_start"),
+           "featured": dt.date.today().isoformat()}
+    if source:
+        rec["source"] = source
+    rows.append(rec)
+    data["events"] = rows[-SEEN_LIMIT:]
+    try:
+        with open(SEEN_PATH, "w", encoding="utf-8") as fh:
+            json.dump(data, fh, ensure_ascii=False, indent=1)
+        print(f"Запомнил в разобранные: {event.get('title')}")
+    except Exception as e:
+        print(f"  (память разборов: не записать: {str(e)[:120]})")
 
 
 # ---------- выбор события и сбор источников ----------
@@ -51,11 +125,20 @@ def events_for(target):
     return events
 
 
-def pick_subject(events):
-    """Самое релевантное событие, у которого есть за что зацепиться (площадка/персона)."""
+def pick_subject(events, skip_seen=True):
+    """Самое релевантное событие, у которого есть за что зацепиться (площадка/персона).
+    ПРАВИЛО: событие, уже побывавшее в «Разборе дня», второй раз не берется -
+    лучше пропустить день, чем повторить тот же разбор."""
     if not events:
         return None
-    ranked = sorted(events, key=lambda e: -pub.relevance(e))
+    rows = seen_records() if skip_seen else []
+    fresh = [e for e in events if not is_seen(e, rows)]
+    skipped = len(events) - len(fresh)
+    if skipped:
+        print(f"Правило «без повторов»: пропущено уже разобранных событий - {skipped}.")
+    if not fresh:
+        return None
+    ranked = sorted(fresh, key=lambda e: -pub.relevance(e))
     return ranked[0]
 
 
@@ -411,7 +494,8 @@ def body_html(event, body, wiki):
 
 
 def _send_to_channels(cap, bhtml, imgs):
-    """Опубликовать в каналы: фото-зацеп (без подписи) + полный текст с заголовком."""
+    """Опубликовать в каналы: фото-зацеп (без подписи) + полный текст с заголовком.
+    Возвращает True, если текст ушел хотя бы в один мессенджер."""
     import broadcast
     if imgs:
         try:
@@ -419,10 +503,12 @@ def _send_to_channels(cap, bhtml, imgs):
         except Exception as e:
             print(f"  (фото не ушли: {str(e)[:100]})")
     try:
-        broadcast.send_text(cap + "\n\n" + bhtml, kind="feature")
-        print("Разбор дня опубликован.")
+        ok = broadcast.send_text(cap + "\n\n" + bhtml, kind="feature")
+        print("Разбор дня опубликован." if ok else "Разбор дня: текст не ушел ни в один канал.")
+        return bool(ok)
     except Exception as e:
         print(f"Отправка не удалась: {str(e)[:160]}")
+        return False
 
 
 def _dm_owner(text_html):
@@ -518,6 +604,11 @@ def run_publish(send=False):
     state = pub._load_json(STATE_PATH)
     if state and state.get("target") == today.isoformat():
         subject = state["event"]
+        # правило «без повторов» действует и на утвержденный черновик: если событие
+        # уже разбирали (например, прогон в этот день повторный) - не публикуем снова
+        if is_seen(subject):
+            print(f"Разбор дня: «{subject.get('title')}» уже разбирали - пропускаем.")
+            return
         body = state["body"]
         imgs = state.get("photos") or []
         wiki = []
@@ -553,7 +644,10 @@ def run_publish(send=False):
             print("  " + u)
         print("----- конец -----")
         return
-    _send_to_channels(cap, bhtml, imgs)
+    # событие уходит в разобранные только после доставки, иначе сбой связи
+    # навсегда вычеркнул бы его из будущих разборов
+    if _send_to_channels(cap, bhtml, imgs):
+        mark_seen(subject)
 
 
 def main():

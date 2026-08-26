@@ -42,16 +42,16 @@ jobs:
           MAX_CHAT_ID: ${{ secrets.MAX_CHAT_ID }}
         run: python agents/agent5_feature.py --send
 
-      - name: Сохранить журнал публикаций
+      - name: Сохранить журнал публикаций и память разборов
         run: |
           git config user.name "nkg-bot"
           git config user.email "nkg-bot@users.noreply.github.com"
-          for f in data/posts.jsonl data/subscribers.jsonl; do
+          for f in data/posts.jsonl data/subscribers.jsonl data/feature_seen.json; do
             [ -f "$f" ] && git add "$f"
           done
           if git diff --cached --quiet; then
             echo "Журнал не менялся - коммит не нужен."
           else
-            git commit -m "Авто: журнал публикаций"
+            git commit -m "Авто: журнал публикаций и память разборов"
             git push
           fi
