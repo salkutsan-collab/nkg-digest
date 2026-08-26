@@ -44,11 +44,17 @@ jobs:
           MAX_CHAT_ID: ${{ secrets.MAX_CHAT_ID }}
         run: python agents/postlog.py --subscribers
 
+      - name: Освежить историю канала и просмотры
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python agents/channel_history.py --refresh 40
+
       - name: Сохранить память (муралы, персоны)
         run: |
           git config user.name "nkg-bot"
           git config user.email "nkg-bot@users.noreply.github.com"
-          for f in data/streetart_seen.json data/person_tally.json data/person_choice.json data/preferences.md data/posts.jsonl data/subscribers.jsonl data/feature_seen.json; do
+          for f in data/streetart_seen.json data/person_tally.json data/person_choice.json data/preferences.md data/posts.jsonl data/subscribers.jsonl data/feature_seen.json data/channel_history.jsonl; do
             [ -f "$f" ] && git add "$f"
           done
           [ -d data/archive ] && git add data/archive

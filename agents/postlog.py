@@ -225,6 +225,16 @@ def stats(month=None):
                   f"{(r.get('error') or 'без пояснения')[:100]}")
 
     _subs_report(subs)
+    _channel_report(month)
+
+
+def _channel_report(month=None):
+    """Что реально стоит в канале и сколько просмотров (история из t.me/s)."""
+    try:
+        import channel_history
+        channel_history.report(month)
+    except Exception as e:
+        print(f"\n(история канала недоступна: {str(e)[:120]})")
 
 
 def _missing_days(first, last, have):
