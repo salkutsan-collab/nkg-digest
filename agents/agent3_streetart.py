@@ -118,15 +118,37 @@ def looks_spb(text):
     return any(h in low for h in SPB_HINTS)
 
 
+def vk_groups(sources):
+    """Паблики ВК из настроек - только если задан ключ доступа."""
+    groups = sources.get("vk_groups") or []
+    if not groups:
+        return []
+    try:
+        import vk_source
+    except Exception as e:
+        print(f"  (ВК не подключился: {str(e)[:80]})")
+        return []
+    if not vk_source.configured():
+        print(f"  (ВК пропущен: не задан VK_TOKEN, групп в списке {len(groups)})")
+        return []
+    return groups
+
+
 def gather(sources, days, workers=6):
-    """Собрать посты-кандидаты со всех каналов за окно в днях."""
+    """Собрать посты-кандидаты со всех источников за окно в днях.
+    Телеграм читается витриной t.me/s без доступа, ВК - через API по ключу."""
     keywords = sources.get("keywords", [])
     channels = sources.get("channels", [])
     today = dt.date.today()
     start = today - dt.timedelta(days=days)
 
     def work(ch):
-        posts = fetch_posts(ch["handle"])
+        # у ВК источник задается адресом сообщества (domain), у телеграма - handle
+        if ch.get("_source") == "vk":
+            import vk_source
+            posts = vk_source.fetch_posts(ch.get("domain") or ch.get("handle"))
+        else:
+            posts = fetch_posts(ch["handle"])
         out = []
         artist = ch.get("kind") == "artist"
         for p in posts:
@@ -142,8 +164,8 @@ def gather(sources, days, workers=6):
             # для каналов "вся Россия" требуем явного намека на Петербург
             if ch.get("scope") == "ru" and not looks_spb(p["text"]):
                 continue
-            p["_channel"] = ch.get("name", ch["handle"])
-            p["_handle"] = ch["handle"]
+            p["_channel"] = ch.get("name") or ch.get("handle") or ch.get("domain")
+            p["_handle"] = ch.get("handle") or ch.get("domain")
             out.append(p)
         return ch, out
 
@@ -152,6 +174,11 @@ def gather(sources, days, workers=6):
         for ch, out in ex.map(work, channels):
             print(f"  {ch.get('name', ch['handle'])}: кандидатов {len(out)}")
             found.extend(out)
+    # ВК читаем по одному: у API предел три запроса в секунду
+    for g in vk_groups(sources):
+        ch, out = work(dict(g, _source="vk"))
+        print(f"  ВК {ch.get('name') or ch.get('domain')}: кандидатов {len(out)}")
+        found.extend(out)
     return found
 
 

@@ -34,6 +34,7 @@ jobs:
           TELEGRAM_OWNER_CHAT_ID: ${{ secrets.TELEGRAM_OWNER_CHAT_ID }}
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
           MAX_CHAT_ID: ${{ secrets.MAX_CHAT_ID }}
+          VK_TOKEN: ${{ secrets.VK_TOKEN }}   # паблики ВК в стрит-арт радаре
         run: python agents/publisher.py --send
 
       - name: Записать число подписчиков каналов

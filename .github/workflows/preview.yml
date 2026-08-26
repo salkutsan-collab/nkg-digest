@@ -32,6 +32,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           TELEGRAM_OWNER_CHAT_ID: ${{ secrets.TELEGRAM_OWNER_CHAT_ID }}
+          VK_TOKEN: ${{ secrets.VK_TOKEN }}   # паблики ВК в стрит-арт радаре
         run: python agents/publisher.py --preview --send
 
       - name: Черновик «Разбора дня» на завтра владельцу на согласование
