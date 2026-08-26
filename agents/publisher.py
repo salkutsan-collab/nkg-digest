@@ -98,9 +98,12 @@ def event_line(e):
 def render_events(events, start, end):
     """Список событий по дням + раздел 'идут и продолжаются'. Со ссылками."""
     lines = []
+    # длящееся событие: есть дата окончания, а начало либо раньше окна, либо
+    # неизвестно (у идущих выставок в городской афише начала часто нет)
     ongoing = [e for e in events
                if a2._date(e.get("date_end"))
-               and (a2._date(e.get("date_start")) or end) < start]
+               and (not a2._date(e.get("date_start"))
+                    or a2._date(e["date_start"]) < start)]
     dated = [e for e in events if e not in ongoing]
 
     if dated:
@@ -249,6 +252,33 @@ def limit_for(theme):
     return meta.get("limit_daily", 10)
 
 
+def _from_kudago(theme, start, end, base, have):
+    """События из городской афиши KudaGo, которых у нас еще нет.
+
+    Свой сбор идет по сайтам площадок из базы, поэтому событие на незнакомой
+    площадке мы не увидим. KudaGo это закрывает. Отбор и стоп-слова - в
+    data/kudago.yaml; сбой источника не должен ронять выпуск."""
+    try:
+        import kudago
+    except Exception as e:
+        print(f"  (KudaGo не подключился: {str(e)[:80]})")
+        return []
+    try:
+        known = {p.get("name"): p.get("category", "")
+                 for p in base.get("participants", []) if p.get("status") != "dead"}
+        extra = kudago.collect_for_theme(theme, start, end, known_places=known)
+        # сверяем по названию события: площадку наш сбор и афиша города могут
+        # называть по-разному («Главный штаб» против «Эрмитаж»), а название одно
+        seen = {kudago._norm(e.get("title")) for e in have}
+        fresh = [e for e in extra if kudago._norm(e.get("title")) not in seen]
+        print(f"  из афиши города добавлено: {len(fresh)}"
+              f"{f' (дублей с нашим сбором: {len(extra) - len(fresh)})' if extra != fresh else ''}")
+        return fresh
+    except Exception as e:
+        print(f"  (KudaGo: события не собрались: {str(e)[:100]})")
+        return []
+
+
 def collect_for_theme(theme, target, use_llm):
     """Собрать и отранжировать события темы (без обрезки лимитом). -> (events, start, end)."""
     base = a2.load_base()
@@ -262,6 +292,8 @@ def collect_for_theme(theme, target, use_llm):
     events = a2.collect(participants, start, end, use_llm=use_llm) if use_llm else []
     for e in events:
         e["_category"] = cat_by_name.get(e["_participant"], "")
+    # афиша города (KudaGo): события на площадках, которых нет в нашей базе
+    events += _from_kudago(theme, start, end, base, events)
     events = filter_types(events, theme.get("event_types") or [])
     minrel = theme.get("min_relevance", 0)
     if minrel:
