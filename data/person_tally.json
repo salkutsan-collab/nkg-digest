@@ -974,6 +974,16 @@
      "u": "https://levashovsky.ru/afisha"
     }
    ]
+  },
+  "Данила Давыдов": {
+   "count": 1,
+   "events": [
+    {
+     "t": "Поэтический вечер Данилы Давыдова",
+     "p": "Книжный магазин «Порядок слов»",
+     "u": "https://wordorder.ru/index.php?dispatch=event_calendar.view"
+    }
+   ]
   }
  }
 }

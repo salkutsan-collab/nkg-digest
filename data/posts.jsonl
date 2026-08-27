@@ -2,3 +2,5 @@
 {"ts": "2026-08-26T14:01:33+03:00", "date": "2026-08-26", "weekday": 3, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 4, "chars": 0, "message_ids": ["mid.ffffbafcc16faab201a03dbb801719e2"]}
 {"ts": "2026-08-26T14:01:33+03:00", "date": "2026-08-26", "weekday": 3, "kind": "feature", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 1544, "message_ids": [292]}
 {"ts": "2026-08-26T14:01:34+03:00", "date": "2026-08-26", "weekday": 3, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 1544, "message_ids": ["mid.ffffbafcc16faab201a03dbb85665719"]}
+{"ts": "2026-08-27T08:00:42+03:00", "date": "2026-08-27", "weekday": 4, "kind": "digest", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 956, "message_ids": [293], "theme": "Маркеты, коллаборации и события"}
+{"ts": "2026-08-27T08:00:43+03:00", "date": "2026-08-27", "weekday": 4, "kind": "digest", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 956, "message_ids": ["mid.ffffbafcc16faab201a0419783950446"], "theme": "Маркеты, коллаборации и события"}
