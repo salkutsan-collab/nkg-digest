@@ -14,3 +14,7 @@
 {"ts": "2026-08-28T14:01:51+03:00", "date": "2026-08-28", "weekday": 5, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 4, "chars": 0, "message_ids": ["mid.ffffbafcc16faab201a048087d297dcc"]}
 {"ts": "2026-08-28T14:01:51+03:00", "date": "2026-08-28", "weekday": 5, "kind": "feature", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 1242, "message_ids": [304]}
 {"ts": "2026-08-28T14:01:52+03:00", "date": "2026-08-28", "weekday": 5, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 1242, "message_ids": ["mid.ffffbafcc16faab201a0480884271cf6"]}
+{"ts": "2026-08-29T08:00:44+03:00", "date": "2026-08-29", "weekday": 6, "kind": "person", "channel": "telegram", "ok": false, "parts": 0, "photos": 0, "chars": 36, "message_ids": [], "error": "фото не приняты"}
+{"ts": "2026-08-29T08:00:44+03:00", "date": "2026-08-29", "weekday": 6, "kind": "person", "channel": "max", "ok": false, "parts": 0, "photos": 0, "chars": 36, "message_ids": [], "error": "фото не приняты"}
+{"ts": "2026-08-29T08:00:46+03:00", "date": "2026-08-29", "weekday": 6, "kind": "person", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 540, "message_ids": [305]}
+{"ts": "2026-08-29T08:00:47+03:00", "date": "2026-08-29", "weekday": 6, "kind": "person", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 540, "message_ids": ["mid.ffffbafcc16faab201a04be449ec7da0"]}
