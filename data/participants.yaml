@@ -161,7 +161,9 @@ participants:
       - {type: website, url: "https://dom.radio/"}
       - {type: telegram, url: "https://t.me/domradio_online"}
       - {type: timepad, url: "https://domradio.timepad.ru/"}
-    status: needs_verification
+      - {type: vk, url: "https://vk.com/domradio_online"}
+    status: active
+
   - id: annenkirche
     name: Анненкирхе
     category: креативное пространство
@@ -169,8 +171,10 @@ participants:
     tags: [выставки, инсталляции, концерты]
     events_url: "https://www.annenkirche.com/events"
     sources:
-      - {type: website, url: "https://annenkirche.com/"}
-    status: needs_verification
+      - {type: website, url: "https://www.annenkirche.com"}
+      - {type: vk, url: "https://vk.com/annenkirche"}
+      - {type: telegram, url: "https://t.me/annenkirche"}
+    status: active
 
   # ---------- музей ----------
 
@@ -273,7 +277,8 @@ participants:
     events_url: "https://www.hermitagemuseum.org/wps/portal/hermitage/what-s-on/"
     sources:
       - {type: website, url: "https://www.hermitagemuseum.org/", verify: true}
-    status: needs_verification
+    status: dead
+
   - id: russian-museum
     name: Русский музей
     category: музей
@@ -282,7 +287,9 @@ participants:
     events_url: "https://rusmuseum.ru/exhibitions/"
     sources:
       - {type: website, url: "https://rusmuseum.ru/"}
-    status: needs_verification
+      - {type: vk, url: "https://vk.com/rusmuseum"}
+    status: active
+
   - id: arts-academy-museum
     name: Музей Академии художеств
     category: музей
@@ -291,7 +298,10 @@ participants:
     events_url: "https://artsacademymuseum.org/exhibitions/exhibitions/"
     sources:
       - {type: website, url: "https://artsacademymuseum.org/"}
-    status: needs_verification
+      - {type: vk, url: "https://vk.com/academyoffineartsmuseum"}
+      - {type: telegram, url: "https://t.me/academyofartsmuseum"}
+    status: active
+
   - id: akhmatova-museum
     name: Музей Анны Ахматовой в Фонтанном доме
     category: музей
@@ -299,8 +309,11 @@ participants:
     tags: [выставки, лекции, литература]
     events_url: "https://akhmatova.spb.ru/afisha"
     sources:
-      - {type: website, url: "https://akhmatova.spb.ru/"}
-    status: needs_verification
+      - {type: website, url: "https://www.akhmatova.spb.ru"}
+      - {type: vk, url: "https://vk.com/akhmatova.museum"}
+      - {type: telegram, url: "https://t.me/akhmatova_museum"}
+    status: active
+
   - id: kunstkamera
     name: Кунсткамера
     category: музей
@@ -309,7 +322,10 @@ participants:
     events_url: "https://www.kunstkamera.ru/events-calendar/"
     sources:
       - {type: website, url: "https://www.kunstkamera.ru/"}
-    status: needs_verification
+      - {type: vk, url: "https://vk.com/podcastkunstkamera"}
+      - {type: telegram, url: "https://t.me/kunstkameramuseum"}
+    status: active
+
   - id: spb-history-museum
     name: Музей истории Санкт-Петербурга (Петропавловская крепость)
     category: музей
@@ -318,7 +334,8 @@ participants:
     events_url: "https://www.spbmuseum.ru/events/events/"
     sources:
       - {type: website, url: "https://www.spbmuseum.ru/"}
-    status: needs_verification
+    status: dead
+
   - id: anikushin-studio
     name: Мастерская Аникушина (Музей городской скульптуры)
     category: музей
@@ -328,6 +345,7 @@ participants:
     sources:
       - {type: website, url: "https://gmgs.ru/", verify: true}
     status: needs_verification
+
   - id: planetary-spb
     name: Петербургский планетарий
     category: музей
@@ -336,7 +354,7 @@ participants:
     events_url: "https://www.planetary-spb.ru/afisha/schedule/"
     sources:
       - {type: website, url: "https://www.planetary-spb.ru/"}
-    status: needs_verification
+    status: active
 
   # ---------- галерея ----------
 
@@ -562,21 +580,26 @@ participants:
   - id: masters-school
     name: Школа Masters
     category: образование
-    address: "Барочная ул."
+    address: Барочная ул.
     tags: [лекции, курсы, современное искусство]
     events_url: "https://masters-project.ru/catalog/events/"
     sources:
       - {type: website, url: "https://masters-project.ru/"}
-    status: needs_verification
+      - {type: vk, url: "https://vk.com/artschoolmaste"}
+      - {type: telegram, url: "https://t.me/artmastersmoscow"}
+    status: active
+
   - id: dk-lurie
     name: Дом культуры Льва Лурье
     category: образование
-    address: ""
     tags: [лекции, экскурсии, история города]
     events_url: "https://dklurie.ru/afisha/"
     sources:
       - {type: website, url: "https://dklurie.ru/"}
-    status: needs_verification
+      - {type: vk, url: "https://vk.com/levlurie"}
+      - {type: telegram, url: "https://t.me/dklurie"}
+    status: active
+
   - id: wordorder
     name: Книжный магазин «Порядок слов»
     category: образование
@@ -585,7 +608,8 @@ participants:
     events_url: "https://wordorder.ru/index.php?dispatch=event_calendar.view"
     sources:
       - {type: website, url: "https://wordorder.ru/"}
-    status: needs_verification
+      - {type: vk, url: "https://vk.com/wordorder"}
+    status: active
 
   # ---------- театр ----------
 
@@ -663,8 +687,11 @@ participants:
     category: кино
     address: "Каменноостровский пр., 10"
     tags: [показы, выставки, инсталляции]
+    events_url: "https://lenfilm.ru/news/2026/08/o"
     sources:
       - {type: website, url: "https://lenfilm.ru/", verify: true}
+      - {type: vk, url: "https://vk.com/lenfilmstudios"}
+      - {type: telegram, url: "https://t.me/lenfilmnews"}
     status: needs_verification
 
   # ---------- гастрономия ----------
