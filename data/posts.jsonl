@@ -24,3 +24,5 @@
 {"ts": "2026-08-30T14:01:56+03:00", "date": "2026-08-30", "weekday": 7, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 4, "chars": 0, "message_ids": ["mid.ffffbafcc16faab201a0525548b60a29"]}
 {"ts": "2026-08-30T14:01:56+03:00", "date": "2026-08-30", "weekday": 7, "kind": "feature", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 735, "message_ids": [312]}
 {"ts": "2026-08-30T14:01:57+03:00", "date": "2026-08-30", "weekday": 7, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 735, "message_ids": ["mid.ffffbafcc16faab201a052554eab60ec"]}
+{"ts": "2026-08-31T08:01:28+03:00", "date": "2026-08-31", "weekday": 1, "kind": "digest", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 2260, "message_ids": [313], "theme": "Стрит-арт, выставки и галереи"}
+{"ts": "2026-08-31T08:01:29+03:00", "date": "2026-08-31", "weekday": 1, "kind": "digest", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 2260, "message_ids": ["mid.ffffbafcc16faab201a05631a4bd7c97"], "theme": "Стрит-арт, выставки и галереи"}
