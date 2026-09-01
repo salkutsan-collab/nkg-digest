@@ -32,3 +32,7 @@
 {"ts": "2026-08-31T14:01:51+03:00", "date": "2026-08-31", "weekday": 1, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 1345, "message_ids": ["mid.ffffbafcc16faab201a0577b93cb2aef"]}
 {"ts": "2026-09-01T08:02:25+03:00", "date": "2026-09-01", "weekday": 2, "kind": "digest", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 543, "message_ids": [319], "theme": "Театры и кино"}
 {"ts": "2026-09-01T08:02:26+03:00", "date": "2026-09-01", "weekday": 2, "kind": "digest", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 543, "message_ids": ["mid.ffffbafcc16faab201a05b58debe2da4"], "theme": "Театры и кино"}
+{"ts": "2026-09-01T14:01:28+03:00", "date": "2026-09-01", "weekday": 2, "kind": "feature", "channel": "telegram", "ok": true, "parts": 1, "photos": 2, "chars": 0, "message_ids": [320]}
+{"ts": "2026-09-01T14:01:33+03:00", "date": "2026-09-01", "weekday": 2, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 2, "chars": 0, "message_ids": ["mid.ffffbafcc16faab201a05ca1a68c4a56"]}
+{"ts": "2026-09-01T14:01:33+03:00", "date": "2026-09-01", "weekday": 2, "kind": "feature", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 773, "message_ids": [321]}
+{"ts": "2026-09-01T14:01:34+03:00", "date": "2026-09-01", "weekday": 2, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 773, "message_ids": ["mid.ffffbafcc16faab201a05ca1aaf942c4"]}
