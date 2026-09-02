@@ -252,6 +252,51 @@ def limit_for(theme):
     return meta.get("limit_daily", 10)
 
 
+# Сколько дней одно и то же событие не показываем в дайджесте снова. Афиша
+# должна обновляться: в августе одни и те же пять выставок выходили по 14 раз,
+# занимая половину поста и вытесняя новое.
+DIGEST_REPEAT_DAYS = 10
+# Если после правила осталось меньше, чем нужно на осмысленный пост, возвращаем
+# недавно показанное - лучше повтор, чем пустой день.
+DIGEST_MIN_EVENTS = 3
+
+
+def drop_recently_published(events, today=None):
+    """Убрать события, которые выходили в дайджесте за последние дни.
+    Сравнение по общему правилу (agents/titles.py): у одного события в разных
+    источниках названия отличаются («Выставка «Траектории интервалов»»)."""
+    if not events:
+        return events
+    try:
+        import archive
+        import titles
+        recent = archive.recent_published(DIGEST_REPEAT_DAYS, today)
+    except Exception as ex:
+        print(f"  (правило повторов пропущено: {str(ex)[:80]})")
+        return events
+    if not recent:
+        return events
+    fresh, seen_again = [], []
+    for e in events:
+        # сверяем по названию события, а не по паре «название + площадка»:
+        # одну и ту же галерею источники зовут по-разному («Marina Gisich
+        # Gallery» и «Галерея Марины Гисич»), а название события различает само
+        was = next((r for r in recent
+                    if titles.same_title(e.get("title"), r.get("title"))), None)
+        (seen_again if was else fresh).append(e)
+    if not seen_again:
+        return events
+    print(f"  правило повторов: показывали за {DIGEST_REPEAT_DAYS} дней - "
+          f"{len(seen_again)}, свежих осталось {len(fresh)}")
+    if len(fresh) >= DIGEST_MIN_EVENTS:
+        return fresh
+    # свежего мало - возвращаем недавно показанное, но в конец очереди
+    print("  свежих событий мало - недавно показанные оставляем, но ниже в списке")
+    for e in seen_again:
+        e["relevance"] = max(1, relevance(e) - 2)
+    return fresh + seen_again
+
+
 def _from_kudago(theme, start, end, base, have):
     """События из городской афиши KudaGo, которых у нас еще нет.
 
@@ -305,6 +350,8 @@ def collect_for_theme(theme, target, use_llm):
     # выкинуть закрытые площадки (на случай устаревшего списка/предпросмотра)
     events = [e for e in events
               if not _is_blocked(e.get("_participant"), e.get("title"), e.get("_url"))]
+    # афиша должна обновляться: то, что выходило в последние дни, не повторяем
+    events = drop_recently_published(events, target)
     events = sorted(events, key=lambda e: (-relevance(e),
                     a2._date(e.get("date_start")) or dt.date.max))
     print(f"После отбора по теме: событий {len(events)}")
@@ -358,27 +405,13 @@ def build_events_post(theme, ranked, start, end, selection, use_llm, today, save
 
 
 def collect_streetart(use_llm, save_seen=False):
-    """Подтянуть блок стрит-арт радара. При save_seen помечает показанное в память."""
+    """Подтянуть блок стрит-арт радара. Сбор и отбор делает сам агент 3 - и
+    правило «одна работа - один раз» работает здесь так же, как при его
+    отдельном запуске. Раньше публикатор собирал радар своим кодом, поэтому
+    память работ на утренний дайджест не действовала."""
     try:
         import agent3_streetart as a3
-        sources = a3.load_sources()
-        cands = a3.gather(sources, days=7)
-        seen = a3.load_seen()
-        fresh = [c for c in cands if c["url"] not in seen]
-        items = []
-        today_iso = dt.date.today().isoformat()
-        if use_llm and llm.available():
-            for c in fresh[:8]:
-                v = a3.judge(c)
-                seen[c["url"]] = today_iso
-                if v and v.get("relevant"):
-                    items.append({**c, "summary": v.get("summary"), "place": v.get("place")})
-        else:
-            for c in fresh[:8]:
-                seen[c["url"]] = today_iso
-                items.append(c)
-        if save_seen:
-            a3.save_seen(seen)
+        items = a3.collect_items(days=7, use_llm=use_llm, limit=8, save=save_seen)
         rows = []
         for it in items:
             # не пускаем в радар упоминания закрытых площадок
@@ -386,9 +419,9 @@ def collect_streetart(use_llm, save_seen=False):
                            it.get("place"), it.get("url")):
                 continue
             summ = it.get("summary") or a3.first_sentence(it["text"])
-            place = it.get("place")
+            place = a3._as_text(it.get("place"))
             line = f"- {summ}"
-            if place and place.lower() not in summ.lower():
+            if place and place.lower() not in str(summ).lower():
                 line += f" ({place})"
             line += f" - [{it['_channel']}]({it['url']})"
             rows.append(line)

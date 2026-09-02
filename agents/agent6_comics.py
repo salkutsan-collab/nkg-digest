@@ -15,7 +15,9 @@
 """
 
 import os
+import re
 import sys
+import json
 import argparse
 import datetime as dt
 
@@ -24,6 +26,10 @@ import notify_telegram as nt
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIGEST_DIR = os.path.join(ROOT, "digests")
+SENT_PATH = os.path.join(ROOT, "data", "comics_sent.json")   # что уже присылали
+
+# Сколько прошлых подборок помним и передаем модели как «это уже было».
+KEEP_WEEKS = 6
 
 COMICS_SYSTEM = (
     "Ты редактор петербургского культурного канала. Готовишь для редактора подборку "
@@ -40,12 +46,67 @@ COMICS_SYSTEM = (
 )
 
 
+def load_sent():
+    """Названия из прошлых подборок - чтобы не присылать одно и то же неделями."""
+    if not os.path.exists(SENT_PATH):
+        return []
+    try:
+        with open(SENT_PATH, encoding="utf-8") as fh:
+            return (json.load(fh) or {}).get("weeks") or []
+    except Exception:
+        return []
+
+
+def _titles_of(body):
+    """Названия пунктов подборки: строки списка без пояснений."""
+    out = []
+    for line in str(body or "").splitlines():
+        line = line.strip()
+        if not line.startswith(("-", "*", "•")):
+            continue
+        item = re.sub(r"^[-*•]\s*", "", line)
+        item = re.split(r"[.,(]|\s+-\s+|:", item, maxsplit=1)[0].strip(" *_«»\"")
+        if 3 < len(item) < 90:
+            out.append(item)
+    return out[:20]
+
+
+def save_sent(body, day=None):
+    """Запомнить, что было в подборке этой недели."""
+    day = day or dt.date.today()
+    weeks = [w for w in load_sent() if w.get("date") != day.isoformat()]
+    weeks.append({"date": day.isoformat(), "titles": _titles_of(body)})
+    weeks = weeks[-KEEP_WEEKS:]
+    os.makedirs(os.path.dirname(SENT_PATH), exist_ok=True)
+    with open(SENT_PATH, "w", encoding="utf-8") as fh:
+        json.dump({"weeks": weeks}, fh, ensure_ascii=False, indent=1)
+    print(f"Комиксы: в память записано пунктов - {len(weeks[-1]['titles'])}")
+
+
+def already_sent_titles():
+    seen = []
+    for w in load_sent():
+        for t in w.get("titles") or []:
+            if t not in seen:
+                seen.append(t)
+    return seen
+
+
 def build():
     prov = feat.feature_provider()
     today = dt.date.today()
+    # то, что уже присылали, отдаем модели: пусть ищет новое, а повторы берет
+    # только если это действительно важное место или событие идет прямо сейчас
+    was = already_sent_titles()
+    avoid = ""
+    if was:
+        avoid = ("\n\nЭто уже присылали в прошлых подборках, поэтому НЕ повторяй, "
+                 "если только событие не идет прямо сейчас и не является главным: "
+                 + "; ".join(was[:40]) + ".")
     user = (f"Сегодня {today.isoformat()}. Собери подборку про комиксы в Санкт-Петербурге "
             "на ближайшие 1-2 недели (события) и действующие места (магазины, точки "
-            "продаж). Сгруппируй по разделам, по правилам из системной инструкции.")
+            "продаж). Сгруппируй по разделам, по правилам из системной инструкции."
+            + avoid)
     if prov == "openai":
         return feat._openai_research(user, system=COMICS_SYSTEM)
     if prov == "anthropic":
@@ -97,7 +158,9 @@ def run(send=False):
             sent = True
     except Exception as e:
         print(f"  (Max-личка: {str(e)[:100]})")
-    if not sent:
+    if sent:
+        save_sent(body)
+    else:
         print("Получатели не настроены (TELEGRAM_OWNER_CHAT_ID / MAX_DM_RECIPIENTS).")
 
 

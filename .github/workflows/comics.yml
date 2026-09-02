@@ -7,7 +7,7 @@ on:
   workflow_dispatch:   # запуск только извне (cron-job.org), без капризного schedule
 
 permissions:
-  contents: read
+  contents: write   # агент 6 пишет память подборок (data/comics_sent.json)
 
 jobs:
   comics:
@@ -32,3 +32,15 @@ jobs:
           MAX_BOT_TOKEN: ${{ secrets.MAX_BOT_TOKEN }}
           MAX_DM_RECIPIENTS: ${{ secrets.MAX_DM_RECIPIENTS }}
         run: python agents/agent6_comics.py --send
+
+      - name: Сохранить память подборок
+        run: |
+          git config user.name "nkg-bot"
+          git config user.email "nkg-bot@users.noreply.github.com"
+          [ -f data/comics_sent.json ] && git add data/comics_sent.json
+          if git diff --cached --quiet; then
+            echo "Память не менялась - коммит не нужен."
+          else
+            git commit -m "Авто: память подборок комиксов"
+            git push
+          fi

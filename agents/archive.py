@@ -137,6 +137,22 @@ def mark_published(events, theme=""):
     _save(path, store)
 
 
+def recent_published(days=10, today=None):
+    """Что публиковалось за последние days дней: [{title, participant, last}].
+    Нужно публикатору, чтобы одно и то же событие не выходило каждый день."""
+    today = today or dt.date.today()
+    cutoff = (today - dt.timedelta(days=days)).isoformat()
+    out = []
+    for path in sorted(glob.glob(os.path.join(ARCHIVE_DIR, "*.jsonl")))[-3:]:
+        for rec in _load(path).values():
+            pub_days = [d for d in (rec.get("published_days") or []) if d >= cutoff]
+            if pub_days:
+                out.append({"title": rec.get("title"),
+                            "participant": rec.get("participant"),
+                            "last": max(pub_days)})
+    return out
+
+
 # ---------- сводка ----------
 
 def stats(month=None):

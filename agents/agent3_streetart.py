@@ -452,9 +452,14 @@ def build_markdown(items, days):
 
 # ---------- запуск ----------
 
-def run(days, use_llm, do_send, save):
-    sources = load_sources()
-    print(f"Каналов в списке: {len(sources.get('channels', []))}. Окно: {days} дн.")
+def collect_items(days=7, use_llm=True, limit=None, save=False, sources=None):
+    """Находки радара: собрать кандидатов, отобрать моделью, отсеять уже
+    показанные работы, склеить повторы и (по флагу) записать память.
+
+    Одна точка для всех, кто показывает радар: и агент 3 сам по себе, и
+    публикатор в утреннем дайджесте. Раньше публикатор делал это своим кодом,
+    поэтому память работ на него не действовала и повторы проходили."""
+    sources = sources or load_sources()
     candidates = gather(sources, days)
     print(f"Всего кандидатов по словам: {len(candidates)}")
 
@@ -463,6 +468,8 @@ def run(days, use_llm, do_send, save):
     today_iso = dt.date.today().isoformat()
     fresh = [c for c in candidates if c["url"] not in seen]
     print(f"Новых (не показанных раньше): {len(fresh)}")
+    if limit:
+        fresh = fresh[:limit]
 
     items, old_work = [], 0
     if use_llm and llm.available():
@@ -495,22 +502,28 @@ def run(days, use_llm, do_send, save):
         print(f"  про эти работы уже сообщали раньше: {old_work}")
 
     items = dedupe(items)
-    # запоминаем сами работы, а не только адреса постов
     for it in items:
         works.append({"summary": _as_text(it.get("summary")) or first_sentence(it["text"]),
                       "place": _as_text(it.get("place")),
                       "date": today_iso,
                       "url": it.get("url"),
                       "channel": it.get("_channel")})
+    if save:
+        save_seen(seen, works)
+    return items
+
+
+def run(days, use_llm, do_send, save):
+    sources = load_sources()
+    print(f"Каналов в списке: {len(sources.get('channels', []))}. Окно: {days} дн.")
+    items = collect_items(days=days, use_llm=use_llm, save=save, sources=sources)
+    today_iso = dt.date.today().isoformat()
     md = build_markdown(items, days)
     os.makedirs(DIGEST_DIR, exist_ok=True)
     out = os.path.join(DIGEST_DIR, f"{today_iso}-streetart.md")
     with open(out, "w", encoding="utf-8") as fh:
         fh.write(md + "\n")
     print(f"Готово: {out}  (находок: {len(items)})")
-
-    if save:
-        save_seen(seen, works)
 
     if do_send and items:
         _send(md)
