@@ -48,7 +48,7 @@ jobs:
         run: |
           git config user.name "nkg-bot"
           git config user.email "nkg-bot@users.noreply.github.com"
-          for f in data/preview.json data/feature_preview.json data/person_choice.json data/person_tally.json data/posts.jsonl data/subscribers.jsonl data/feature_seen.json; do
+          for f in data/preview.json data/feature_preview.json data/person_choice.json data/person_seen.json data/person_tally.json data/posts.jsonl data/subscribers.jsonl data/feature_seen.json; do
             [ -f "$f" ] && git add "$f"
           done
           [ -d data/archive ] && git add data/archive

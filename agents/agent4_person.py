@@ -31,10 +31,17 @@ import datetime as dt
 
 import llm
 import images
+import titles
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TALLY_PATH = os.path.join(ROOT, "data", "person_tally.json")
 CHOICE_PATH = os.path.join(ROOT, "data", "person_choice.json")
+SEEN_PATH = os.path.join(ROOT, "data", "person_seen.json")   # кто уже был персоной
+
+# Через сколько недель человека можно взять снова. Для событий правило жестче
+# («никогда»), а человек за полгода успевает сделать новое - и это уже другой
+# повод. Четыре выпуска подряд про одного, как было в августе, правило снимает.
+COOLDOWN_WEEKS = 26
 DIGEST_DIR = os.path.join(ROOT, "digests")
 
 
@@ -93,11 +100,64 @@ def record_events(events, day):
     _save(TALLY_PATH, tally)
 
 
-def top_persons(day, n=3):
+def published_records():
+    """Кто уже был персоной недели: [{name, date, week}]."""
+    data = _load(SEEN_PATH, {})
+    return data.get("persons") or []
+
+
+def is_published(name, records=None, day=None):
+    """Был ли человек персоной недели за последние COOLDOWN_WEEKS недель."""
+    rows = published_records() if records is None else records
+    today = day or dt.date.today()
+    limit = today - dt.timedelta(weeks=COOLDOWN_WEEKS)
+    for r in rows:
+        if not titles.same_person(name, r.get("name")):
+            continue
+        try:
+            when = dt.date.fromisoformat(str(r.get("date")))
+        except Exception:
+            return True          # даты нет - считаем, что был
+        if when >= limit:
+            return True
+    return False
+
+
+def mark_published(name, day=None):
+    """Запомнить, что человек вышел персоной недели."""
+    if not name:
+        return
+    today = day or dt.date.today()
+    data = _load(SEEN_PATH, {})
+    rows = data.get("persons") or []
+    if any(titles.same_person(name, r.get("name")) and r.get("date") == today.isoformat()
+           for r in rows):
+        return
+    rows.append({"name": name, "date": today.isoformat(), "week": week_key(today)})
+    data["persons"] = rows[-200:]
+    _save(SEEN_PATH, data)
+    print(f"Запомнил в бывшие персоны: {name}")
+
+
+def week_candidates(day):
+    """Упомянутые за неделю люди по убыванию упоминаний - без правила о повторах.
+    Нужно, чтобы отличить «никого не упоминали» от «все уже были персонами»."""
     tally = _load(TALLY_PATH, {})
     bucket = {k: _as_rec(v) for k, v in tally.get(week_key(day), {}).items()}
-    items = sorted(bucket.items(), key=lambda kv: -kv[1]["count"])
-    return items[:n]
+    return sorted(bucket.items(), key=lambda kv: -kv[1]["count"])
+
+
+def top_persons(day, n=3):
+    """Самые упоминаемые люди недели. ПРАВИЛО: тех, кто уже был персоной за
+    последние COOLDOWN_WEEKS недель, не берем - иначе человек из длинной
+    выставки выходит каждую неделю (в августе так вышло четыре раза подряд)."""
+    items = week_candidates(day)
+    rows = published_records()
+    fresh = [(nm, info) for nm, info in items if not is_published(nm, rows, day)]
+    skipped = len(items) - len(fresh)
+    if skipped:
+        print(f"Правило «без повторов»: пропущено бывших персон - {skipped}.")
+    return fresh[:n]
 
 
 # ---------- биография и карточка ----------
@@ -155,7 +215,13 @@ def _photo_urls(imgs):
 def propose(day, send=True):
     cands = top_persons(day, 3)
     if not cands:
-        msg = "Персона недели: за неделю не набралось упоминаний. Пропускаем."
+        was = week_candidates(day)
+        if was:
+            names = ", ".join(n for n, _ in was[:5])
+            msg = ("Персона недели: все, кого упоминали на этой неделе, уже были "
+                   f"персонами ({names}). Пропускаем, повторов не делаем.")
+        else:
+            msg = "Персона недели: за неделю не набралось упоминаний. Пропускаем."
         print(msg)
         if send:
             _safe(lambda nt: nt.send_to_owner(msg))
@@ -229,7 +295,10 @@ def publish(use_llm=True, send=False):
         # черновика нет (или устарел) - соберём по горячим следам
         cands = top_persons(today, 3)
         if not cands:
-            return _publish_text("# Персона недели\n\nНа этой неделе мало упоминаний.",
+            reason = ("все, кого упоминали, уже были персонами"
+                      if week_candidates(today) else "мало упоминаний")
+            print(f"Персона недели: {reason} - пропускаем.")
+            return _publish_text(f"# Персона недели\n\nНа этой неделе {reason}.",
                                  today, send)
         subj = cands[0][0]
         choice = {"candidates": [n for n, _ in cands], "subject": subj,
@@ -269,7 +338,11 @@ def publish(use_llm=True, send=False):
                                          kind="person")
         # текст: с заголовком, если фото не ушли; иначе только тело + примечание
         text_md = full_md if not sent else f"{body}{note}"
-        broadcast.send_markdown(text_md, kind="person")
+        ok = broadcast.send_markdown(text_md, kind="person")
+        # в бывшие персоны заносим только после доставки: сбой связи не должен
+        # вычеркивать человека из будущих выпусков
+        if ok or sent:
+            mark_published(name, today)
     return full_md
 
 

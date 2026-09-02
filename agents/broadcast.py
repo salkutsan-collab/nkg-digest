@@ -79,12 +79,15 @@ def _count_subscribers():
 
 
 def send_markdown(md, kind="?", extra=None):
-    """Опубликовать markdown-дайджест в канал во всех мессенджерах."""
+    """Опубликовать markdown-дайджест в канал во всех мессенджерах.
+    Возвращает True, если пост приняли ХОТЯ БЫ в одном мессенджере."""
     chars = len(md or "")
     n = 0
+    ok = False
     _reset(notify_telegram)
     try:
         n = notify_telegram.send_markdown(md)
+        ok = True
         _log("telegram", kind, True, notify_telegram, parts=n, chars=chars, extra=extra)
     except _ERRORS as e:
         print(f"  (Telegram: пост не ушёл: {str(e)[:120]})")
@@ -94,12 +97,13 @@ def send_markdown(md, kind="?", extra=None):
         _reset(m)
         try:
             parts = m.send_markdown(md)
+            ok = True
             _log("max", kind, True, m, parts=parts, chars=chars, extra=extra)
         except _ERRORS as e:
             print(f"  (Max: пост не ушёл: {str(e)[:120]})")
             _log("max", kind, False, chars=chars, error=e, extra=extra)
     _count_subscribers()
-    return n
+    return ok
 
 
 def send_text(text, kind="?", extra=None):
