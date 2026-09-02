@@ -27,6 +27,7 @@ import datetime as dt
 
 import agent2_digest as a2
 import publisher as pub
+import titles
 import images
 import llm
 
@@ -42,30 +43,23 @@ SEEN_LIMIT = 500
 # ---------- правило: событие попадает в «Разбор дня» только один раз ----------
 
 def _norm(s):
-    """Привести строку к сравнимому виду: без кавычек, знаков и лишних пробелов."""
-    s = str(s or "").lower().replace("ё", "е")
-    s = re.sub(r"[«»\"'’„“]", " ", s)
-    s = re.sub(r"[^\w\s]", " ", s, flags=re.UNICODE)
-    return re.sub(r"\s+", " ", s).strip()
+    """Сравнимый вид строки - правило одно для всех агентов (agents/titles.py)."""
+    return titles.norm(s)
+
+
+def _strip_type(title):
+    return titles.strip_type(title)
 
 
 def _seen_key(event):
     """Ключ события для правила «без повторов»: название плюс площадка.
     Даты в ключ НЕ входят - длинная выставка не должна вернуться в разбор
     только потому, что у нее сдвинулись сроки."""
-    return f"{_norm(event.get('title'))}|{_norm(event.get('_participant'))}"
+    return f"{titles.norm(event.get('title'))}|{titles.norm(event.get('_participant'))}"
 
 
 def _same_event(title_a, venue_a, title_b, venue_b):
-    """Одно ли это событие. Площадка должна совпасть, а название - совпасть либо
-    оказаться началом другого: «Стеклянный зверинец» и «Стеклянный зверинец.
-    Спектакль в кинотеатре» - один и тот же показ, а не два разных."""
-    if not venue_a or venue_a != venue_b:
-        return False
-    if title_a == title_b:
-        return True
-    short, long_ = sorted((title_a, title_b), key=len)
-    return len(short) >= 12 and long_.startswith(short)
+    return titles.same_event(title_a, venue_a, title_b, venue_b)
 
 
 def seen_records():

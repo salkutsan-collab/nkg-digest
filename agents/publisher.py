@@ -268,9 +268,13 @@ def _from_kudago(theme, start, end, base, have):
                  for p in base.get("participants", []) if p.get("status") != "dead"}
         extra = kudago.collect_for_theme(theme, start, end, known_places=known)
         # сверяем по названию события: площадку наш сбор и афиша города могут
-        # называть по-разному («Главный штаб» против «Эрмитаж»), а название одно
-        seen = {kudago._norm(e.get("title")) for e in have}
-        fresh = [e for e in extra if kudago._norm(e.get("title")) not in seen]
+        # называть по-разному («Главный штаб» против «Эрмитаж»), а название одно.
+        # Правило сравнения общее (agents/titles.py): у афиши города название
+        # часто с зачином - «Выставка «Траектории интервалов»».
+        import titles
+        fresh = [e for e in extra
+                 if not any(titles.same_title(e.get("title"), h.get("title"))
+                            for h in have)]
         print(f"  из афиши города добавлено: {len(fresh)}"
               f"{f' (дублей с нашим сбором: {len(extra) - len(fresh)})' if extra != fresh else ''}")
         return fresh
