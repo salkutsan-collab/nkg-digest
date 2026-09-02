@@ -57,22 +57,50 @@ def load_sources():
         return y.load(fh)
 
 
-def load_seen():
+# Сколько дней помним разобранные посты и сами работы. Работы помним дольше:
+# об одном и том же мурале разные каналы пишут с разницей в недели.
+POST_MEMORY_DAYS = 120
+WORK_MEMORY_DAYS = 240
+
+
+def _load_state():
+    """Память радара: {posts: {адрес: дата}, works: [{summary, place, date}]}.
+    Старый формат файла - просто {адрес: дата}, его читаем как posts."""
     if not os.path.exists(SEEN_PATH):
-        return {}
+        return {"posts": {}, "works": []}
     try:
         with open(SEEN_PATH, encoding="utf-8") as fh:
-            return json.load(fh)
+            raw = json.load(fh)
     except Exception:
-        return {}
+        return {"posts": {}, "works": []}
+    if isinstance(raw, dict) and ("posts" in raw or "works" in raw):
+        return {"posts": raw.get("posts") or {}, "works": raw.get("works") or []}
+    return {"posts": raw if isinstance(raw, dict) else {}, "works": []}
 
 
-def save_seen(seen):
-    # храним только последние ~120 дней, чтобы файл не разрастался
-    cutoff = (dt.date.today() - dt.timedelta(days=120)).isoformat()
-    pruned = {u: d for u, d in seen.items() if d >= cutoff}
+def load_seen():
+    """Адреса постов, которые уже разбирали."""
+    return _load_state()["posts"]
+
+
+def load_works():
+    """Работы, о которых уже сообщали. Нужны потому, что об одной работе пишут
+    разные каналы в разные дни, и памяти по адресу поста для этого мало."""
+    return _load_state()["works"]
+
+
+def save_seen(seen, works=None):
+    """Записать память. Старые записи вычищаем, чтобы файл не разрастался."""
+    today = dt.date.today()
+    post_cut = (today - dt.timedelta(days=POST_MEMORY_DAYS)).isoformat()
+    work_cut = (today - dt.timedelta(days=WORK_MEMORY_DAYS)).isoformat()
+    state = {
+        "posts": {u: d for u, d in (seen or {}).items() if d >= post_cut},
+        "works": [w for w in (works if works is not None else load_works())
+                  if str(w.get("date") or "") >= work_cut],
+    }
     with open(SEEN_PATH, "w", encoding="utf-8") as fh:
-        json.dump(pruned, fh, ensure_ascii=False, indent=0)
+        json.dump(state, fh, ensure_ascii=False, indent=0)
 
 
 # ---------- чтение Telegram-канала ----------
@@ -262,26 +290,120 @@ def _words(text):
                           str(text or "").lower().replace("ё", "е")))
 
 
+def _place(item):
+    return str(_as_text(item.get("place"))).lower().replace("ё", "е").strip()
+
+
+# Адрес - главное удостоверение уличной работы: у мурала на Некрасова, 52 адрес
+# один, как бы про него ни написали. Ловим «улица Некрасова, 52», «пр. Мориса
+# Тореза, д. 39/2», «Кожевенная линия, 34».
+STREET_WORDS = ("улица", "улице", "ул", "проспект", "проспекте", "пр", "просп",
+                "набережная", "набережной", "наб", "переулок", "переулке", "пер",
+                "линия", "линии", "шоссе", "площадь", "площади", "пл", "бульвар")
+ADDRESS_RE = re.compile(
+    r"(?:(?:" + "|".join(STREET_WORDS) + r")\.?\s+([а-яa-z\-]{4,})|"
+    r"([а-яa-z\-]{4,})\s+(?:" + "|".join(STREET_WORDS) + r")\.?)"
+    r"[^\d]{0,12}(\d+[а-я]?(?:/\d+)?)", re.IGNORECASE)
+
+
+# Адрес пишут и без слова «улица»: «появилась на Некрасова, 52». Такой вид
+# ловим отдельно и доверяем ему меньше - слишком легко принять за адрес дату.
+LOOSE_RE = re.compile(r"([а-яa-z\-]{5,}),\s*(\d{1,3}[а-я]?(?:/\d+)?)",
+                      re.IGNORECASE)
+NOT_STREET = ("работа", "работы", "выставка", "выставки", "город", "города",
+              "января", "февраля", "марта", "апреля", "мая", "июня", "июля",
+              "августа", "сентября", "октября", "ноября", "декабря", "метро",
+              "дома", "здании", "фасаде", "проект", "проекта", "художник",
+              "художника", "автор", "автора", "серия", "серии")
+
+
+def _text_of(item):
+    text = " ".join(str(x) for x in (_as_text(item.get("place")),
+                                     _as_text(item.get("summary")),
+                                     item.get("text") or ""))
+    return text.lower().replace("ё", "е")
+
+
+def addresses(item, loose=False):
+    """Адреса из сообщения в сравнимом виде («некрасова 52»).
+    loose=False - только с указанием типа улицы, это надежный признак.
+    loose=True - плюс вид «Некрасова, 52», его берем с оговоркой."""
+    text = _text_of(item)
+    out = set()
+    for m in ADDRESS_RE.finditer(text):
+        street = (m.group(1) or m.group(2) or "").strip("-")
+        house = m.group(3)
+        if street and house:
+            out.add(f"{street[:12]} {house}")
+    if not loose:
+        return out
+    for m in LOOSE_RE.finditer(text):
+        street, house = m.group(1).strip("-"), m.group(2)
+        if street in NOT_STREET:
+            continue
+        out.add(f"{street[:12]} {house}")
+    return out
+
+
+# Сколько дней совпадение адреса считаем признаком одной и той же работы.
+# Дальше по времени по тому же адресу может появиться уже другая работа
+# (легальную стену перекрашивают), и запрет был бы неверным.
+ADDRESS_SAME_DAYS = 45          # адрес с типом улицы: «улица Некрасова, 52»
+ADDRESS_LOOSE_DAYS = 30         # адрес без типа: «Некрасова, 52»
+
+
+def _day_of(item):
+    v = item.get("date")
+    if isinstance(v, dt.date):
+        return v
+    try:
+        return dt.date.fromisoformat(str(v)[:10])
+    except Exception:
+        return None
+
+
+def _days_apart(a, b):
+    """Разница в днях между сообщениями. None - если дат нет."""
+    da, db = _day_of(a), _day_of(b)
+    return abs((da - db).days) if da and db else None
+
+
+def same_work(a, b):
+    """Об одной ли работе эти два сообщения.
+
+    Сверяем не строку: одну новость разные каналы пишут своими словами.
+    Признаки по силе: совпал адрес и сообщения рядом по времени (главное),
+    совпало место из разбора модели, просто много общих слов."""
+    wa = _words(a.get("summary") or a.get("text"))
+    wb = _words(b.get("summary") or b.get("text"))
+    if not wa or not wb:
+        return False
+    common = len(wa & wb) / len(wa | wb)
+    apart = _days_apart(a, b)
+    if addresses(a) & addresses(b) and common >= 0.1:
+        if apart is None or apart <= ADDRESS_SAME_DAYS:
+            return True
+    if addresses(a, loose=True) & addresses(b, loose=True) and common >= 0.1:
+        if apart is not None and apart <= ADDRESS_LOOSE_DAYS:
+            return True
+    same_place = _place(a) and _place(a) == _place(b)
+    return common >= 0.6 or (same_place and common >= 0.35)
+
+
+def is_known_work(item, works):
+    """Сообщали ли об этой работе раньше (в прошлые прогоны)."""
+    return any(same_work(item, w) for w in works or [])
+
+
 def dedupe(items):
-    """Убрать повторы про одну и ту же работу. Их два вида: художник пишет
-    дважды (эскиз, потом готовое) и одну новость публикуют разные сообщества
-    своими словами. Поэтому сверяем не строку, а совпадение значимых слов."""
+    """Убрать повторы внутри одной подборки. Их два вида: художник пишет об
+    одной работе дважды (эскиз, потом готовое) и одну новость публикуют разные
+    каналы своими словами."""
     out = []
     for it in items:
-        words = _words(it.get("summary") or it.get("text"))
-        place = str(_as_text(it.get("place"))).lower().strip()
-        double = False
-        for kept in out:
-            kw = _words(kept.get("summary") or kept.get("text"))
-            if not words or not kw:
-                continue
-            common = len(words & kw) / len(words | kw)
-            same_place = place and place == str(_as_text(kept.get("place"))).lower().strip()
-            if common >= 0.6 or (same_place and common >= 0.35):
-                double = True
-                break
-        if not double:
-            out.append(it)
+        if any(same_work(it, kept) for kept in out):
+            continue
+        out.append(it)
     if len(out) < len(items):
         print(f"  повторов про одну работу убрано: {len(items) - len(out)}")
     return out
@@ -337,19 +459,25 @@ def run(days, use_llm, do_send, save):
     print(f"Всего кандидатов по словам: {len(candidates)}")
 
     seen = load_seen()
+    works = load_works()
     today_iso = dt.date.today().isoformat()
     fresh = [c for c in candidates if c["url"] not in seen]
     print(f"Новых (не показанных раньше): {len(fresh)}")
 
-    items = []
+    items, old_work = [], 0
     if use_llm and llm.available():
         print(f"Отбор моделью ({llm.provider()})...")
         for c in fresh:
             verdict = judge(c)
             seen[c["url"]] = today_iso  # помечаем как разобранный в любом случае
-            if verdict and verdict.get("relevant"):
-                items.append({**c, "summary": verdict.get("summary"),
-                              "place": verdict.get("place")})
+            if not (verdict and verdict.get("relevant")):
+                continue
+            item = {**c, "summary": verdict.get("summary"), "place": verdict.get("place")}
+            # об этой работе уже сообщали: другой канал, другой день, тот же мурал
+            if is_known_work(item, works):
+                old_work += 1
+                continue
+            items.append(item)
     else:
         if use_llm:
             print("Ключ модели не найден - отбираю только по словам (--no-llm).")
@@ -357,10 +485,23 @@ def run(days, use_llm, do_send, save):
             seen[c["url"]] = today_iso
             # без модели отбираем только по словам-признакам, иначе в подборку
             # попадет вся лента художника целиком
-            if c.get("_by_keyword"):
-                items.append(c)
+            if not c.get("_by_keyword"):
+                continue
+            if is_known_work(c, works):
+                old_work += 1
+                continue
+            items.append(c)
+    if old_work:
+        print(f"  про эти работы уже сообщали раньше: {old_work}")
 
     items = dedupe(items)
+    # запоминаем сами работы, а не только адреса постов
+    for it in items:
+        works.append({"summary": _as_text(it.get("summary")) or first_sentence(it["text"]),
+                      "place": _as_text(it.get("place")),
+                      "date": today_iso,
+                      "url": it.get("url"),
+                      "channel": it.get("_channel")})
     md = build_markdown(items, days)
     os.makedirs(DIGEST_DIR, exist_ok=True)
     out = os.path.join(DIGEST_DIR, f"{today_iso}-streetart.md")
@@ -369,7 +510,7 @@ def run(days, use_llm, do_send, save):
     print(f"Готово: {out}  (находок: {len(items)})")
 
     if save:
-        save_seen(seen)
+        save_seen(seen, works)
 
     if do_send and items:
         _send(md)
