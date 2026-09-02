@@ -38,3 +38,7 @@
 {"ts": "2026-09-01T14:01:34+03:00", "date": "2026-09-01", "weekday": 2, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 773, "message_ids": ["mid.ffffbafcc16faab201a05ca1aaf942c4"]}
 {"ts": "2026-09-02T08:00:55+03:00", "date": "2026-09-02", "weekday": 3, "kind": "digest", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 1757, "message_ids": [322], "theme": "Лекции и мастер-классы"}
 {"ts": "2026-09-02T08:00:56+03:00", "date": "2026-09-02", "weekday": 3, "kind": "digest", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 1757, "message_ids": ["mid.ffffbafcc16faab201a0607ddc6b5d07"], "theme": "Лекции и мастер-классы"}
+{"ts": "2026-09-02T14:01:50+03:00", "date": "2026-09-02", "weekday": 3, "kind": "feature", "channel": "telegram", "ok": true, "parts": 1, "photos": 4, "chars": 0, "message_ids": [323, 324, 325, 326]}
+{"ts": "2026-09-02T14:02:02+03:00", "date": "2026-09-02", "weekday": 3, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 4, "chars": 0, "message_ids": ["mid.ffffbafcc16faab201a061c876d41a63"]}
+{"ts": "2026-09-02T14:02:03+03:00", "date": "2026-09-02", "weekday": 3, "kind": "feature", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 1262, "message_ids": [327]}
+{"ts": "2026-09-02T14:02:03+03:00", "date": "2026-09-02", "weekday": 3, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 1262, "message_ids": ["mid.ffffbafcc16faab201a061c87b543a0d"]}
