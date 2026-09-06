@@ -587,6 +587,7 @@ participants:
       - {type: website, url: "https://masters-project.ru/"}
       - {type: vk, url: "https://vk.com/artschoolmaste"}
       - {type: telegram, url: "https://t.me/artmastersmoscow"}
+      - {type: telegram, url: "https://t.me/artmastersschool"}
     status: active
 
   - id: dk-lurie
