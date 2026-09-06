@@ -60,3 +60,7 @@
 {"ts": "2026-09-05T08:01:25+03:00", "date": "2026-09-05", "weekday": 6, "kind": "person", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 457, "message_ids": ["mid.ffffbafcc16faab201a06ff162a13ffd"]}
 {"ts": "2026-09-06T08:00:58+03:00", "date": "2026-09-06", "weekday": 7, "kind": "digest", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 3507, "message_ids": [346], "theme": "Следующая неделя по всем направлениям"}
 {"ts": "2026-09-06T08:00:59+03:00", "date": "2026-09-06", "weekday": 7, "kind": "digest", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 3507, "message_ids": ["mid.ffffbafcc16faab201a0751756d46e18"], "theme": "Следующая неделя по всем направлениям"}
+{"ts": "2026-09-06T14:01:37+03:00", "date": "2026-09-06", "weekday": 7, "kind": "feature", "channel": "telegram", "ok": true, "parts": 1, "photos": 4, "chars": 0, "message_ids": [347, 348, 349]}
+{"ts": "2026-09-06T14:01:51+03:00", "date": "2026-09-06", "weekday": 7, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 4, "chars": 0, "message_ids": ["mid.ffffbafcc16faab201a07661bac7303c"]}
+{"ts": "2026-09-06T14:01:52+03:00", "date": "2026-09-06", "weekday": 7, "kind": "feature", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 787, "message_ids": [350]}
+{"ts": "2026-09-06T14:01:53+03:00", "date": "2026-09-06", "weekday": 7, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 787, "message_ids": ["mid.ffffbafcc16faab201a07661c14c5fc5"]}
