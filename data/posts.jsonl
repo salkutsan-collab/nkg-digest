@@ -66,3 +66,7 @@
 {"ts": "2026-09-06T14:01:53+03:00", "date": "2026-09-06", "weekday": 7, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 787, "message_ids": ["mid.ffffbafcc16faab201a07661c14c5fc5"]}
 {"ts": "2026-09-07T08:01:38+03:00", "date": "2026-09-07", "weekday": 1, "kind": "digest", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 1927, "message_ids": [351], "theme": "Стрит-арт, выставки и галереи"}
 {"ts": "2026-09-07T08:01:39+03:00", "date": "2026-09-07", "weekday": 1, "kind": "digest", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 1927, "message_ids": ["mid.ffffbafcc16faab201a07a3e51780986"], "theme": "Стрит-арт, выставки и галереи"}
+{"ts": "2026-09-07T14:01:35+03:00", "date": "2026-09-07", "weekday": 1, "kind": "feature", "channel": "telegram", "ok": true, "parts": 1, "photos": 4, "chars": 0, "message_ids": [352, 353, 354]}
+{"ts": "2026-09-07T14:01:42+03:00", "date": "2026-09-07", "weekday": 1, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 4, "chars": 0, "message_ids": ["mid.ffffbafcc16faab201a07b87f47f3ae6"]}
+{"ts": "2026-09-07T14:01:43+03:00", "date": "2026-09-07", "weekday": 1, "kind": "feature", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 1101, "message_ids": [355]}
+{"ts": "2026-09-07T14:01:44+03:00", "date": "2026-09-07", "weekday": 1, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 1101, "message_ids": ["mid.ffffbafcc16faab201a07b87f99e3602"]}
