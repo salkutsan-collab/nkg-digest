@@ -1,18 +1,11 @@
 {
- "week": "2026-W36",
+ "week": "2026-W37",
  "candidates": [
-  "Пётр Кончаловский",
   "Иван Шишкин",
-  "Василий Тропинин"
+  "Василий Тропинин",
+  "Сильвио Данини"
  ],
  "events": {
-  "Пётр Кончаловский": [
-   {
-    "t": "Пётр Кончаловский. Сад в цвету",
-    "p": "Русский музей",
-    "u": "https://rusmuseum.ru/exhibitions/"
-   }
-  ],
   "Иван Шишкин": [
    {
     "t": "Иван Шишкин. Русский лес",
@@ -26,20 +19,27 @@
     "p": "Русский музей",
     "u": "https://rusmuseum.ru/exhibitions/"
    }
+  ],
+  "Сильвио Данини": [
+   {
+    "t": "Архитектор Высочайшего Двора. Сильвио Данини (1867—1942)",
+    "p": "Музей Академии художеств",
+    "u": "https://artsacademymuseum.org/exhibitions/exhibitions/"
+   }
   ]
  },
- "subject": "Пётр Кончаловский",
- "facts": "Пётр Кончаловский — советский и российский художник. Известен как живописец, один из представителей русского авангарда. Внёс значительный вклад в развитие советского искусства XX века. Среди значимых работ — «Автопортрет с женой», «Натюрморт с синим кувшином», «Портрет сына».",
+ "subject": "Иван Шишкин",
+ "facts": "Иван Шишкин — русский художник-пейзажист, один из крупнейших представителей русской школы живописи XIX века. Известен своими полотнами, на которых с большой точностью и любовью изображает природу. Внёс значительный вклад в развитие русского пейзажа. Среди наиболее известных работ — «Утро в сосновом лесу», «Рожь» и «Пейзаж с рекой».",
  "images": {
-  "portrait": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Pyotr_Konchalovsky_Self-Portrait_%28in_a_Yellow_Shirt%29.jpg/960px-Pyotr_Konchalovsky_Self-Portrait_%28in_a_Yellow_Shirt%29.jpg?utm_source=ru.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "portrait": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Ivan_Shishkin_restoration.jpg?utm_source=ru.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
   "works": [
-   "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Pyotr_Konchalovsky_Family_Portrait_%28Sienese%29.jpg/1280px-Pyotr_Konchalovsky_Family_Portrait_%28Sienese%29.jpg?utm_source=ru.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Pyotr_Konchalovsky_Breads_on_Green.jpg/1280px-Pyotr_Konchalovsky_Breads_on_Green.jpg?utm_source=ru.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Pyotr_Konchalovsky_Apples_against_the_Blue_Sky.jpg/1280px-Pyotr_Konchalovsky_Apples_against_the_Blue_Sky.jpg?utm_source=ru.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Pyotr_Konchalovsky_All_Sorts_of_Food.jpg/1280px-Pyotr_Konchalovsky_All_Sorts_of_Food.jpg?utm_source=ru.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+   "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Iwan_Iwanowitsch_Schischkin_-_Rain_in_an_Oak_Forest.jpg/1280px-Iwan_Iwanowitsch_Schischkin_-_Rain_in_an_Oak_Forest.jpg?utm_source=ru.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "https://upload.wikimedia.org/wikipedia/commons/1/1b/Ivan_Shishkin_restoration.jpg?utm_source=ru.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+   "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/Ivan_Shishkin_-_%D0%A0%D0%BE%D0%B6%D1%8C_-_Google_Art_Project.jpg/1280px-Ivan_Shishkin_-_%D0%A0%D0%BE%D0%B6%D1%8C_-_Google_Art_Project.jpg?utm_source=ru.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+   "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/Ivan_Nikolayevich_Kramskoi_-_Portrait_of_Ivan_Ivanovich_Shishkin%2C_1880.jpg/1280px-Ivan_Nikolayevich_Kramskoi_-_Portrait_of_Ivan_Ivanovich_Shishkin%2C_1880.jpg?utm_source=ru.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
   ],
-  "title": "Кончаловский, Пётр Петрович"
+  "title": "Шишкин, Иван Иванович"
  },
- "chosen": "Пётр Кончаловский",
- "since": 0
+ "chosen": null,
+ "since": 353222309
 }
