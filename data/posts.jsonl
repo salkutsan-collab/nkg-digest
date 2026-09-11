@@ -84,3 +84,7 @@
 {"ts": "2026-09-10T14:02:08+03:00", "date": "2026-09-10", "weekday": 4, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 781, "message_ids": ["mid.ffffbafcc16faab201a08afb6e4c51a6"]}
 {"ts": "2026-09-11T08:01:02+03:00", "date": "2026-09-11", "weekday": 5, "kind": "digest", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 1090, "message_ids": [368], "theme": "Планы на выходные и гастрономия"}
 {"ts": "2026-09-11T08:01:03+03:00", "date": "2026-09-11", "weekday": 5, "kind": "digest", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 1090, "message_ids": ["mid.ffffbafcc16faab201a08ed7349b133a"], "theme": "Планы на выходные и гастрономия"}
+{"ts": "2026-09-11T14:01:41+03:00", "date": "2026-09-11", "weekday": 5, "kind": "feature", "channel": "telegram", "ok": true, "parts": 1, "photos": 4, "chars": 0, "message_ids": [369, 370, 371, 372]}
+{"ts": "2026-09-11T14:01:56+03:00", "date": "2026-09-11", "weekday": 5, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 4, "chars": 0, "message_ids": ["mid.ffffbafcc16faab201a0902198d9421a"]}
+{"ts": "2026-09-11T14:01:56+03:00", "date": "2026-09-11", "weekday": 5, "kind": "feature", "channel": "telegram", "ok": true, "parts": 1, "photos": 0, "chars": 1025, "message_ids": [373]}
+{"ts": "2026-09-11T14:01:57+03:00", "date": "2026-09-11", "weekday": 5, "kind": "feature", "channel": "max", "ok": true, "parts": 1, "photos": 0, "chars": 1025, "message_ids": ["mid.ffffbafcc16faab201a090219d2d3914"]}
